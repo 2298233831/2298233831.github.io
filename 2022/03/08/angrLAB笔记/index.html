@@ -4,15 +4,45 @@
   <meta charset="utf-8">
   
   
-  <title>The Blog of O1d_Yu4n</title>
+  <title>angrLAB笔记 | The Blog of O1d_Yu4n</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="The Blog of O1d_Yu4n">
-<meta property="og:url" content="http://2298233831.github.io/index.html">
+  <meta name="description" content="实验开始前还得先把文件编译一下 在相应目录下，使用如下命令，如 1python generate.py 1234 00_angr_find  贴一个angr中文文档angr （非官方） angr-官方,英文的。angr-api,英语苦手泪目。 （本题中，有些导入的库不一定那个用得到，但是题目数量多，懒得增删改，就一次性导入了…） 00_angr_find先上伪代码  当然，其实这整个实验，汇编语言">
+<meta property="og:type" content="article">
+<meta property="og:title" content="angrLAB笔记">
+<meta property="og:url" content="http://2298233831.github.io/2022/03/08/angrLAB%E7%AC%94%E8%AE%B0/index.html">
 <meta property="og:site_name" content="The Blog of O1d_Yu4n">
+<meta property="og:description" content="实验开始前还得先把文件编译一下 在相应目录下，使用如下命令，如 1python generate.py 1234 00_angr_find  贴一个angr中文文档angr （非官方） angr-官方,英文的。angr-api,英语苦手泪目。 （本题中，有些导入的库不一定那个用得到，但是题目数量多，懒得增删改，就一次性导入了…） 00_angr_find先上伪代码  当然，其实这整个实验，汇编语言">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://2298233831.github.io/angrLAB%E7%AC%94%E8%AE%B0/image-20220308172612146.png">
+<meta property="og:image" content="http://2298233831.github.io/angrLAB%E7%AC%94%E8%AE%B0/image-20220308190311979.png">
+<meta property="og:image" content="http://2298233831.github.io/angrLAB%E7%AC%94%E8%AE%B0/image-20220308190505546.png">
+<meta property="og:image" content="http://2298233831.github.io/angrLAB%E7%AC%94%E8%AE%B0/image-20220308211050475.png">
+<meta property="og:image" content="http://2298233831.github.io/angrLAB%E7%AC%94%E8%AE%B0/image-20220308215004547.png">
+<meta property="og:image" content="http://2298233831.github.io/angrLAB%E7%AC%94%E8%AE%B0/image-20220308215133653.png">
+<meta property="og:image" content="http://2298233831.github.io/angrLAB%E7%AC%94%E8%AE%B0/image-20220310171010963.png">
+<meta property="og:image" content="http://2298233831.github.io/angrLAB%E7%AC%94%E8%AE%B0/image-20220312101104842.png">
+<meta property="og:image" content="http://2298233831.github.io/angrLAB%E7%AC%94%E8%AE%B0/image-20220312112246653.png">
+<meta property="og:image" content="http://2298233831.github.io/angrLAB%E7%AC%94%E8%AE%B0/image-20220312113844308.png">
+<meta property="og:image" content="http://2298233831.github.io/angrLAB%E7%AC%94%E8%AE%B0/image-20220312115905211.png">
+<meta property="og:image" content="http://2298233831.github.io/angrLAB%E7%AC%94%E8%AE%B0/image-20220312155034471.png">
+<meta property="og:image" content="http://2298233831.github.io/angrLAB%E7%AC%94%E8%AE%B0/image-20220312163054462.png">
+<meta property="og:image" content="http://2298233831.github.io/angrLAB%E7%AC%94%E8%AE%B0/image-20220312164107756.png">
+<meta property="og:image" content="http://2298233831.github.io/angrLAB%E7%AC%94%E8%AE%B0/image-20220312164721082.png">
+<meta property="og:image" content="http://2298233831.github.io/angrLAB%E7%AC%94%E8%AE%B0/image-20220312170347821.png">
+<meta property="og:image" content="http://2298233831.github.io/angrLAB%E7%AC%94%E8%AE%B0/image-20220312172250586.png">
+<meta property="og:image" content="http://2298233831.github.io/angrLAB%E7%AC%94%E8%AE%B0/image-20220312172829883.png">
+<meta property="og:image" content="http://2298233831.github.io/angrLAB%E7%AC%94%E8%AE%B0/image-20220312180011638.png">
+<meta property="og:image" content="http://2298233831.github.io/angrLAB%E7%AC%94%E8%AE%B0/image-20220312180837996.png">
+<meta property="og:image" content="http://2298233831.github.io/angrLAB%E7%AC%94%E8%AE%B0/image-20220312181720370.png">
+<meta property="og:image" content="http://2298233831.github.io/angrLAB%E7%AC%94%E8%AE%B0/image-20220312183629337.png">
+<meta property="og:image" content="http://2298233831.github.io/angrLAB%E7%AC%94%E8%AE%B0/image-20220312190749217.png">
+<meta property="og:image" content="http://2298233831.github.io/angrLAB%E7%AC%94%E8%AE%B0/image-20220312192050484.png">
+<meta property="og:image" content="http://2298233831.github.io/angrLAB%E7%AC%94%E8%AE%B0/image-20220312192112152.png">
+<meta property="article:published_time" content="2022-03-08T02:14:02.000Z">
+<meta property="article:modified_time" content="2022-03-25T09:49:26.291Z">
 <meta property="article:author" content="O1d_Yu4n">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://2298233831.github.io/angrLAB%E7%AC%94%E8%AE%B0/image-20220308172612146.png">
   
     <link rel="alternate" href="/atom.xml" title="The Blog of O1d_Yu4n" type="application/atom+xml">
   
@@ -69,167 +99,7 @@
 </header>
 
       <div class="outer">
-        <section id="main">
-  
-    <article id="post-test" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2022/04/03/test/" class="article-date">
-  <time class="dt-published" datetime="2022-04-03T12:23:46.879Z" itemprop="datePublished">2022-04-03</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>test file</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://2298233831.github.io/2022/04/03/test/" data-id="cl1j9e3q90007aovc0p932ray" data-title="" class="article-share-link">分享</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-hello-world" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2022/04/03/hello-world/" class="article-date">
-  <time class="dt-published" datetime="2022-04-03T12:22:56.061Z" itemprop="datePublished">2022-04-03</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2022/04/03/hello-world/">Hello World</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://2298233831.github.io/2022/04/03/hello-world/" data-id="cl1j9e3q80005aovc0il8c666" data-title="Hello World" class="article-share-link">分享</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-IL2CPP学习" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2022/03/25/IL2CPP%E5%AD%A6%E4%B9%A0/" class="article-date">
-  <time class="dt-published" datetime="2022-03-25T09:29:09.000Z" itemprop="datePublished">2022-03-25</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2022/03/25/IL2CPP%E5%AD%A6%E4%B9%A0/">IL2CPP学习</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="IL2CPP"><a href="#IL2CPP" class="headerlink" title="IL2CPP"></a>IL2CPP</h1><h2 id="IL2CPP是什么"><a href="#IL2CPP是什么" class="headerlink" title="IL2CPP是什么"></a>IL2CPP是什么</h2><p>首先我们来了解一下它的前缀，IL (Intermediate Language-中间语言)—基于堆栈的伪汇编语言；很多时候还会看到CIL（Common Intermediate Language，特指在.Net平台下的IL标准）。这两者是属于通用语言架构和.NET框架的低阶的人类可读的编程语言。目标位.NET框架的语言被编译成(C)IL,然后汇编为字节码。(C)IL类似于一个面向对象的汇编语言，并且他是完全基于堆栈的，并且是在虚拟机上（.Net Framework, Mono VM）运行的语言。</p>
-<p>IL2CPP(把IL中间语言转换成C++源代码，然后利用标准c++平台编译器产生二进制文件。简单的来说就是将IL转化为CPP文件。)</p>
-<p>Fundamentally, it differs from the current implementation in that the IL2CPP compiler converts <a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Assembly_(CLI)">assemblies</a> into C++ source code. It then leverages the standard platform C++ compilers to produce native binaries.（这是下面的文章对IL2CPP的部分描述）</p>
-<p>这里有一篇Unity3D官方博客的文章，引出了IL2CPP的概念，以及一篇对IL2CPP的介绍。（值得一看）</p>
-<p><a target="_blank" rel="noopener" href="https://blog.unity.com/technology/the-future-of-scripting-in-unity"><strong>The future of scripting in Unity</strong></a></p>
-<p><a target="_blank" rel="noopener" href="https://blog.unity.com/technology/an-introduction-to-ilcpp-internals"><strong>An introduction to IL2CPP internals</strong></a>  </p>
-<p>文中指出IL2CPP由AOT预编译器和虚拟机两部分组成。并且明确指出IL2CPP不会重新构建整个.NET框架和Mono工具链；MonoC#编译器和Mono的类、库，以及现在支持的功能和MonoAOT使用的第三方库都将会和IL2CPP继续使用</p>
-<p>下图为IL2CPP的工具链概念图</p>
-<p><img src="/IL2CPP%E5%AD%A6%E4%B9%A0/il2cpp-toolchain-smaller.png" alt="il2cpp-toolchain-smaller"></p>
-<p>文中还提到了AOT预编译(<a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/AOT_compiler">Ahead of Time</a>)，可以做个了解。主要是对程序在运行前进行优化。</p>
-<h2 id="IL2CPP是怎样工作的"><a href="#IL2CPP是怎样工作的" class="headerlink" title="IL2CPP是怎样工作的"></a>IL2CPP是怎样工作的</h2><p><img src="/IL2CPP%E5%AD%A6%E4%B9%A0/IL2CPP-3.png" alt="IL2CPP-3"></p>
-<p>整体流程可以用如上图表示，例子详见上面的第二篇文章</p>
-<p><a target="_blank" rel="noopener" href="https://docs.unity3d.com/560/Documentation/Manual/IL2CPP-HowItWorks.html">How IL2CPP works</a></p>
-<ol>
-<li>Unityj scripting API 代码被编译为常规的.NETDLL程序集</li>
-<li>所有的不是脚本的一部分的托管程序集由Unused Bytecode Stripper处理（从动态链接库的DLL中去除一些无用的类和方法），这个过程会显著减小创建游戏的大小。（其上在上面那片文章也有提到）</li>
-<li>所有的托管程序集被翻译为标准的C++代码</li>
-<li>生成的C++代码和IL2CPP运行时生成的部分代码被本地平台的编译器编译</li>
-<li>最后，代码会被连接到可执行文件（取决于你的目标平台）或DLL文件。</li>
-</ol>
-<p>至于为什么会产生许多无用代码</p>
-<p>我们易一段简单的C++代码和IL汇编代码作为示例</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span> **argv)</span> </span>&#123;</span><br><span class="line">    <span class="type">int</span> a = <span class="number">1</span>;</span><br><span class="line">    <span class="type">int</span> b = <span class="number">2</span>;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;Hello world: %d\r\n&quot;</span>, a + b);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">ldc.i4.1 #将常量1压入栈</span><br><span class="line">stloc.0 #将1从栈中取出，并赋给第一个变量a</span><br><span class="line">ldc.i4.2 </span><br><span class="line">stloc.1</span><br><span class="line">ldstr &quot;Hello World: &#123;0&#125;&quot; #将字符串压入栈</span><br><span class="line">ldloc.0 #将变量a压入栈</span><br><span class="line">ldloc.1</span><br><span class="line">add #a+b</span><br><span class="line">box System.Int32 #将类型装箱，其实这一步是在一定程度上优化程序</span><br><span class="line">call System.Void System.Console::WriteLine(System.String,System.Object) #输出函数调用</span><br><span class="line">ret</span><br><span class="line"></span><br><span class="line">#这块程序集对应上面大括号里的内容</span><br></pre></td></tr></table></figure>
-
-<p>接下来插入一段对应IL2CPP工作的第一部后出现的代码</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">// System.Void HelloWorld.Program::Main(System.String[])</span><br><span class="line">IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void Program_Main_m7A2CC8035362C204637A882EDBDD0999B3D31776 (StringU5BU5D_t933FB07893230EA91C40FF900D5400665E87B14E* ___args0, const RuntimeMethod* method)</span><br><span class="line">&#123;</span><br><span class="line">    static bool s_Il2CppMethodInitialized;</span><br><span class="line">    if (!s_Il2CppMethodInitialized)</span><br><span class="line">    &#123;</span><br><span class="line">        il2cpp_codegen_initialize_method (Program_Main_m7A2CC8035362C204637A882EDBDD0999B3D31776_MetadataUsageId);</span><br><span class="line">        s_Il2CppMethodInitialized = true;</span><br><span class="line">    &#125;</span><br><span class="line">    int32_t V_0 = 0;</span><br><span class="line">    int32_t V_1 = 0;</span><br><span class="line">    &#123;</span><br><span class="line">        V_0 = 2;</span><br><span class="line">        int32_t L_0 = V_0;</span><br><span class="line">        V_1 = ((int32_t)il2cpp_codegen_add((int32_t)1, (int32_t)L_0));</span><br><span class="line">        int32_t L_1 = V_1;</span><br><span class="line">        int32_t L_2 = L_1;</span><br><span class="line">        RuntimeObject * L_3 = Box(Int32_t585191389E07734F19F3156FF88FB3EF4800D102_il2cpp_TypeInfo_var, &amp;L_2);</span><br><span class="line">        IL2CPP_RUNTIME_CLASS_INIT(Console_t5C8E87BA271B0DECA837A3BF9093AC3560DB3D5D_il2cpp_TypeInfo_var);</span><br><span class="line">        Console_WriteLine_m22F0C6199F705AB340B551EA46D3DB63EE4C6C56(_stringLiteral331919585E3D6FC59F6389F88AE91D15E4D22DD4, L_3, /*hidden argument*/NULL);</span><br><span class="line">        return;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>可以看到代码非常复杂。</p>
-<p>如此复杂的原因在于IL2CPP对IL字节码线性扫描，并转换为与C++代码等效的非基于堆栈的代码。所以才会产生如此多的多余的变量和赋值操作。</p>
-<p>再接下来，是IL2CPP版本的代码</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">; void __fastcall Program_Main_m2325437134(Il2CppObject *__this, StringU5BU5D_t1642385972 *___args0, MethodInfo *method)</span><br><span class="line">Program_Main_m2325437134 proc near</span><br><span class="line">push    rbx</span><br><span class="line">sub     rsp, 20h</span><br><span class="line">cmp     cs:s_Il2CppMethodInitialized_8016, 0</span><br><span class="line">jnz     short loc_14038BFF1</span><br><span class="line">mov     ecx, cs:?Program_Main_m2325437134_MetadataUsageId@@3IB</span><br><span class="line">call    ?InitializeMethodMetadata@MetadataCache@vm@il2cpp@@SAXI@Z</span><br><span class="line">mov     cs:s_Il2CppMethodInitialized_8016, 1</span><br><span class="line">loc_14038BFF1:</span><br><span class="line">mov     rcx, cs:?Int32_t2071877448_il2cpp_TypeInfo_var@@3PEAUIl2CppClass@@EA</span><br><span class="line">lea     rdx, [rsp+48h]</span><br><span class="line">mov     dword ptr [rsp+48h], 3</span><br><span class="line">call    ?Box@Object@vm@il2cpp@@SAPEAUIl2CppObject@@PEAUIl2CppClass@@PEAX@Z</span><br><span class="line">mov     rcx, cs:?Console_t2311202731_il2cpp_TypeInfo_var@@3PEAUIl2CppClass@@EA</span><br><span class="line">mov     rbx, rax</span><br><span class="line">test    byte ptr [rcx+10Ah], 1</span><br><span class="line">jz      short loc_14038C02B</span><br><span class="line">cmp     dword ptr [rcx+0BCh], 0</span><br><span class="line">jnz     short loc_14038C02B</span><br><span class="line">call    ?ClassInit@Runtime@vm@il2cpp@@SAXPEAUIl2CppClass@@@Z</span><br><span class="line">loc_14038C02B:</span><br><span class="line">mov     rdx, cs:?_stringLiteral3443654334@@3PEAUString_t2029220233@@EA</span><br><span class="line">xor     r9d, r9d</span><br><span class="line">mov     r8, rbx</span><br><span class="line">xor     ecx, ecx</span><br><span class="line">call    Console_WriteLine_m3776981455</span><br><span class="line">add     rsp, 20h</span><br><span class="line">pop     rbx</span><br><span class="line">retn</span><br><span class="line">Program_Main_m2325437134 endp</span><br></pre></td></tr></table></figure>
-
-
-
-<p>可以看到有很多刚开始没有的符号，这时候就需要用一些工具去除这些多余的符号了，完全去除，就可以开始分析代码了。</p>
-<h1 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a>写在最后</h1><p>（本文是在做一个Unitylab的时候当作前置知识学习的一篇简短的笔记，原本想着和Unitylab实验的思路一起发出来，还是提前发了。）</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://2298233831.github.io/2022/03/25/IL2CPP%E5%AD%A6%E4%B9%A0/" data-id="cl1j9e3q70003aovcf85cg0ay" data-title="IL2CPP学习" class="article-share-link">分享</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-angrLAB笔记" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+        <section id="main"><article id="post-angrLAB笔记" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2022/03/08/angrLAB%E7%AC%94%E8%AE%B0/" class="article-date">
   <time class="dt-published" datetime="2022-03-08T02:14:02.000Z" itemprop="datePublished">2022-03-08</time>
@@ -242,8 +112,8 @@
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2022/03/08/angrLAB%E7%AC%94%E8%AE%B0/">angrLAB笔记</a>
+    <h1 class="p-name article-title" itemprop="headline name">
+      angrLAB笔记
     </h1>
   
 
@@ -495,678 +365,29 @@
     </footer>
   </div>
   
-</article>
-
-
-
+    
+<nav id="article-nav">
   
-    <article id="post-Boomlab" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2022/02/28/Boomlab/" class="article-date">
-  <time class="dt-published" datetime="2022-02-28T07:56:07.000Z" itemprop="datePublished">2022-02-28</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
+    <a href="/2022/03/25/IL2CPP%E5%AD%A6%E4%B9%A0/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前一篇</strong>
+      <div class="article-nav-title">
         
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2022/02/28/Boomlab/">Boomlab</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="Boomlab"><a href="#Boomlab" class="headerlink" title="Boomlab"></a>Boomlab</h1><p>（感觉这个实验也可以直接丢进IDA当逆向做，相对简单；本次以汇编语言下手；所用工具为VS2022社区版）</p>
-<p>先在Linux里用如下命令把文件反汇编出来。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">objdump -d bomb &gt; bomb.asm</span><br></pre></td></tr></table></figure>
-
-<p>查找到main函数方式多样,此处直接搜索main即可找到位置。</p>
-<p><img src="/Boomlab/image-20220228164722822.png" alt="image-20220228164722822"></p>
-<p>大致浏览一遍main函数，有几个phase，就是需要拆除的炸弹了。</p>
-<p>本文着重描述过程，运算只涉及最后的结果。</p>
-<p>本文着重描述过程，运算只涉及最后的结果。</p>
-<p>本文着重描述过程，运算只涉及最后的结果。（水平有限）</p>
-<h2 id="Phase-1"><a href="#Phase-1" class="headerlink" title="Phase_1"></a>Phase_1</h2><p>根据函数对应的地址跳转</p>
-<p><img src="/Boomlab/image-20220228165317069.png" alt="image-20220228165317069"></p>
-<p>可以看到该函数中，先将一段地址赋给esi，然后调用strings_not_equal；然后测试eax值，为0就跳过了引爆炸弹的一步。由此可见关键在于strings_not_equal这个函数。</p>
-<p><img src="/Boomlab/image-20220228170012668.png" alt="image-20220228170012668"></p>
-<p>可以看到还是比较长的，不过容易读懂。首先是传参，将rbx，rbp作为string_length的参数，然后调用。可以根据最开始的两个mov猜测，rdi，rsi就是string_not_equal的两个参数。</p>
-<p>再看本函数结尾，会有一个给eax赋值的操作，然后返回。这时候就需要知道edx被赋了什么值。</p>
-<p>浏览代码可以看出大致逻辑（也可以根据函数名直接猜）两参数的字符串相等则返回0，不相等则返回1</p>
-<p>查看esi里的地址所对应的字符串如下：（用gdb调起来才能看到，不熟悉gdb也可以拖进IDA，看汇编还是伪代码就自己选择了）</p>
-<p><img src="/Boomlab/image-20220228174801745.png" alt="image-20220228174801745"></p>
-<p>“Border relations with Canada have never been better.”</p>
-<h2 id="Phase-2"><a href="#Phase-2" class="headerlink" title="Phase_2"></a>Phase_2</h2><p>首先是代码</p>
-<p><img src="/Boomlab/image-20220228171547222.png" alt="image-20220228171547222"></p>
-<p>可以看到调用read_six_numbers函数</p>
-<p><img src="/Boomlab/image-20220228172152067.png" alt="image-20220228172152067"></p>
-<p>代码大致逻辑为读取6个数，没有六个就引爆炸弹。</p>
-<p>接着看phase_2代码，将rsp的值与1作比较，不相等就爆；然后将rsp+0x4和rsp+0x18的值给了rbx，rbp然后是把rbx-0x4地址处的内容给了eax，然后eax+eax，再做比较，相等就不爆；再继续，将rbx值加4字节（一个int的大小），到了下一个数，再进行比较。依照逻辑，输入的六个数分别为：1 2 4 8 16 32.即可拆弹</p>
-<h2 id="Phase-3"><a href="#Phase-3" class="headerlink" title="Phase_3"></a>Phase_3</h2><p>代码</p>
-<p><img src="/Boomlab/image-20220228173849867.png" alt="image-20220228173849867"></p>
-<p>先查看一下0x4025cf处是啥，结合下面的输入函数，这是两个输入的参数。这里可以假设一下rcx和rdx就是这两个参数。</p>
-<p><img src="/Boomlab/image-20220228181405909.png" alt="image-20220228181405909"></p>
-<p>将0给eax，然后调用参数后将eax的值与1作比较，大于就不爆。然后将rsp+0x8的值，也就是rdx的值与7作比较，大于就跳转，小于就爆，回到上一步向下看，会将rdx的值给eax，然后跳到402470这个地址</p>
-<p><img src="/Boomlab/image-20220228182641784.png" alt="image-20220228182641784"></p>
-<p>不知道这是个啥</p>
-<p><img src="/Boomlab/image-20220228182734910.png" alt="image-20220228182734910"></p>
-<p>用IDA发现是到了switch语句。（其实是汇编语言的switch实现）</p>
-<p>看后面的代码，都会跳到400fbe的位置，将eax的值与rsp+0xc的值作比较，相等则不爆。</p>
-<p>这题答案不固定，根据第一个数不同，第二个数也会不同随机选取一组符合条件的即可。</p>
-<h2 id="Phase-4"><a href="#Phase-4" class="headerlink" title="Phase_4"></a>Phase_4</h2><p>代码</p>
-<p><img src="/Boomlab/image-20220228183854762.png" alt="image-20220228183854762"></p>
-<p>前面几行跟上一个阶段一样，就是输入两个值作为参数。</p>
-<p>再将eax的值与2作比较，不相等就爆。然后将0xe和rsp+0x8的值作比较，大于0xe就不跳，故此处需小于。</p>
-<p>然后是三个赋值操作，再接着调用func4函数，然后验证eax的值，不为0就爆，接着rsp+0xc的值等于0，炸弹拆除。</p>
-<p>func4:</p>
-<p><img src="/Boomlab/image-20220228200230163.png" alt="image-20220228200230163"></p>
-<p>由上面的分析可知，此处要让eax的值为0。这玩意儿还挺复杂，自己调用自己，递归了。</p>
-<p>大致逻辑：上面phase_4的edx，esi，edi作为func4的三个参数。将edx的值给eax，用eax的值减esi，然后保存在ecx，再将ecx的值逻辑右移31位（0x1f），再将eax的值与ecx的值相加，保存在eax，然后算数右移1位（需要注意与逻辑右移的区别。）然后是ecx&#x3D;rax+rsi*1，然后是ecx和edi比较，ecx较大就跳。400ff2处，edi的值小于ecx则跳转并结束该函数调用，否则将rcx+0x1的值给esi。从400fe6继续看，将rcx-0x1的值给edx，然后调用func4，然后eax+eax，然后结束调用。</p>
-<p>上代码，帮助理解：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">fun</span><span class="params">(<span class="type">int</span> a1, <span class="type">int</span> a2, <span class="type">int</span> a3)</span>&#123;</span><br><span class="line">    <span class="type">int</span> b = (a1 - a2) &gt;&gt; <span class="number">31</span>;</span><br><span class="line">    <span class="type">int</span> result = ((a1-a2) + b) &gt;&gt; <span class="number">1</span>;</span><br><span class="line">    b = result + a2;</span><br><span class="line">    <span class="keyword">if</span>(b == x) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span>(b &lt; x) &#123;</span><br><span class="line">        result = fun(a1, b + <span class="number">1</span>, x);</span><br><span class="line">        <span class="keyword">return</span> result * <span class="number">2</span> + <span class="number">1</span>;</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        result = fun(b - <span class="number">1</span>, a2, x);</span><br><span class="line">        <span class="keyword">return</span> result * <span class="number">2</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>此处a1，a2，a3分别为0xe，0x0，rsp+0x8（输入的第一个值）</p>
-<p>最后，什么时候返回0。我们将值代入发现，7是能返回0的一个界限，那么7，0可以作为一种答案。</p>
-<p>看大佬们的解法才恍然大悟。</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">void</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>; i &lt;= <span class="number">0xe</span>; i++)&#123;</span><br><span class="line">        <span class="keyword">if</span>(fun(<span class="number">0xe</span>,<span class="number">0</span>,i) == <span class="number">0</span>)&#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>,i) ;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>允许的答案由0 1 3 7，只需要简单调用一下函数就行，没想到。</p>
-<h2 id="Phase-5"><a href="#Phase-5" class="headerlink" title="Phase_5"></a>Phase_5</h2><p><img src="/Boomlab/image-20220228210929709.png" alt="image-20220228210929709"></p>
-<p>这1-7行刚开始是没看懂，后来看伪代码是v4 &#x3D; __readfsqword(0x28u)，这玩意儿。</p>
-<p>eax存储了字符串长度，必须为6，否则就炸。然后再把0给eax，将输入保存在ecx，因为rax刚开始为0.</p>
-<p>将cl的值（ecx的一个子寄存器）给rdx，然后获取edx的低四位。然后所得到的edx的值作为指针访问0x4024b0地址下的某一位（有点绕），一直到4010ac处的指令，可用代码表示为：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> ( i = <span class="number">0LL</span>; i != <span class="number">6</span>; ++i )</span><br><span class="line">    arry[i] = array_0x4024b0[*(a1 + i) &amp; <span class="number">0xF</span>];<span class="comment">//a1是eax的值，即字符串长度，6</span></span><br></pre></td></tr></table></figure>
-
-<p>0x4024b0处</p>
-<p><img src="/Boomlab/image-20220228220413822.png" alt="image-20220228220413822"></p>
-<p>将rsp+0x16的值化为0，也就是代表该字符串的末尾；0x40245e处：</p>
-<p><img src="/Boomlab/image-20220228215537273.png" alt="image-20220228215537273"></p>
-<p>然后传入两个参数esi，rdi到strings_not_equal函数不相等就炸。</p>
-<p>所以根据后续代码逻辑，我们需要在0x4024b0处的字符串中找到0x40245e处的下标。</p>
-<p>分别是9 15 14 5 6 7，但是，这些都是答案的低四位</p>
-<p>因为有取低四位这个步骤，这里给出C语言代码</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">array</span>[arry_4024b0[i]&amp;<span class="number">0xf</span>] = arry_0x40245e[i];</span><br></pre></td></tr></table></figure>
-
-<p>借用一张图片，可以对着查询，任意选一组即可。</p>
-<p><img src="/Boomlab/63d9f2d3572c11dff05943a1652762d0f603c2ac.png" alt="63d9f2d3572c11dff05943a1652762d0f603c2ac"></p>
-<h2 id="Phase-6"><a href="#Phase-6" class="headerlink" title="Phase_6"></a>Phase_6</h2><p>代码有点长，我们分部来看。</p>
-<p>首先是将rsi作为参数传入read_six_numbers函数，然后又赋值，将eax的值减1后，与5作比较，小于等于5则不爆。然后将r12d的值加一（刚开始为0），与6比较，等于才跳，接着又有赋值操作，然后将eax与rbp+0作比较，相等就炸。</p>
-<p><img src="/Boomlab/image-20220301113532571.png" alt="image-20220301113532571"></p>
-<p>接着来到401145处，ebx加一，再与5作比较，大于5就不跳。很明显一个循环。我们向下继续。</p>
-<p>将r13的值加4，跳到刚刚的401114处，如此看来，r12d是循环次数，6次。从开始截至401151，是一个二重循环。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">for (int i=0; i&lt;6; i++)&#123;</span><br><span class="line">	if (arr[i] - 1 &gt; 5) bomb()</span><br><span class="line">		for (int j=i+1; j&lt;=5; j++) &#123;</span><br><span class="line">			if(arr[j] == arr[i]) bomb()</span><br><span class="line">			 &#125;</span><br><span class="line"> 		&#125;</span><br></pre></td></tr></table></figure>
-
-<p>我们从401153处继续，向下还是一堆赋值操作，然后比较，rax和rsi不等就跳，向下看，0x0给esi，然后跳到401197.</p>
-<p><img src="/Boomlab/image-20220301120225795.png" alt="image-20220301120225795"></p>
-<p>来到401197处</p>
-<p><img src="/Boomlab/image-20220301120702509.png" alt="image-20220301120702509"></p>
-<p>首先是赋值，然后与1作比较，小于等于跳到401183否则跳到401176进行循环，然后通过401176的循环再步入401188的循环。</p>
-<p>我们从4011ab向下看</p>
-<p><img src="/Boomlab/image-20220301121122327.png" alt="image-20220301121122327"></p>
-<p>依然是一堆赋值，然后接上比较，相等就跳转。将rbx给rcx后，跳到4011bd处，进行循环，要循环8次，然后到4011d2处，接着又是一堆赋值，需要eax小于rbx的值，才跳转，否则炸。最后还有一个从4011df开始的循环（ebp-1不为0则跳转。）。其实是一个值的置换操作，不过是执行6次，按降序排列</p>
-<p>需要注意一下4011a4处的命令</p>
-<p><img src="/Boomlab/image-20220301125119167.png" alt="image-20220301125119167"></p>
-<p>看样子是个结构体（用IDA看就很明确）</p>
-<p><img src="/Boomlab/image-20220301124131818.png" alt="image-20220301124131818"></p>
-<p><img src="/Boomlab/image-20220301124149305.png" alt="image-20220301124149305"></p>
-<p><img src="/Boomlab/image-20220301124211115.png" alt="image-20220301124211115"></p>
-<p><img src="/Boomlab/image-20220301124227196.png" alt="image-20220301124227196"></p>
-<p><img src="/Boomlab/image-20220301124245570.png" alt="image-20220301124245570"></p>
-<p><img src="/Boomlab/image-20220301124303447.png" alt="image-20220301124303447"></p>
-<p>所以以上逻辑大致为我们输入的序列被7减去后得到的序列，是一个向量，向量每个数字是node的序号，向量的顺序是node的链接顺序，也就是说向量的第一个序号对应的node会变成头节点</p>
-<p>最后放上IDA的代码</p>
-<p><img src="/Boomlab/image-20220301122304972.png" alt="image-20220301122304972"></p>
-<p><img src="/Boomlab/image-20220301122335913.png" alt="image-20220301122335913"></p>
-<p><img src="/Boomlab/image-20220301122359866.png" alt="image-20220301122359866"></p>
-<p>故，依照上述代码逻辑将6个node的值按降序排列，所得序号为3 4 5 6 1 2，但因为在这之前涉及x&#x3D;7-x这一操作</p>
-<p>故正确答案应为4 3 2 1 6 5，至此扫雷。</p>
-<h2 id="secret-phase"><a href="#secret-phase" class="headerlink" title="secret_phase"></a>secret_phase</h2><p><img src="/Boomlab/image-20220301125404871.png" alt="image-20220301125404871"></p>
-<p><img src="/Boomlab/image-20220301130109136.png" alt="image-20220301130109136"></p>
-<p>wairi,受不了了，直接放反编译出的代码</p>
-<p><img src="/Boomlab/image-20220301125918989.png" alt="image-20220301125918989"></p>
-<p>func7</p>
-<p><img src="/Boomlab/image-20220301125942372.png" alt="image-20220301125942372"></p>
-<p>和汇编代码对照看，第二个if是右移，第三个是左移</p>
-<p>发现0x6030f0处的往后是个二叉树，</p>
-<p><img src="/Boomlab/image-20220301130237470.png" alt="image-20220301130237470"></p>
-<p>再往后就是node了。</p>
-<p>└─ 36<br>   ├─ 8<br>   │  ├─ 6<br>   │  │  ├─ left: 1<br>   │  │  └─ right: 7<br>   │  └─ 22<br>   │     ├─ left: 20<br>   │     └─ right: 35<br>   └─ 50<br>      ├─ 45<br>      │  ├─ left: 40<br>      │  └─ right: 47<br>      └─ 107<br>         ├─ left: 99<br>         └─ right: 1001</p>
-<p>我们需要找的数，是最后返回2的，那么，最后一次就返回0，再上一次返回2 * rax + 1，第一次返回2 * rax </p>
-<p>那么两个值可以，20或22.</p>
-<p>至此，扫雷完毕。</p>
-<h2 id="不算小结的小结"><a href="#不算小结的小结" class="headerlink" title="不算小结的小结"></a>不算小结的小结</h2><p>汇编看起来确实麻烦，做最后两个的时候都是结合C语言代码来搞得，对汇编还不是很熟悉。</p>
-<p>这个实验如果用IDA当逆向题做的话，难度会降低很多。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://2298233831.github.io/2022/02/28/Boomlab/" data-id="cl1j9e3q20000aovccisq31vz" data-title="Boomlab" class="article-share-link">分享</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-CSAPP-DATAlab" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2022/01/06/CSAPP-DATAlab/" class="article-date">
-  <time class="dt-published" datetime="2022-01-06T08:02:49.000Z" itemprop="datePublished">2022-01-06</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
+          IL2CPP学习
         
+      </div>
+    </a>
   
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2022/01/06/CSAPP-DATAlab/">CSAPP DATAlab</a>
-    </h1>
   
+    <a href="/2022/02/28/Boomlab/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">后一篇</strong>
+      <div class="article-nav-title">Boomlab</div>
+    </a>
+  
+</nav>
 
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="bitXor-x-y-用‘-amp-’和‘-’完成异或操作"><a href="#bitXor-x-y-用‘-amp-’和‘-’完成异或操作" class="headerlink" title="bitXor(x,y)用‘&amp;’和‘^’完成异或操作"></a>bitXor(x,y)用‘&amp;’和‘^’完成异或操作</h1><p>在此之前，我们先了解一下这三个运算符的运算规则</p>
-<p>设A&#x3D;60，B&#x3D;13；</p>
-<p>则A &#x3D; 0011 1100；B &#x3D; 0000 1101。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">“与”--‘&amp;’：</span><br><span class="line">0&amp;0=0;   </span><br><span class="line">0&amp;1=0;    </span><br><span class="line">1&amp;0=0;     </span><br><span class="line">1&amp;1=1;A&amp;B=0000 1100</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">“取反”--‘~’：</span><br><span class="line">对形式取反</span><br><span class="line">~A = 1100 0011 = -61。</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">“异或”--‘^’：</span><br><span class="line">0^0=0;   </span><br><span class="line">0^1=1;   </span><br><span class="line">1^0=1;  </span><br><span class="line">1^1=0;</span><br><span class="line">(A ^ B) 将得到 49，即为 0011 0001</span><br></pre></td></tr></table></figure>
-
-<p>可以看到，&amp;和^的区别在于，除两数同时为0时，结果相反。那么我们分而治之，设置两种情况，以上面的A,B为例。</p>
-<p>第一种–只考虑不是两个0进行运算的时候：两数直接进行&amp;运算然后取反，得1111 0011；</p>
-<p>第二种–只考虑是两个0进行运算的时候：这次我们的目的是在其他数（即上面那个数从左往右的第3、4、5、6，8位）经过运算且发生变化后保持0和0进行运算后结果依然为0，才能让两个最终运算结果在最后&amp;时得到与^相同的数。这里绕个弯，先将A,B各自取反，进行&amp;运算后，再将结果取反。可以发现达到了开始时的目的</p>
-<p>最后，将两情况的结果进行与运算，得到答案。</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">bitXor</span><span class="params">(<span class="type">int</span> x, <span class="type">int</span> y)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">return</span> ~(~x&amp;~y)&amp;~(x&amp;y);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>借用大佬的思路如下：（比我清晰很多，一语即中。）</p>
-<p>所谓异或就是当参与运算的两个二进制数不同时结果才为1，其他情况为0。<code>C</code> 语言中的位操作对基本类型变量进行运算就是对类型中的每一位进行位操作。所以结果可以使用“非”和“与”计算<strong>不是同时为0情况和不是同时为1的情况进行位与</strong>，即<code>~(~x&amp;~y)&amp;~(x&amp;y)</code> 。</p>
-<h1 id="tmin-最小二进制补码整数型"><a href="#tmin-最小二进制补码整数型" class="headerlink" title="tmin()最小二进制补码整数型"></a>tmin()最小二进制补码整数型</h1><p>因为整数int型位32位（一般情况下，此处不讨论16位），而最小的补码只需要是第一位为1（1开头表示负数），后面的全是0即可，所以只需要将1左移31位即可（因为机器从0开始读。）</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">tmin</span><span class="params">(<span class="type">void</span>)</span> </span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="number">1</span>&lt;&lt;<span class="number">31</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h1 id="isTmax-x-判断当X为最大整型二进制数为真，否则为假"><a href="#isTmax-x-判断当X为最大整型二进制数为真，否则为假" class="headerlink" title="isTmax(x)判断当X为最大整型二进制数为真，否则为假"></a>isTmax(x)判断当X为最大整型二进制数为真，否则为假</h1><p>此处先说明一下最大二进制整数，其实是0x7fffffff(二进制整数首位是 0，其余都是1，f代表1111，32位)</p>
-<p>F的二进制码为 1111<br>7的二进制码为 0111；0xffffffff为-1；但最小值是0x80000000</p>
-<p>上文说了开头为1表示是负数，为0则为正数。</p>
-<p>对最大整型数有以下特征：</p>
-<p>Tmax+1 &#x3D; Tmin&#x3D;~Tmax</p>
-<p>故代码需要让唯一情况为0x7fffffff,并排除0xffffffff。</p>
-<p>0x7fffffff+1&#x3D;0x80000000</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">isTmax</span><span class="params">(<span class="type">int</span> x)</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">return</span> !(x+(x+<span class="number">1</span>))|!(x+<span class="number">1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-
-
-<h1 id="判断所有奇数位是否均为1"><a href="#判断所有奇数位是否均为1" class="headerlink" title="判断所有奇数位是否均为1"></a>判断所有奇数位是否均为1</h1><p>这需要用到0xAAAAAAAA来进行判断。</p>
-<p><img src="/CSAPP-DATAlab/image-20220204145219988.png" alt="image-20220204145219988"></p>
-<p>先构造该数</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">allOddBits</span><span class="params">(<span class="type">int</span> x)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> i=<span class="number">0xAA</span>+(<span class="number">0xAA</span>&lt;&lt;<span class="number">8</span>);#左移<span class="number">8</span>位，构造<span class="number">0xAAAA</span></span><br><span class="line">    i += i&lt;&lt;<span class="number">16</span>;#构造<span class="number">0xAAAAAAAA</span></span><br><span class="line">    <span class="keyword">return</span> !((i&amp;x)^i);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-
-<h1 id="不用-，求-x的值"><a href="#不用-，求-x的值" class="headerlink" title="不用-，求-x的值"></a>不用-，求-x的值</h1><p>这个很简单</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">negate</span><span class="params">(<span class="type">int</span> x)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">return</span> ~x+<span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h1 id="判断是否是0-9的ASCII码值"><a href="#判断是否是0-9的ASCII码值" class="headerlink" title="判断是否是0~9的ASCII码值"></a>判断是否是0~9的ASCII码值</h1><p>首先确定范围是0x30~0x39。</p>
-<p>从二进制原码上下手会比较好理解。0x30~0x39，只用考虑低四位。(9为0x1001)</p>
-<p>但还有一个问题0x30<del>0x39的第5</del>8位为0011.</p>
-<p>所以还得先判断第5~8位是否为0011，再来判断第四位。</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">isAsciiiDigit</span><span class="params">(<span class="type">int</span> x)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> z=<span class="number">0xf</span>,y=<span class="number">3</span>,p=<span class="number">6</span>;</span><br><span class="line">    <span class="keyword">return</span> !(((x&gt;&gt;<span class="number">4</span>)^y)|(x&amp;z)+p)&gt;&gt;<span class="number">4</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>((x&gt;&gt;4)^y)用于判断第5<del>8位是否为0011，先将5</del>8位变为1~4位，再异或3，返回0则对。</p>
-<p>(x&amp;z)+p)&gt;&gt;4用于判断1~4位：首先我们知道，十六进制数位0123456789ABCDEF，以9来考虑，加上6后是有进位的，故上限可加6然后再左移看进位与否判断，下限自然不用了，毕竟开头的是0不是1就行。</p>
-<h1 id="使用位级运算实现C语言中的-x-y-z三目运算符。"><a href="#使用位级运算实现C语言中的-x-y-z三目运算符。" class="headerlink" title="使用位级运算实现C语言中的 x?y:z三目运算符。"></a>使用位级运算实现C语言中的 x?y:z三目运算符。</h1><p>首先了解一下何为<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E4%B8%89%E7%9B%AE%E8%BF%90%E7%AE%97%E7%AC%A6/6434591">三目运算符</a></p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">conditional</span><span class="params">(<span class="type">int</span> x,<span class="type">int</span> y,<span class="type">int</span> z)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">return</span> ((x&gt;&gt;<span class="number">31</span>|((~x+<span class="number">1</span>)&gt;&gt;<span class="number">31</span>))&amp;y)|(~x&gt;&gt;<span class="number">31</span>|(~x+<span class="number">1</span>)&gt;&gt;<span class="number">31</span>))&amp;z;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>有一种特殊情况：当条件为假的时候，而当结果1为零时，返回结果2。</p>
-<p>故总共有三种情况。</p>
-<p>条件用(x&gt;&gt;31|((~x+1)&gt;&gt;31))判断。后续根据相应结果做最后运算。</p>
-<h1 id="使用位级运算符实现-lt-x3D"><a href="#使用位级运算符实现-lt-x3D" class="headerlink" title="使用位级运算符实现&lt;&#x3D;"></a>使用位级运算符实现&lt;&#x3D;</h1><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">isLessOrEqual</span><span class="params">(<span class="type">int</span> x,<span class="type">int</span> y)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">return</span> !!((x&gt;&gt;<span class="number">31</span>)&amp;(~y&gt;&gt;<span class="number">31</span>))|(!!((x+(~y+<span class="number">1</span>))&gt;&gt;<span class="number">31</span>)&amp;~((~x&gt;&gt;<span class="number">31</span>)&amp;y&gt;&gt;<span class="number">31</span>))|!(x+(~y+<span class="number">1</span>));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>我们并不知道两个数正负，所以先对正负，也就是符号位进行判断（四种情况）：都为正或负，一正一负。</p>
-<p>那么挨个实现即可，难度不大。(&gt;&gt;31是为了对符号位进行比较。)</p>
-<p>(一个小技巧：!!x可以把非零数变为1，0变为0。)</p>
-<h1 id="计算-x却不用-符号"><a href="#计算-x却不用-符号" class="headerlink" title="计算!x却不用!符号"></a>计算!x却不用!符号</h1><p>！：称为逻辑非运算符。用来逆转操作数的逻辑状态。如果条件为真则逻辑非运算符将使其为假。</p>
-<p>简而言之，使结果呈相反状态。</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">logicalNeg</span><span class="params">(<span class="type">int</span> x)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">return</span> ~(x&gt;&gt;<span class="number">31</span>)&amp;(((~x+<span class="number">1</span>)&gt;&gt;<span class="number">31</span>)+<span class="number">1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>可以从符号位上下手，布尔代数只有0和1。符号位也是只有0和1。</p>
-<p>将其本身的符号位与上其相反数的符号位加1（若ｘ为0，则加1后为0反之为1.）最后取反。</p>
-<h1 id="计算一个数用补码表示最少需要几位"><a href="#计算一个数用补码表示最少需要几位" class="headerlink" title="计算一个数用补码表示最少需要几位"></a>计算一个数用补码表示最少需要几位</h1><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">howManyBits</span><span class="params">(<span class="type">int</span> x)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> b16,b8,b4,b2,b1,b0;</span><br><span class="line">    <span class="type">int</span> sign=x&gt;&gt;<span class="number">31</span>,ret=<span class="number">0</span>;</span><br><span class="line">    x = (sign&amp;~x)|(~sign&amp;x);</span><br><span class="line">    ret=<span class="number">1</span>+!!x;</span><br><span class="line">    b16=!!(x&gt;&gt;<span class="number">16</span>)&lt;&lt;<span class="number">4</span>;</span><br><span class="line">    x=x&gt;&gt;<span class="number">16</span>;</span><br><span class="line">    b8=!!(x&gt;&gt;<span class="number">8</span>)&lt;&lt;<span class="number">3</span>;</span><br><span class="line">    x=x&gt;&gt;b8;</span><br><span class="line">    b4=!!(x&gt;&gt;<span class="number">4</span>)&lt;&lt;<span class="number">2</span>;</span><br><span class="line">    x=x&gt;&gt;b4;</span><br><span class="line">    b2=!!(x&gt;&gt;<span class="number">2</span>)&lt;&lt;<span class="number">1</span>;</span><br><span class="line">    x=x&gt;&gt;<span class="number">2</span>;</span><br><span class="line">    b1=!!(x&gt;&gt;<span class="number">1</span>);</span><br><span class="line">    <span class="keyword">return</span> b16+b8+b4+b2+b1+ret;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>这个题就像一排座位，判断上面有多少是坐了人的。（但是不能直接看见）</p>
-<p>所以先将整体一分为二，拆为高低16位，先判断高16位的值是否为0，不是的话将高16位提取出，再一分为二，高8位，低8位。同样的方法判断；若高16位为0，则采用如上相同方法判断。</p>
-<p>当然，还得先看符号位是啥，前面说过，!!x可以将非零数变为1，0变为0。</p>
-<h1 id="求浮点数-u-f-2"><a href="#求浮点数-u-f-2" class="headerlink" title="求浮点数(u)f*2"></a>求浮点数(u)f*2</h1><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">unsigned</span> <span class="title function_">floatScale2</span><span class="params">(<span class="type">unsigned</span> uf)</span> &#123;</span><br><span class="line">    <span class="keyword">if</span>((uf&gt;=<span class="number">0x7f800000</span> &amp;&amp; uf&lt;=<span class="number">0x7fffffff</span>)||(uf&gt;=<span class="number">0xff800000</span> &amp;&amp; uf&lt;=<span class="number">0xffffffff</span>) || uf==<span class="number">0</span> || uf==<span class="number">0x80000000</span>)</span><br><span class="line">        <span class="keyword">return</span> uf;  <span class="comment">//当uf=NAN或无穷或0的时候，返回它本身</span></span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span>(uf&gt;<span class="number">0x80000000</span> &amp;&amp; uf&lt;=<span class="number">0x807fffff</span>)</span><br><span class="line">        <span class="keyword">return</span> ((uf&lt;&lt;<span class="number">1</span>)+<span class="number">0x80000000</span>);  <span class="comment">// uf为负的非规格化数  </span></span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span>(uf&gt;<span class="number">0</span> &amp;&amp; uf&lt;=<span class="number">0x007fffff</span>)</span><br><span class="line">        <span class="keyword">return</span> uf&lt;&lt;<span class="number">1</span>;  <span class="comment">//uf为正的非规格化数</span></span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        <span class="keyword">return</span> (uf+(<span class="number">1</span>&lt;&lt;<span class="number">23</span>));  <span class="comment">// uf为规格化数</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>关于浮点数，有必要知道阶<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E9%98%B6%E7%A0%81/7798285">阶码</a>,<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E8%A7%84%E6%A0%BC%E5%8C%96/6971871">规格化</a></p>
-<p>还是得先排除NaN，无穷大&#x2F;小，0这些情况。所以当浮点数为无穷，0或NAN时，返回本身，阶码全为1</p>
-<p>再就是规格化数：阶码加一和非规格化数（非规格化数有正负之分，且阶码全为0：正数左移一位，负数补最高位一个1）。</p>
-<h1 id="将浮点型转换为整型"><a href="#将浮点型转换为整型" class="headerlink" title="将浮点型转换为整型"></a>将浮点型转换为整型</h1><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">floatFloat2Int</span><span class="params">(<span class="type">unsigned</span> uf)</span> &#123;</span><br><span class="line">  <span class="type">int</span> s_    = uf&gt;&gt;<span class="number">31</span>;</span><br><span class="line">  <span class="type">int</span> exp_  = ((uf&amp;<span class="number">0x7f800000</span>)&gt;&gt;<span class="number">23</span>)<span class="number">-127</span>;</span><br><span class="line">  <span class="type">int</span> frac_ = (uf&amp;<span class="number">0x007fffff</span>)|<span class="number">0x00800000</span>;</span><br><span class="line">  <span class="keyword">if</span>(!(uf&amp;<span class="number">0x7fffffff</span>)) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span>(exp_ &gt; <span class="number">31</span>) <span class="keyword">return</span> <span class="number">0x80000000</span>;</span><br><span class="line">  <span class="keyword">if</span>(exp_ &lt; <span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span>(exp_ &gt; <span class="number">23</span>) frac_ &lt;&lt;= (exp_<span class="number">-23</span>);</span><br><span class="line">  <span class="keyword">else</span> frac_ &gt;&gt;= (<span class="number">23</span>-exp_);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span>(!((frac_&gt;&gt;<span class="number">31</span>)^s_)) <span class="keyword">return</span> frac_;</span><br><span class="line">  <span class="keyword">else</span> <span class="keyword">if</span>(frac_&gt;&gt;<span class="number">31</span>) <span class="keyword">return</span> <span class="number">0x80000000</span>;</span><br><span class="line">  <span class="keyword">else</span> <span class="keyword">return</span> ~frac_+<span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>首先考虑特殊情况：如果原浮点值为0则返回0；如果真实指数大于31（frac部分是大于等于1的，1&lt;&lt;31位会覆盖符号位），返回规定的溢出值<strong>0x80000000u**；如果 <img src="https://www.zhihu.com/equation?tex=exp%3C0" alt="[公式]"> （1右移x位,x&gt;0，结果为0）则返回0。剩下的情况：首先把小数部分（23位）转化为整数（和23比较），然后判断是否溢出：如果和原符号相同则直接返回，否则如果结果为负（原来为正）则溢出返回越界指定值</strong>0x80000000u**，否则原来为负，结果为正，则需要返回其补码（相反数)。</p>
-<h1 id="求2的x次方"><a href="#求2的x次方" class="headerlink" title="求2的x次方"></a>求2的x次方</h1><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">unsigned</span> <span class="title function_">floatPower2</span><span class="params">(<span class="type">int</span> x)</span> &#123;</span><br><span class="line">      <span class="keyword">if</span>(x&gt;=<span class="number">0x80000000</span> &amp;&amp; x&lt;<span class="number">0xffffff6a</span>)</span><br><span class="line">          <span class="keyword">return</span> <span class="number">0</span>;            <span class="comment">//  表示的数小于32位float表示的最小值</span></span><br><span class="line">      <span class="keyword">else</span> <span class="keyword">if</span>(x&gt;=<span class="number">0xffffff6a</span> &amp;&amp; x&lt;=<span class="number">0xffffff81</span>)</span><br><span class="line">          <span class="keyword">return</span> <span class="number">1</span>&lt;&lt;(<span class="number">149</span>+x);   <span class="comment">//  表示的数是非规格化数</span></span><br><span class="line">      <span class="keyword">else</span> <span class="keyword">if</span>(x&gt;=<span class="number">0x00000080</span> &amp;&amp; x&lt;<span class="number">0x80000000</span>)</span><br><span class="line">          <span class="keyword">return</span> <span class="number">0x7f800000</span>;   <span class="comment">//  表示的数大于32位浮点数表示的最大值</span></span><br><span class="line">      <span class="keyword">else</span></span><br><span class="line">      &#123;   <span class="comment">//  规格化情况</span></span><br><span class="line">          <span class="type">unsigned</span> y=x+<span class="number">127</span>;</span><br><span class="line">          <span class="keyword">return</span> y&lt;&lt;<span class="number">23</span>;</span><br><span class="line">      &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>首先分析什么时候返回0，也就是当小于float最小表示的数的时候返回0。因为2^x必然是大于0的，float表达的最小数就是0x1，此时为2的-126次方乘以2的-23次方，等于2的-149次方，所以第一种情况就是x大于-149，则返回0。<br>  然后再分析什么时候返回正无穷，float表示的最大值是0x7f7fffff，即当x大于等于128（阶码全为1）的时候表示无穷，返回正无穷。<br>  然后分析，2^x能表示当float阶码为0，尾数只有一位为1的情况和阶码为0x1，尾数为0的情况即-149&lt;&#x3D;x&lt;&#x3D;-126。这个时候的float的表示应该是除了尾数有一位为1，其他位都是0。可以计算出尾数为1的那一位距离尾数最低位的位数m，然后将1&lt;&lt;m即可。这里的m应该用“23-（-x-126）”即m&#x3D;149+x。所以是1&lt;&lt;(149+x)。<br>  然后就是规格化数的一种情况，这种情况最简单，就是阶码位加一就可以了。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://2298233831.github.io/2022/01/06/CSAPP-DATAlab/" data-id="cl1j9e3q70002aovc8u6xh77w" data-title="CSAPP DATAlab" class="article-share-link">分享</a>
-      
-      
-      
-    </footer>
-  </div>
   
 </article>
 
-
-
-  
-    <article id="post-DLL注入" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2021/12/26/DLL%E6%B3%A8%E5%85%A5/" class="article-date">
-  <time class="dt-published" datetime="2021-12-26T10:47:54.000Z" itemprop="datePublished">2021-12-26</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/12/26/DLL%E6%B3%A8%E5%85%A5/">DLL注入</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="Hook钩子"><a href="#Hook钩子" class="headerlink" title="Hook钩子"></a>Hook钩子</h1><p>首先是一个比较简单的DLL，可以钩取用户从键盘上输入的信息。</p>
-<p>这一节的主要目的应该还是后面调试应用程序那一部分。</p>
-<p>那着重说一下调试部分：</p>
-<p>​    本次调试重点在于，能够钩取键盘输入的DLL是如何载入到程序当中的。按书中操作，在调试设置中勾选当DLL载入时暂停的选项。通过主函数体可知，主函数体中存在LoadLibrary这一能将DLL文件导入到应用程序中的关键函数。（该函数的作用：将指定的模块加载到调用进程的地址空间中。指定的模块可能会导致其他模块被加载。）</p>
-<h1 id="DLL注入"><a href="#DLL注入" class="headerlink" title="DLL注入"></a>DLL注入</h1><p>首先是注入的三个方法：</p>
-<ol>
-<li>创建远程线程</li>
-<li>使用注册表</li>
-<li>消息钩取</li>
-</ol>
-<h2 id="创建远程线程注入"><a href="#创建远程线程注入" class="headerlink" title="创建远程线程注入"></a>创建远程线程注入</h2><p>涉及关键应用InjectDLL.exe,该应用程序的源码在书中已有详细的逐行介绍，此处不再赘述。（这几章的关键都在实现对应功能的程序的代码，理解其代码是重点和难点，实际操作反而容易。）</p>
-<p>说一下句柄的意义—-句柄实际是一个指针，他指向一块包含具体信息数据的内存，可以当做索引 ，所以进程句柄是当你要访问该进程时取得的，使用完毕必须释放。</p>
-<p>总的过程就是：</p>
-<p>先将要注入的DLL路径写入内存（在此之前会先调用函数分配缓冲区，大小为DLL文件路径字符串的长度）—然后获得加载DLL函数的地址—在要被注入DLL的进程中创建远程线程—调用加载DLL文件的函数来加载（注入）DLL</p>
-<p>有一处值得注意：</p>
-<p><img src="/DLL%E6%B3%A8%E5%85%A5/image-20220105162354191.png" alt="image-20220105162354191"></p>
-<h2 id="使用注册表注入"><a href="#使用注册表注入" class="headerlink" title="使用注册表注入"></a>使用注册表注入</h2><p><img src="/DLL%E6%B3%A8%E5%85%A5/image-20220105162917205.png" alt="image-20220105162917205"></p>
-<p>修改AppInit_DLLs表项的值，将其值改为待注入DLL文件的路径（最后以该文件命结尾的完整路径），再将LoadAppInit_DLLs的值改为1.最后重启系统，及完成该修改。</p>
-<p>消息钩取暂不做讨论。</p>
-<h1 id="DLL卸载"><a href="#DLL卸载" class="headerlink" title="DLL卸载"></a>DLL卸载</h1><p>还是一样，先读懂相应程序的源代码。其实跟注入差不多的，只是是卸载罢了。亲自看一遍会有更深的印象。</p>
-<p>另外，PE文件直接导入的DLL文件是无法被卸载的，该方法仅适用于自己强行注入的DLL文件。 </p>
-<h1 id="通过修改PE加载DLL"><a href="#通过修改PE加载DLL" class="headerlink" title="通过修改PE加载DLL"></a>通过修改PE加载DLL</h1><p>先贴一篇关于<a target="_blank" rel="noopener" href="https://blog.csdn.net/wangshubo1989/article/details/53203718">HWND,HANDLE,HMODLE,HINSTANCE的区别</a>的博客，有个基础了解即可。</p>
-<p>在这一章停了一段时间，说一下我遇到的问题。</p>
-<p>首先就是IID整体大小，14为IID结构体大小，5为IID结构体个数</p>
-<p><img src="/DLL%E6%B3%A8%E5%85%A5/image-20220105182929724.png" alt="image-20220105182929724"><img src="/DLL%E6%B3%A8%E5%85%A5/image-20220105183003195.png" alt="image-20220105183003195"></p>
-<p>此处因为union结构体的缘故，故只有5个IID结构体。</p>
-<p>简单说一下union结构体：(union)共用体占用的内存应足够存储共用体中最大的成员。</p>
-<p>然后注意在创建新IDT时是设计了RVA to RAW的转换的，此处也就就不再赘述了。</p>
-<p>另外，移动到可用的空白区域即可，不是非要移动到RVA为8C80处。</p>
-<p><img src="/DLL%E6%B3%A8%E5%85%A5/image-20220105185215395.png" alt="image-20220105185215395"></p>
-<p>然后一个点，bit OR是位操作  (   |   这个符号)，虽然说结果跟异或(bit XOR)一样。4|8&#x3D;&#x3D;12&#x3D;&#x3D;4^8,4|0&#x3D;&#x3D;4&#x3D;&#x3D;4^0。</p>
-<h1 id="代码注入DLL"><a href="#代码注入DLL" class="headerlink" title="代码注入DLL"></a>代码注入DLL</h1><p>本章关键在于读懂InjectCode()函数的代码。<br>其实使用的关键API就那么几个</p>
-<p>OpenProcess()<br>VirtualAllocEx()相对的有VirtualFreeEx()<br>WriteProcessMemory()相对的有ReadProcessMemory()<br>CreateRemoteThread()</p>
-<p>多加理解，对着敲一遍也不错。</p>
-<h1 id="使用汇编语言编写注入代码"><a href="#使用汇编语言编写注入代码" class="headerlink" title="使用汇编语言编写注入代码"></a>使用汇编语言编写注入代码</h1><p>前面编写汇编语言部分可以看看，能大致理解就行（本章后面是由逐行解析的）</p>
-<p>关键在于后面的CodeInjection2.cpp的代码。</p>
-<p>其实看看代码内容，核心的API确实就上面那几个。不过是加入了要注入的代码的十六进制数据。</p>
-<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>纸上得来终觉浅，绝知此事要躬行。还是要多动手实践，这部分很注重实操。如果看不太懂，不妨试着结合网络写笔记，写的过程中逐一突破。</p>
-<p><img src="/DLL%E6%B3%A8%E5%85%A5/image-20220105220107191.png" alt="image-20220105220107191"></p>
-<p>最后再上一碗鸡汤，多是一件美事。</p>
-<p><img src="/DLL%E6%B3%A8%E5%85%A5/image-20220105220319771.png" alt="image-20220105220319771"></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://2298233831.github.io/2021/12/26/DLL%E6%B3%A8%E5%85%A5/" data-id="cl1j9e3q80004aovc9xuo6rq3" data-title="DLL注入" class="article-share-link">分享</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-逆向工程核心原理PE文件格式部分总结" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2021/12/24/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/" class="article-date">
-  <time class="dt-published" datetime="2021-12-24T02:27:24.000Z" itemprop="datePublished">2021-12-24</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/12/24/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/">逆向工程核心原理PE文件格式部分总结</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="UPX部分"><a href="#UPX部分" class="headerlink" title="UPX部分"></a>UPX部分</h1><p>众所周知，UPX是一种较为常见的压缩壳。（除压缩壳外，还有加密壳）</p>
-<p>先对壳做个基本的了解：壳的初始作用是保护软件，但后来发展的方向不一就出现了各种各样的壳，大致有压缩壳、加密壳、VM 壳的分类。压缩壳故名思意，主要作用是用于压缩方面，可以有效的减小软件的大小；加密壳，其主要作用是保护软件；VM 壳是一种很特殊的壳，它利用了虚拟机技术，可以很有效的保护指定地址代码，但很大的牺牲了效率，所以一般只在关键代码处使用。（其实就是隐藏函数的OEP–主要入口点）</p>
-<h2 id="压缩和压缩方式"><a href="#压缩和压缩方式" class="headerlink" title="压缩和压缩方式"></a>压缩和压缩方式</h2><ol>
-<li><p>压缩又分为无损压缩和有损压缩。</p>
-<p>两种压缩都是为了能节省一定的空间，只是无损不会使数据不完整(如各种压缩包)；而有损有时会通过压缩文件（数据）损失一定的信息，来提高压缩率（如mp3、mp4和jpg文件，这也是为什么前两个有音质和画质之分的根源所在吧）。</p>
-</li>
-<li><p>压缩方式大体分为两种：普通压缩和运行时压缩。一张图说明二者区别</p>
-</li>
-</ol>
-<p><img src="/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224113639435.png" alt="image-20211224113639435"></p>
-<p>运行时压缩（也叫PE压缩器）是针对PE文件的。PE文件内部含有解压缩代码，运行瞬间于内存中解压然后执行。</p>
-<p>上文说过，压缩可以节约内存空间，还有一点，能够隐藏PE文件的内部代码和资源。</p>
-<ol start="3">
-<li>既然压缩的目的是为了防止内部代码资源泄露，那么为了对PE文件提供更强的保护，PE保护器就存在了。</li>
-</ol>
-<p><img src="/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224114154673.png" alt="image-20211224114154673"></p>
-<ol start="4">
-<li>压缩文件和正常文件的PE结构的区别(感觉这一块书上已经将的很清楚了，就放原图吧。)<br> <img src="/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224114504354.png" alt="image-20211224114504354"></li>
-</ol>
-<p>  <img src="/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224120500126.png" alt="image-20211224120500126"></p>
-<p><img src="/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224120527464.png" alt="image-20211224120527464"></p>
-<h2 id="脱UPX壳"><a href="#脱UPX壳" class="headerlink" title="脱UPX壳"></a>脱UPX壳</h2><p>32位的就没啥说的了拖进OD找到PUSH ad和POP ad就行了或者能用ESP定律就更好</p>
-<p>64位就需要单步跟踪了，具体情况具体分析（推介X64dbg）。</p>
-<h1 id="关于重定位"><a href="#关于重定位" class="headerlink" title="关于重定位"></a>关于重定位</h1><p>前面浅谈PE文件的时候，简单说过重定位。</p>
-<p>这里再贴一下吧</p>
-<p><img src="/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224121526295.png" alt="image-20211224121526295"></p>
-<p>本次我们注重关注在重定位的原理。</p>
-<h2 id="PE文件重定位的原理"><a href="#PE文件重定位的原理" class="headerlink" title="PE文件重定位的原理"></a>PE文件重定位的原理</h2><p><img src="/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224122210645.png" alt="image-20211224122210645"></p>
-<p>查值通过基址重定位表完成，基址定位表地址如下：</p>
-<p><img src="/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224123046202.png" alt="image-20211224123046202"></p>
-<p>基址定位表是IMAGE_BASE_RELOCATION结构体数组</p>
-<p>该结构体含有两个成员：1. 基准地址virtualaddrss—RVA值（DWORD型）；2.SizeOfBlock—重定位块的大小（DWORD型）还有一个被注释的Typeoffset—表示该结构体下会出现WORD型的数组，该数组元素的值就是硬编码在程序中的地址偏移。</p>
-<p>此处易将VA和RVA混淆，贴一个。</p>
-<p><img src="/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224152619953.png" alt="image-20211224152619953"></p>
-<p>通过找到基址重定位表的RVA的值，我们在.reloc节区可以发现</p>
-<p><img src="/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224151613796.png" alt="image-20211224151613796"></p>
-<p><img src="/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224151859721.png" alt="image-20211224151859721"></p>
-<p>该重定位节区在2AE00开始，那根据其结构体成员可知，RVA的值位1000，重定位块的大小为150（都是小端序标识法。）</p>
-<p><img src="/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224152136922.png" alt="image-20211224152136922"></p>
-<p>我们已经知道Typeoffset（它的低12位是真正的基于VirtualSize位置的偏移。）是WORD型（两字节，16位）的，其由4位的Type和12位的offset合成的。</p>
-<p>比如第一个3420，其Type为3，offset为420。</p>
-<p>程序中硬编码地址的偏移用如下等式换算：</p>
-<p>VirtualSize+Offsize&#x3D;RVA（该等式中，VirtualSize和RVA易混淆，见上文所贴的图。）</p>
-<p><img src="/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224155355494.png" alt="image-20211224155355494"></p>
-<p>可以看到图片下方的ds里有IAT的地址VA，C010C4（不同设备运行，值不一样。）</p>
-<p>使用上述偏移值可以查找硬编码地址值，将该值减去ImageBase,再加上实际加载地址，即可得到VA，完成重定位。</p>
-<p>对于程序内硬编码的地址，PE装载器都做如上的处理，根据实际加载的内存地址修正后，将得到的值覆盖到同一位置上。对一个IMAGE_BASE_RELOCATION结构体的所有TypeOffset都做如上处理，且对RVA 1000～2000地址区域对应的所有硬编码地址都要进行PE重定位处理。如果TypeOffset值为0，说明一个IMAGE_BASE_RELOCATION结构体结束。至此，完成重定位流程。</p>
-<h1 id="删除重定位节区-reloc"><a href="#删除重定位节区-reloc" class="headerlink" title="删除重定位节区.reloc"></a>删除重定位节区.reloc</h1><p>由于该节区对程序正常运行没有影响，且删除后文件大小将缩减。故试着删除：</p>
-<p><img src="/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224161108321.png" alt="image-20211224161108321"></p>
-<p>可以看到，该节区区域为270-297，用00填充该区域；接着删除该节区，根据该节区的其起始偏移位置C000，一直到末尾，删除即可（因为.reloc为最后一个节区，所以直接到拉到文件末尾进行删除）；然后修改节区数，该文件原有5个节区，现在删了一个，将其改为4个，在文件头里面修改number os sections</p>
-<p><img src="/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224161900975.png" alt="image-20211224161900975"></p>
-<p>下图为已经更改过的<img src="/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224161923290.png" alt="image-20211224161923290"></p>
-<p>最后就是修改可选头的文件（映像）大小，size of image。</p>
-<p>同样的的方法</p>
-<p><img src="/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224162116107.png" alt="image-20211224162116107"></p>
-<p>该重定位节区的大小为E40</p>
-<p>这里还需要用到如下知识。（选自加密与解密第四版）</p>
-<p><img src="/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224162435728.png" alt="image-20211224162435728"></p>
-<p>在可选头中，我们找到了两种对齐值</p>
-<p><img src="/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224162757991.png" alt="image-20211224162757991"></p>
-<p>故，E40需对齐到1000.再用原本的size of image将其减去，则为10000，做出修改。</p>
-<p>至此，重定位节区算是删除完成了。</p>
-<h1 id="UPack-PE文件头分析及查找OEP"><a href="#UPack-PE文件头分析及查找OEP" class="headerlink" title="UPack PE文件头分析及查找OEP"></a>UPack PE文件头分析及查找OEP</h1><p>感觉没啥好说的，对着书看吧…</p>
-<h1 id="内嵌补丁-内嵌代码补丁"><a href="#内嵌补丁-内嵌代码补丁" class="headerlink" title="内嵌补丁(内嵌代码补丁)"></a>内嵌补丁(内嵌代码补丁)</h1><p>先上一张概念图:</p>
-<p><img src="/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224164128856.png" alt="image-20211224164128856"></p>
-<p>整个过程中,值得注意的点:</p>
-<ol>
-<li>程序运行的逻辑</li>
-<li>代码整体结构(借用一下书上的图)<img src="/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224164351755.png" alt="image-20211224164351755"></li>
-<li>补丁代码设置的位置<ul>
-<li>设置到文件的空白区域</li>
-<li>扩展最后节区后设置</li>
-<li>添加新节区后设置</li>
-</ul>
-</li>
-<li>异或操作和加密区域的查找—(涉及RVA to RAW的转化。)</li>
-</ol>
-<p>对该练习有疑惑可以参考一下文章：</p>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/SKI_12/article/details/80670045">内嵌补丁练习_Mi1k7ea-CSDN博客</a></p>
-<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>注重实操。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://2298233831.github.io/2021/12/24/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/" data-id="cl1j9e3qb0009aovcfkuygnsn" data-title="逆向工程核心原理PE文件格式部分总结" class="article-share-link">分享</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-normal题的两个安卓逆向题所学及其拓展" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2021/12/21/normal%E9%A2%98%E7%9A%84%E4%B8%A4%E4%B8%AA%E5%AE%89%E5%8D%93%E9%80%86%E5%90%91%E9%A2%98%E6%89%80%E5%AD%A6%E5%8F%8A%E5%85%B6%E6%8B%93%E5%B1%95/" class="article-date">
-  <time class="dt-published" datetime="2021-12-21T13:30:16.000Z" itemprop="datePublished">2021-12-21</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/12/21/normal%E9%A2%98%E7%9A%84%E4%B8%A4%E4%B8%AA%E5%AE%89%E5%8D%93%E9%80%86%E5%90%91%E9%A2%98%E6%89%80%E5%AD%A6%E5%8F%8A%E5%85%B6%E6%8B%93%E5%B1%95/">normal题的两个安卓逆向题所学及其拓展</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="C语言中函数调用约定"><a href="#C语言中函数调用约定" class="headerlink" title="C语言中函数调用约定"></a>C语言中函数调用约定</h1><p>首先定义如下函数 int function(int a, int,b)</p>
-<p>我们都知道，机器是无法识别代码的，它只认识0，1。我们只需要通过another_number &#x3D; function(a,b)就能够条用该函数。而在cpu中，计算机并不知道调用该函数需要传递几个、什么类型的参数。为了完成调用这一过程，计算机提供了“栈”这种数据结构来支持传递参数。</p>
-<p>（栈的结构等相关内容不再赘述）</p>
-<p>函数调用时，调用者依次把参数压栈，然后调用函数，函数被调用以后，在栈中取得数据，并进行计算。函数计算结束以后，或者调用者、或者函数本身修改栈，使栈恢复原装（初始状态）。</p>
-<p>此处面临两个问题：</p>
-<ul>
-<li><p>参数多于1个时，应该按什么顺序把参数压入栈？</p>
-</li>
-<li><p>函数调用后，由谁来把栈恢复原装？</p>
-</li>
-</ul>
-<p>在高级语言中，通过函数调用约定来说明这两个问题。常见的调用约定有：</p>
-<ul>
-<li>stdcall</li>
-<li>cdecl</li>
-<li>fastcall</li>
-<li>thiscall</li>
-<li>naked call</li>
-</ul>
-<h2 id="stdcall-很多时候被称为pascal调用约定"><a href="#stdcall-很多时候被称为pascal调用约定" class="headerlink" title="stdcall(很多时候被称为pascal调用约定)"></a>stdcall(很多时候被称为pascal调用约定)</h2><p>(Win32 <a target="_blank" rel="noopener" href="https://baike.baidu.com/item/API%E5%87%BD%E6%95%B0/9554990">API函数</a>绝大部分都是采用_stdcall调用约定的。<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/WINAPI/3256750">WINAPI</a>其实也只是_stdcall的一个别名而已。)</p>
-<p>stdcall的调用约定意味着：1. 参数从右向左压入栈；2. 函数自身修改栈；3. 函数名自动加”_”，后面紧跟一个”@”符号，其后紧跟着参数的尺寸（字节数）。</p>
-<p>在编译时，这个函数的名字按照如上所述，会被翻译成_function@8</p>
-<p>函数调用过程的汇编语言如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">push b      第二个参数入栈</span><br><span class="line">push a      第一个参数入栈</span><br><span class="line">call function  调用参数，注意此时自动把cs:eip入栈</span><br></pre></td></tr></table></figure>
-
-<p>而对于函数自身，则可以翻译为：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">push ebp     保存ebp寄存器，该寄存器将用来保存栈的栈顶指针，可以在函数退出时恢复</span><br><span class="line">mov ebp,esp  保存栈指针</span><br><span class="line">mov  eax,[ebp + 8H]  栈中ebp指向位置之前依次保存有ebp,cs:eip,a,b,ebp +8指向a</span><br><span class="line">add eax,[ebp + 0CH]  栈中ebp + 12处保存了b</span><br><span class="line">mov  esp,ebp         恢复esp</span><br><span class="line">pop ebp</span><br><span class="line">ret 8</span><br></pre></td></tr></table></figure>
-
-<p><img src="/normal%E9%A2%98%E7%9A%84%E4%B8%A4%E4%B8%AA%E5%AE%89%E5%8D%93%E9%80%86%E5%90%91%E9%A2%98%E6%89%80%E5%AD%A6%E5%8F%8A%E5%85%B6%E6%8B%93%E5%B1%95/%E6%A0%88%E5%B8%A7.jpg" alt="栈帧"></p>
-<p>（贴一张栈帧帮助理解）</p>
-<p>函数结束后，ret 8表示清理8个字节的栈，函数自己恢复了栈。</p>
-<h2 id="cdecl调用约定-C调用约定"><a href="#cdecl调用约定-C调用约定" class="headerlink" title="cdecl调用约定(C调用约定)"></a>cdecl调用约定(C调用约定)</h2><p>该约定为C语言默认的调用约定：<u>所有参数<strong>从右到左</strong>依次入栈，这些参数由调用者清除，称为手动清栈。</u>命名规则为在函数名前自动加“_”.</p>
-<p>被调用函数不会要求调用者传递多少参数，调用者传递过多或者过少的参数，甚至完全不同的参数都不会产生编译阶段的错误。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">int (__cdecl)function(int a,int b)   //加不加_cdecl都一样，只是有没有明确指出的区别</span><br></pre></td></tr></table></figure>
-
-<p>因为是手动清栈，所以在最后的ret便不会清理，故无字节数。</p>
-<p>函数自身汇编语言如下,</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">push ebp     保存ebp寄存器，该寄存器将用来保存栈的栈顶指针，可以在函数退出时恢复</span><br><span class="line">mov ebp,esp  保存栈指针</span><br><span class="line">mov  eax,[ebp + 8H]  栈中ebp指向位置之前依次保存有ebp,cs:eip,a,b,ebp +8指向a</span><br><span class="line">add eax,[ebp + 0CH]  栈中ebp + 12处保存了b</span><br><span class="line">mov  esp,ebp         恢复esp</span><br><span class="line">pop ebp</span><br><span class="line">ret         注意，这里没有修改栈</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="fastcall"><a href="#fastcall" class="headerlink" title="fastcall"></a>fastcall</h2><p>改调用与stdcall类似：</p>
-<ul>
-<li>函数的第一个和第二个DWORD参数（或者尺寸更小的）通过ecx和edx传递，其他参数通过从右向左的顺序压栈</li>
-<li>被调用函数清理栈</li>
-<li>函数名修改规则同stdcall</li>
-</ul>
-<h2 id="thiscall"><a href="#thiscall" class="headerlink" title="thiscall"></a>thiscall</h2><p>thiscall是唯一一个不能明确指明的函数修饰，因为thiscall不是关键字。它是C++类成员函数缺省的调用约定。由于成员函数调用还有一个this指针，因此必须特殊处理，thiscall意味着：</p>
-<ul>
-<li>参数从右向左入栈</li>
-<li>如果参数个数确定，this指针通过ecx传递给被调用者；如果参数个数不确定，this指针在所有参数压栈后被压入栈。</li>
-<li>对参数个数不定的，调用者清理栈，否则函数自己清理栈</li>
-</ul>
-<p><strong>(由于此调用约定仅适用于 C++，因此它没有 C 名称修饰方案。)</strong></p>
-<h2 id="vectorcall"><a href="#vectorcall" class="headerlink" title="vectorcall"></a>vectorcall</h2><p>vectorcall 继承于fastcall 但对于fastcall中的整数仍然按照fastcall规则传递 而浮点以及向量将通过寄存器传递</p>
-<h2 id="nakedcall"><a href="#nakedcall" class="headerlink" title="nakedcall"></a>nakedcall</h2><p>编译器不会给这种函数增加初始化和清理代码，更特殊的是，你不能用return返回返回值，只能用插入汇编返回结果。这一般用于实模式驱动程序设计。</p>
-<h2 id="pascal"><a href="#pascal" class="headerlink" title="__pascal"></a>__pascal</h2><p>唯一一个从左到右入栈的约定</p>
-<h2 id="函数调用约定导致的常见问题"><a href="#函数调用约定导致的常见问题" class="headerlink" title="函数调用约定导致的常见问题"></a>函数调用约定导致的常见问题</h2><p>如果定义的约定和使用的约定不一致，则将导致栈被破坏，导致严重问题，下面是两种常见的问题：</p>
-<ol>
-<li>函数原型声明和函数体定义不一致</li>
-<li>DLL导入函数时声明了不同的函数约定（所以不能口是心非，会出大问题。）</li>
-</ol>
-<p>贴一个微软的对此的解释<a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/cpp/cpp/argument-passing-and-naming-conventions?view=msvc-170">函数调用约定</a>。</p>
-<p>再贴一篇关于从汇编语言角度对参数传递的理解的博客<a target="_blank" rel="noopener" href="https://blog.csdn.net/magic_world_wow/article/details/80582144"> 从汇编角度看函数参数传递—汇编函数参数</a></p>
-<h1 id="Java相关"><a href="#Java相关" class="headerlink" title="Java相关"></a>Java相关</h1><h2 id="native关键字"><a href="#native关键字" class="headerlink" title="native关键字"></a>native关键字</h2><p>native 用来修饰方法，用 native 声明的方法表示告知 JVM 调用，该方法在外部定义，我们可以用任何语言去实现它。 简单地讲，一个native方法就是一个 Java 调用非 Java 代码的接口。</p>
-<p>native 语法：</p>
-<p>　　①、修饰方法的位置必须在返回类型之前，和其余的方法控制符前后关系不受限制。</p>
-<p>　　②、不能用 abstract 修饰，也没有方法体，也没有左右大括号。</p>
-<p>　　③、返回值可以是任意类型</p>
-<h2 id="System-LoadLibrary-加载图书馆（bushi"><a href="#System-LoadLibrary-加载图书馆（bushi" class="headerlink" title="System.LoadLibrary(加载图书馆（bushi )"></a>System.LoadLibrary(加载图书馆（bushi )</h2><p>该函数的作用：将指定的模块加载到调用进程的地址空间中。指定的模块可能会导致其他模块被加载。对于其他加载选项，请使用 LoadLibraryEx函数。Ex(extra-额外的)—-总的来说，装载库文件。与之<strong>类似</strong>的还有System.load</p>
-<p>下面对这两个相似的函数做个解析：</p>
-<ol>
-<li>它们都可以用来装载库文件，不论是JNI库文件还是非JNI库文件。在任何本地方法被调用之前必须先用这个两个方法之一把相应的JNI库文件装载。</li>
-<li>System.load 参数为库文件的绝对路径，可以是任意路径。<br>例如你可以这样载入一个windows平台下JNI库文件：<br>System.load(“C:&#x2F;&#x2F;Documents and Settings&#x2F;&#x2F;TestJNI.dll”);。</li>
-<li>System.loadLibrary 参数为库文件名，不包含库文件的扩展名。<br>例如你可以这样载入一个windows平台下JNI库文件<br>System. loadLibrary (“TestJNI”);</li>
-</ol>
-<h2 id="Biginteger"><a href="#Biginteger" class="headerlink" title="Biginteger"></a>Biginteger</h2><p>在Java中，由CPU原生提供的整型最大范围是64位<code>long</code>型整数。使用<code>long</code>型整数可以直接通过CPU指令进行计算，速度非常快。</p>
-<p>如果我们使用的整数范围超过了<code>long</code>型怎么办？这个时候，就只能用软件来模拟一个大整数。<code>java.math.BigInteger</code>就是用来表示任意大小的整数。<code>BigInteger</code>内部用一个<code>int[]</code>数组来模拟一个非常大的整数</p>
-<p>此处仅作简单介绍，详细了解参考如下的教程网站<a target="_blank" rel="noopener" href="https://www.liaoxuefeng.com/wiki/1252599548343744/1279767986831393">Bitinteger</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://2298233831.github.io/2021/12/21/normal%E9%A2%98%E7%9A%84%E4%B8%A4%E4%B8%AA%E5%AE%89%E5%8D%93%E9%80%86%E5%90%91%E9%A2%98%E6%89%80%E5%AD%A6%E5%8F%8A%E5%85%B6%E6%8B%93%E5%B1%95/" data-id="cl1j9e3q90006aovc3bs58wj4" data-title="normal题的两个安卓逆向题所学及其拓展" class="article-share-link">分享</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Weekly-Study1" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2021/12/18/Weekly-Study1/" class="article-date">
-  <time class="dt-published" datetime="2021-12-18T11:25:04.000Z" itemprop="datePublished">2021-12-18</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/12/18/Weekly-Study1/">Weekly Study</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="Weekly-Study"><a href="#Weekly-Study" class="headerlink" title="Weekly Study"></a>Weekly Study</h1><p>（本周由于“积极”备考，所以书看的比较少，稍微写写做题中遇到的一些问题吧。）</p>
-<ol>
-<li><p>迷宫题</p>
-<p>由于之前在攻防世界练过一道迷宫题，simple的8和14也没有停顿太久</p>
-<p>这类题的关键就在与搞清“怎么走”—迷宫图的正确画出是关键，其次是按钮控制的方向。这些都需要结合具体函数进行判断。</p>
-<p>以simple8为例</p>
-<p><img src="/Weekly-Study1/image-20211219174148388.png" alt="image-20211219174148388"></p>
-</li>
-</ol>
-<p>可以猜测，本题迷宫又1152个字符构成，且可组成每行60字符，共19行的迷宫</p>
-<p>故先打印处整体的迷宫(实际是1140个字符)</p>
-<p><img src="/Weekly-Study1/image-20211219180035314.png" alt="image-20211219180035314"></p>
-<p><img src="/Weekly-Study1/image-20211219181223256.png" alt="image-20211219181223256"></p>
-<p>规则如上代码，s为起点，t为终点，移动方式为经典WASD，按图走出即可。</p>
-<p>总结：画图和移动规则是关键。</p>
-<ol start="2">
-<li><p>关于反调试</p>
-<p>对反调试稍微看了一下，主要参考以下文章<a target="_blank" rel="noopener" href="https://www.freebuf.com/articles/others-articles/181085.html">Windows下反反调试技术汇总 - FreeBuf网络安全行业门户</a>，此次不做总结（还没看完，暂时停留在静态反调试技术。）</p>
-</li>
-<li><p>然后就是simple7的爆破法，(头一次用，当时还没看明白学长们的range(33(31开始也可以),127)是啥意思，其实就是ASCII码表对应的可见字符。)</p>
-</li>
-<li><p>最后就是继续学了一点汇编，其余的时间都在复习四级了。</p>
-</li>
-</ol>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://2298233831.github.io/2021/12/18/Weekly-Study1/" data-id="cl1j9e3q50001aovchopc8kml" data-title="Weekly Study" class="article-share-link">分享</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-
-
-  <nav id="page-nav">
-    
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">下一页 &raquo;</a>
-  </nav>
 
 </section>
         

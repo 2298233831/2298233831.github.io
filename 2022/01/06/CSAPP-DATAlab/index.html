@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>CSAPP DATAlab | The Blog of O1d_Yu4n</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="bitXor(x,y)用‘&amp;’和‘^’完成异或操作在此之前，我们先了解一下这三个运算符的运算规则 设A&#x3D;60，B&#x3D;13； 则A &#x3D; 0011 1100；B &#x3D; 0000 1101。 12345“与”--‘&amp;’：0&amp;0&#x3D;0;   0&amp;1&#x3D;0;    1&amp;0&#x3D;0;     1&amp;1&#x3D;1;A&amp;B&#x3D;0000 11">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CSAPP DATAlab">
+<meta property="og:url" content="http://2298233831.github.io/2022/01/06/CSAPP-DATAlab/index.html">
+<meta property="og:site_name" content="The Blog of O1d_Yu4n">
+<meta property="og:description" content="bitXor(x,y)用‘&amp;’和‘^’完成异或操作在此之前，我们先了解一下这三个运算符的运算规则 设A&#x3D;60，B&#x3D;13； 则A &#x3D; 0011 1100；B &#x3D; 0000 1101。 12345“与”--‘&amp;’：0&amp;0&#x3D;0;   0&amp;1&#x3D;0;    1&amp;0&#x3D;0;     1&amp;1&#x3D;1;A&amp;B&#x3D;0000 11">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://2298233831.github.io/CSAPP-DATAlab/image-20220204145219988.png">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=exp%3C0">
+<meta property="article:published_time" content="2022-01-06T08:02:49.000Z">
+<meta property="article:modified_time" content="2022-02-08T07:07:53.040Z">
+<meta property="article:author" content="O1d_Yu4n">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://2298233831.github.io/CSAPP-DATAlab/image-20220204145219988.png">
+  
+    <link rel="alternate" href="/atom.xml" title="The Blog of O1d_Yu4n" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">The Blog of O1d_Yu4n</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS 订阅"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://2298233831.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-CSAPP-DATAlab" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2022/01/06/CSAPP-DATAlab/" class="article-date">
+  <time class="dt-published" datetime="2022-01-06T08:02:49.000Z" itemprop="datePublished">2022-01-06</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      CSAPP DATAlab
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="bitXor-x-y-用‘-amp-’和‘-’完成异或操作"><a href="#bitXor-x-y-用‘-amp-’和‘-’完成异或操作" class="headerlink" title="bitXor(x,y)用‘&amp;’和‘^’完成异或操作"></a>bitXor(x,y)用‘&amp;’和‘^’完成异或操作</h1><p>在此之前，我们先了解一下这三个运算符的运算规则</p>
+<p>设A&#x3D;60，B&#x3D;13；</p>
+<p>则A &#x3D; 0011 1100；B &#x3D; 0000 1101。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">“与”--‘&amp;’：</span><br><span class="line">0&amp;0=0;   </span><br><span class="line">0&amp;1=0;    </span><br><span class="line">1&amp;0=0;     </span><br><span class="line">1&amp;1=1;A&amp;B=0000 1100</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">“取反”--‘~’：</span><br><span class="line">对形式取反</span><br><span class="line">~A = 1100 0011 = -61。</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">“异或”--‘^’：</span><br><span class="line">0^0=0;   </span><br><span class="line">0^1=1;   </span><br><span class="line">1^0=1;  </span><br><span class="line">1^1=0;</span><br><span class="line">(A ^ B) 将得到 49，即为 0011 0001</span><br></pre></td></tr></table></figure>
+
+<p>可以看到，&amp;和^的区别在于，除两数同时为0时，结果相反。那么我们分而治之，设置两种情况，以上面的A,B为例。</p>
+<p>第一种–只考虑不是两个0进行运算的时候：两数直接进行&amp;运算然后取反，得1111 0011；</p>
+<p>第二种–只考虑是两个0进行运算的时候：这次我们的目的是在其他数（即上面那个数从左往右的第3、4、5、6，8位）经过运算且发生变化后保持0和0进行运算后结果依然为0，才能让两个最终运算结果在最后&amp;时得到与^相同的数。这里绕个弯，先将A,B各自取反，进行&amp;运算后，再将结果取反。可以发现达到了开始时的目的</p>
+<p>最后，将两情况的结果进行与运算，得到答案。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">bitXor</span><span class="params">(<span class="type">int</span> x, <span class="type">int</span> y)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">return</span> ~(~x&amp;~y)&amp;~(x&amp;y);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>借用大佬的思路如下：（比我清晰很多，一语即中。）</p>
+<p>所谓异或就是当参与运算的两个二进制数不同时结果才为1，其他情况为0。<code>C</code> 语言中的位操作对基本类型变量进行运算就是对类型中的每一位进行位操作。所以结果可以使用“非”和“与”计算<strong>不是同时为0情况和不是同时为1的情况进行位与</strong>，即<code>~(~x&amp;~y)&amp;~(x&amp;y)</code> 。</p>
+<h1 id="tmin-最小二进制补码整数型"><a href="#tmin-最小二进制补码整数型" class="headerlink" title="tmin()最小二进制补码整数型"></a>tmin()最小二进制补码整数型</h1><p>因为整数int型位32位（一般情况下，此处不讨论16位），而最小的补码只需要是第一位为1（1开头表示负数），后面的全是0即可，所以只需要将1左移31位即可（因为机器从0开始读。）</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">tmin</span><span class="params">(<span class="type">void</span>)</span> </span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="number">1</span>&lt;&lt;<span class="number">31</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="isTmax-x-判断当X为最大整型二进制数为真，否则为假"><a href="#isTmax-x-判断当X为最大整型二进制数为真，否则为假" class="headerlink" title="isTmax(x)判断当X为最大整型二进制数为真，否则为假"></a>isTmax(x)判断当X为最大整型二进制数为真，否则为假</h1><p>此处先说明一下最大二进制整数，其实是0x7fffffff(二进制整数首位是 0，其余都是1，f代表1111，32位)</p>
+<p>F的二进制码为 1111<br>7的二进制码为 0111；0xffffffff为-1；但最小值是0x80000000</p>
+<p>上文说了开头为1表示是负数，为0则为正数。</p>
+<p>对最大整型数有以下特征：</p>
+<p>Tmax+1 &#x3D; Tmin&#x3D;~Tmax</p>
+<p>故代码需要让唯一情况为0x7fffffff,并排除0xffffffff。</p>
+<p>0x7fffffff+1&#x3D;0x80000000</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">isTmax</span><span class="params">(<span class="type">int</span> x)</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">return</span> !(x+(x+<span class="number">1</span>))|!(x+<span class="number">1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+<h1 id="判断所有奇数位是否均为1"><a href="#判断所有奇数位是否均为1" class="headerlink" title="判断所有奇数位是否均为1"></a>判断所有奇数位是否均为1</h1><p>这需要用到0xAAAAAAAA来进行判断。</p>
+<p><img src="/CSAPP-DATAlab/image-20220204145219988.png" alt="image-20220204145219988"></p>
+<p>先构造该数</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">allOddBits</span><span class="params">(<span class="type">int</span> x)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> i=<span class="number">0xAA</span>+(<span class="number">0xAA</span>&lt;&lt;<span class="number">8</span>);#左移<span class="number">8</span>位，构造<span class="number">0xAAAA</span></span><br><span class="line">    i += i&lt;&lt;<span class="number">16</span>;#构造<span class="number">0xAAAAAAAA</span></span><br><span class="line">    <span class="keyword">return</span> !((i&amp;x)^i);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+<h1 id="不用-，求-x的值"><a href="#不用-，求-x的值" class="headerlink" title="不用-，求-x的值"></a>不用-，求-x的值</h1><p>这个很简单</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">negate</span><span class="params">(<span class="type">int</span> x)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">return</span> ~x+<span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="判断是否是0-9的ASCII码值"><a href="#判断是否是0-9的ASCII码值" class="headerlink" title="判断是否是0~9的ASCII码值"></a>判断是否是0~9的ASCII码值</h1><p>首先确定范围是0x30~0x39。</p>
+<p>从二进制原码上下手会比较好理解。0x30~0x39，只用考虑低四位。(9为0x1001)</p>
+<p>但还有一个问题0x30<del>0x39的第5</del>8位为0011.</p>
+<p>所以还得先判断第5~8位是否为0011，再来判断第四位。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">isAsciiiDigit</span><span class="params">(<span class="type">int</span> x)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> z=<span class="number">0xf</span>,y=<span class="number">3</span>,p=<span class="number">6</span>;</span><br><span class="line">    <span class="keyword">return</span> !(((x&gt;&gt;<span class="number">4</span>)^y)|(x&amp;z)+p)&gt;&gt;<span class="number">4</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>((x&gt;&gt;4)^y)用于判断第5<del>8位是否为0011，先将5</del>8位变为1~4位，再异或3，返回0则对。</p>
+<p>(x&amp;z)+p)&gt;&gt;4用于判断1~4位：首先我们知道，十六进制数位0123456789ABCDEF，以9来考虑，加上6后是有进位的，故上限可加6然后再左移看进位与否判断，下限自然不用了，毕竟开头的是0不是1就行。</p>
+<h1 id="使用位级运算实现C语言中的-x-y-z三目运算符。"><a href="#使用位级运算实现C语言中的-x-y-z三目运算符。" class="headerlink" title="使用位级运算实现C语言中的 x?y:z三目运算符。"></a>使用位级运算实现C语言中的 x?y:z三目运算符。</h1><p>首先了解一下何为<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E4%B8%89%E7%9B%AE%E8%BF%90%E7%AE%97%E7%AC%A6/6434591">三目运算符</a></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">conditional</span><span class="params">(<span class="type">int</span> x,<span class="type">int</span> y,<span class="type">int</span> z)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">return</span> ((x&gt;&gt;<span class="number">31</span>|((~x+<span class="number">1</span>)&gt;&gt;<span class="number">31</span>))&amp;y)|(~x&gt;&gt;<span class="number">31</span>|(~x+<span class="number">1</span>)&gt;&gt;<span class="number">31</span>))&amp;z;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>有一种特殊情况：当条件为假的时候，而当结果1为零时，返回结果2。</p>
+<p>故总共有三种情况。</p>
+<p>条件用(x&gt;&gt;31|((~x+1)&gt;&gt;31))判断。后续根据相应结果做最后运算。</p>
+<h1 id="使用位级运算符实现-lt-x3D"><a href="#使用位级运算符实现-lt-x3D" class="headerlink" title="使用位级运算符实现&lt;&#x3D;"></a>使用位级运算符实现&lt;&#x3D;</h1><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">isLessOrEqual</span><span class="params">(<span class="type">int</span> x,<span class="type">int</span> y)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">return</span> !!((x&gt;&gt;<span class="number">31</span>)&amp;(~y&gt;&gt;<span class="number">31</span>))|(!!((x+(~y+<span class="number">1</span>))&gt;&gt;<span class="number">31</span>)&amp;~((~x&gt;&gt;<span class="number">31</span>)&amp;y&gt;&gt;<span class="number">31</span>))|!(x+(~y+<span class="number">1</span>));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我们并不知道两个数正负，所以先对正负，也就是符号位进行判断（四种情况）：都为正或负，一正一负。</p>
+<p>那么挨个实现即可，难度不大。(&gt;&gt;31是为了对符号位进行比较。)</p>
+<p>(一个小技巧：!!x可以把非零数变为1，0变为0。)</p>
+<h1 id="计算-x却不用-符号"><a href="#计算-x却不用-符号" class="headerlink" title="计算!x却不用!符号"></a>计算!x却不用!符号</h1><p>！：称为逻辑非运算符。用来逆转操作数的逻辑状态。如果条件为真则逻辑非运算符将使其为假。</p>
+<p>简而言之，使结果呈相反状态。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">logicalNeg</span><span class="params">(<span class="type">int</span> x)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">return</span> ~(x&gt;&gt;<span class="number">31</span>)&amp;(((~x+<span class="number">1</span>)&gt;&gt;<span class="number">31</span>)+<span class="number">1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>可以从符号位上下手，布尔代数只有0和1。符号位也是只有0和1。</p>
+<p>将其本身的符号位与上其相反数的符号位加1（若ｘ为0，则加1后为0反之为1.）最后取反。</p>
+<h1 id="计算一个数用补码表示最少需要几位"><a href="#计算一个数用补码表示最少需要几位" class="headerlink" title="计算一个数用补码表示最少需要几位"></a>计算一个数用补码表示最少需要几位</h1><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">howManyBits</span><span class="params">(<span class="type">int</span> x)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> b16,b8,b4,b2,b1,b0;</span><br><span class="line">    <span class="type">int</span> sign=x&gt;&gt;<span class="number">31</span>,ret=<span class="number">0</span>;</span><br><span class="line">    x = (sign&amp;~x)|(~sign&amp;x);</span><br><span class="line">    ret=<span class="number">1</span>+!!x;</span><br><span class="line">    b16=!!(x&gt;&gt;<span class="number">16</span>)&lt;&lt;<span class="number">4</span>;</span><br><span class="line">    x=x&gt;&gt;<span class="number">16</span>;</span><br><span class="line">    b8=!!(x&gt;&gt;<span class="number">8</span>)&lt;&lt;<span class="number">3</span>;</span><br><span class="line">    x=x&gt;&gt;b8;</span><br><span class="line">    b4=!!(x&gt;&gt;<span class="number">4</span>)&lt;&lt;<span class="number">2</span>;</span><br><span class="line">    x=x&gt;&gt;b4;</span><br><span class="line">    b2=!!(x&gt;&gt;<span class="number">2</span>)&lt;&lt;<span class="number">1</span>;</span><br><span class="line">    x=x&gt;&gt;<span class="number">2</span>;</span><br><span class="line">    b1=!!(x&gt;&gt;<span class="number">1</span>);</span><br><span class="line">    <span class="keyword">return</span> b16+b8+b4+b2+b1+ret;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这个题就像一排座位，判断上面有多少是坐了人的。（但是不能直接看见）</p>
+<p>所以先将整体一分为二，拆为高低16位，先判断高16位的值是否为0，不是的话将高16位提取出，再一分为二，高8位，低8位。同样的方法判断；若高16位为0，则采用如上相同方法判断。</p>
+<p>当然，还得先看符号位是啥，前面说过，!!x可以将非零数变为1，0变为0。</p>
+<h1 id="求浮点数-u-f-2"><a href="#求浮点数-u-f-2" class="headerlink" title="求浮点数(u)f*2"></a>求浮点数(u)f*2</h1><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">unsigned</span> <span class="title function_">floatScale2</span><span class="params">(<span class="type">unsigned</span> uf)</span> &#123;</span><br><span class="line">    <span class="keyword">if</span>((uf&gt;=<span class="number">0x7f800000</span> &amp;&amp; uf&lt;=<span class="number">0x7fffffff</span>)||(uf&gt;=<span class="number">0xff800000</span> &amp;&amp; uf&lt;=<span class="number">0xffffffff</span>) || uf==<span class="number">0</span> || uf==<span class="number">0x80000000</span>)</span><br><span class="line">        <span class="keyword">return</span> uf;  <span class="comment">//当uf=NAN或无穷或0的时候，返回它本身</span></span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span>(uf&gt;<span class="number">0x80000000</span> &amp;&amp; uf&lt;=<span class="number">0x807fffff</span>)</span><br><span class="line">        <span class="keyword">return</span> ((uf&lt;&lt;<span class="number">1</span>)+<span class="number">0x80000000</span>);  <span class="comment">// uf为负的非规格化数  </span></span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span>(uf&gt;<span class="number">0</span> &amp;&amp; uf&lt;=<span class="number">0x007fffff</span>)</span><br><span class="line">        <span class="keyword">return</span> uf&lt;&lt;<span class="number">1</span>;  <span class="comment">//uf为正的非规格化数</span></span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        <span class="keyword">return</span> (uf+(<span class="number">1</span>&lt;&lt;<span class="number">23</span>));  <span class="comment">// uf为规格化数</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>关于浮点数，有必要知道阶<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E9%98%B6%E7%A0%81/7798285">阶码</a>,<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E8%A7%84%E6%A0%BC%E5%8C%96/6971871">规格化</a></p>
+<p>还是得先排除NaN，无穷大&#x2F;小，0这些情况。所以当浮点数为无穷，0或NAN时，返回本身，阶码全为1</p>
+<p>再就是规格化数：阶码加一和非规格化数（非规格化数有正负之分，且阶码全为0：正数左移一位，负数补最高位一个1）。</p>
+<h1 id="将浮点型转换为整型"><a href="#将浮点型转换为整型" class="headerlink" title="将浮点型转换为整型"></a>将浮点型转换为整型</h1><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">floatFloat2Int</span><span class="params">(<span class="type">unsigned</span> uf)</span> &#123;</span><br><span class="line">  <span class="type">int</span> s_    = uf&gt;&gt;<span class="number">31</span>;</span><br><span class="line">  <span class="type">int</span> exp_  = ((uf&amp;<span class="number">0x7f800000</span>)&gt;&gt;<span class="number">23</span>)<span class="number">-127</span>;</span><br><span class="line">  <span class="type">int</span> frac_ = (uf&amp;<span class="number">0x007fffff</span>)|<span class="number">0x00800000</span>;</span><br><span class="line">  <span class="keyword">if</span>(!(uf&amp;<span class="number">0x7fffffff</span>)) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span>(exp_ &gt; <span class="number">31</span>) <span class="keyword">return</span> <span class="number">0x80000000</span>;</span><br><span class="line">  <span class="keyword">if</span>(exp_ &lt; <span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span>(exp_ &gt; <span class="number">23</span>) frac_ &lt;&lt;= (exp_<span class="number">-23</span>);</span><br><span class="line">  <span class="keyword">else</span> frac_ &gt;&gt;= (<span class="number">23</span>-exp_);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span>(!((frac_&gt;&gt;<span class="number">31</span>)^s_)) <span class="keyword">return</span> frac_;</span><br><span class="line">  <span class="keyword">else</span> <span class="keyword">if</span>(frac_&gt;&gt;<span class="number">31</span>) <span class="keyword">return</span> <span class="number">0x80000000</span>;</span><br><span class="line">  <span class="keyword">else</span> <span class="keyword">return</span> ~frac_+<span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>首先考虑特殊情况：如果原浮点值为0则返回0；如果真实指数大于31（frac部分是大于等于1的，1&lt;&lt;31位会覆盖符号位），返回规定的溢出值<strong>0x80000000u**；如果 <img src="https://www.zhihu.com/equation?tex=exp%3C0" alt="[公式]"> （1右移x位,x&gt;0，结果为0）则返回0。剩下的情况：首先把小数部分（23位）转化为整数（和23比较），然后判断是否溢出：如果和原符号相同则直接返回，否则如果结果为负（原来为正）则溢出返回越界指定值</strong>0x80000000u**，否则原来为负，结果为正，则需要返回其补码（相反数)。</p>
+<h1 id="求2的x次方"><a href="#求2的x次方" class="headerlink" title="求2的x次方"></a>求2的x次方</h1><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">unsigned</span> <span class="title function_">floatPower2</span><span class="params">(<span class="type">int</span> x)</span> &#123;</span><br><span class="line">      <span class="keyword">if</span>(x&gt;=<span class="number">0x80000000</span> &amp;&amp; x&lt;<span class="number">0xffffff6a</span>)</span><br><span class="line">          <span class="keyword">return</span> <span class="number">0</span>;            <span class="comment">//  表示的数小于32位float表示的最小值</span></span><br><span class="line">      <span class="keyword">else</span> <span class="keyword">if</span>(x&gt;=<span class="number">0xffffff6a</span> &amp;&amp; x&lt;=<span class="number">0xffffff81</span>)</span><br><span class="line">          <span class="keyword">return</span> <span class="number">1</span>&lt;&lt;(<span class="number">149</span>+x);   <span class="comment">//  表示的数是非规格化数</span></span><br><span class="line">      <span class="keyword">else</span> <span class="keyword">if</span>(x&gt;=<span class="number">0x00000080</span> &amp;&amp; x&lt;<span class="number">0x80000000</span>)</span><br><span class="line">          <span class="keyword">return</span> <span class="number">0x7f800000</span>;   <span class="comment">//  表示的数大于32位浮点数表示的最大值</span></span><br><span class="line">      <span class="keyword">else</span></span><br><span class="line">      &#123;   <span class="comment">//  规格化情况</span></span><br><span class="line">          <span class="type">unsigned</span> y=x+<span class="number">127</span>;</span><br><span class="line">          <span class="keyword">return</span> y&lt;&lt;<span class="number">23</span>;</span><br><span class="line">      &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>首先分析什么时候返回0，也就是当小于float最小表示的数的时候返回0。因为2^x必然是大于0的，float表达的最小数就是0x1，此时为2的-126次方乘以2的-23次方，等于2的-149次方，所以第一种情况就是x大于-149，则返回0。<br>  然后再分析什么时候返回正无穷，float表示的最大值是0x7f7fffff，即当x大于等于128（阶码全为1）的时候表示无穷，返回正无穷。<br>  然后分析，2^x能表示当float阶码为0，尾数只有一位为1的情况和阶码为0x1，尾数为0的情况即-149&lt;&#x3D;x&lt;&#x3D;-126。这个时候的float的表示应该是除了尾数有一位为1，其他位都是0。可以计算出尾数为1的那一位距离尾数最低位的位数m，然后将1&lt;&lt;m即可。这里的m应该用“23-（-x-126）”即m&#x3D;149+x。所以是1&lt;&lt;(149+x)。<br>  然后就是规格化数的一种情况，这种情况最简单，就是阶码位加一就可以了。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://2298233831.github.io/2022/01/06/CSAPP-DATAlab/" data-id="cl1j9e3q70002aovc8u6xh77w" data-title="CSAPP DATAlab" class="article-share-link">分享</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/02/28/Boomlab/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前一篇</strong>
+      <div class="article-nav-title">
+        
+          Boomlab
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2021/12/26/DLL%E6%B3%A8%E5%85%A5/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">后一篇</strong>
+      <div class="article-nav-title">DLL注入</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/04/">四月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/03/">三月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/02/">二月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/01/">一月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/12/">十二月 2021</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2022/04/03/test/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2022/04/03/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2022/03/25/IL2CPP%E5%AD%A6%E4%B9%A0/">IL2CPP学习</a>
+          </li>
+        
+          <li>
+            <a href="/2022/03/08/angrLAB%E7%AC%94%E8%AE%B0/">angrLAB笔记</a>
+          </li>
+        
+          <li>
+            <a href="/2022/02/28/Boomlab/">Boomlab</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2022 O1d_Yu4n<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
