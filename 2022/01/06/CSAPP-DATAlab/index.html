@@ -13,13 +13,13 @@
 <meta property="og:site_name" content="The Blog of O1d_Yu4n">
 <meta property="og:description" content="bitXor(x,y)用‘&amp;’和‘^’完成异或操作在此之前，我们先了解一下这三个运算符的运算规则 设A&#x3D;60，B&#x3D;13； 则A &#x3D; 0011 1100；B &#x3D; 0000 1101。 12345“与”--‘&amp;’：0&amp;0&#x3D;0;   0&amp;1&#x3D;0;    1&amp;0&#x3D;0;     1&amp;1&#x3D;1;A&amp;B&#x3D;0000 11">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://2298233831.github.io/CSAPP-DATAlab/image-20220204145219988.png">
+<meta property="og:image" content="http://2298233831.github.io/2022/01/06/CSAPP-DATAlab/image-20220204145219988.png">
 <meta property="og:image" content="https://www.zhihu.com/equation?tex=exp%3C0">
 <meta property="article:published_time" content="2022-01-06T08:02:49.000Z">
 <meta property="article:modified_time" content="2022-02-08T07:07:53.040Z">
 <meta property="article:author" content="O1d_Yu4n">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://2298233831.github.io/CSAPP-DATAlab/image-20220204145219988.png">
+<meta name="twitter:image" content="http://2298233831.github.io/2022/01/06/CSAPP-DATAlab/image-20220204145219988.png">
   
     <link rel="alternate" href="/atom.xml" title="The Blog of O1d_Yu4n" type="application/atom+xml">
   
@@ -134,7 +134,7 @@
 
 
 <h1 id="判断所有奇数位是否均为1"><a href="#判断所有奇数位是否均为1" class="headerlink" title="判断所有奇数位是否均为1"></a>判断所有奇数位是否均为1</h1><p>这需要用到0xAAAAAAAA来进行判断。</p>
-<p><img src="/CSAPP-DATAlab/image-20220204145219988.png" alt="image-20220204145219988"></p>
+<p><img src="/2022/01/06/CSAPP-DATAlab/image-20220204145219988.png" alt="image-20220204145219988"></p>
 <p>先构造该数</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">allOddBits</span><span class="params">(<span class="type">int</span> x)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> i=<span class="number">0xAA</span>+(<span class="number">0xAA</span>&lt;&lt;<span class="number">8</span>);#左移<span class="number">8</span>位，构造<span class="number">0xAAAA</span></span><br><span class="line">    i += i&lt;&lt;<span class="number">16</span>;#构造<span class="number">0xAAAAAAAA</span></span><br><span class="line">    <span class="keyword">return</span> !((i&amp;x)^i);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
@@ -191,7 +191,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://2298233831.github.io/2022/01/06/CSAPP-DATAlab/" data-id="cl1j9e3q70002aovc8u6xh77w" data-title="CSAPP DATAlab" class="article-share-link">分享</a>
+      <a data-url="http://2298233831.github.io/2022/01/06/CSAPP-DATAlab/" data-id="cl1j9oten0001zgvc9bp2gc8r" data-title="CSAPP DATAlab" class="article-share-link">分享</a>
       
       
       

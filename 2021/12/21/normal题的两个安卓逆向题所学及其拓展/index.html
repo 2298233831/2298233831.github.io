@@ -13,12 +13,12 @@
 <meta property="og:site_name" content="The Blog of O1d_Yu4n">
 <meta property="og:description" content="C语言中函数调用约定首先定义如下函数 int function(int a, int,b) 我们都知道，机器是无法识别代码的，它只认识0，1。我们只需要通过another_number &#x3D; function(a,b)就能够条用该函数。而在cpu中，计算机并不知道调用该函数需要传递几个、什么类型的参数。为了完成调用这一过程，计算机提供了“栈”这种数据结构来支持传递参数。 （栈的结构等相关内">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://2298233831.github.io/normal%E9%A2%98%E7%9A%84%E4%B8%A4%E4%B8%AA%E5%AE%89%E5%8D%93%E9%80%86%E5%90%91%E9%A2%98%E6%89%80%E5%AD%A6%E5%8F%8A%E5%85%B6%E6%8B%93%E5%B1%95/%E6%A0%88%E5%B8%A7.jpg">
+<meta property="og:image" content="http://2298233831.github.io/2021/12/21/normal%E9%A2%98%E7%9A%84%E4%B8%A4%E4%B8%AA%E5%AE%89%E5%8D%93%E9%80%86%E5%90%91%E9%A2%98%E6%89%80%E5%AD%A6%E5%8F%8A%E5%85%B6%E6%8B%93%E5%B1%95/%E6%A0%88%E5%B8%A7.jpg">
 <meta property="article:published_time" content="2021-12-21T13:30:16.000Z">
 <meta property="article:modified_time" content="2021-12-25T09:30:04.775Z">
 <meta property="article:author" content="O1d_Yu4n">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://2298233831.github.io/normal%E9%A2%98%E7%9A%84%E4%B8%A4%E4%B8%AA%E5%AE%89%E5%8D%93%E9%80%86%E5%90%91%E9%A2%98%E6%89%80%E5%AD%A6%E5%8F%8A%E5%85%B6%E6%8B%93%E5%B1%95/%E6%A0%88%E5%B8%A7.jpg">
+<meta name="twitter:image" content="http://2298233831.github.io/2021/12/21/normal%E9%A2%98%E7%9A%84%E4%B8%A4%E4%B8%AA%E5%AE%89%E5%8D%93%E9%80%86%E5%90%91%E9%A2%98%E6%89%80%E5%AD%A6%E5%8F%8A%E5%85%B6%E6%8B%93%E5%B1%95/%E6%A0%88%E5%B8%A7.jpg">
   
     <link rel="alternate" href="/atom.xml" title="The Blog of O1d_Yu4n" type="application/atom+xml">
   
@@ -125,7 +125,7 @@
 <p>而对于函数自身，则可以翻译为：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">push ebp     保存ebp寄存器，该寄存器将用来保存栈的栈顶指针，可以在函数退出时恢复</span><br><span class="line">mov ebp,esp  保存栈指针</span><br><span class="line">mov  eax,[ebp + 8H]  栈中ebp指向位置之前依次保存有ebp,cs:eip,a,b,ebp +8指向a</span><br><span class="line">add eax,[ebp + 0CH]  栈中ebp + 12处保存了b</span><br><span class="line">mov  esp,ebp         恢复esp</span><br><span class="line">pop ebp</span><br><span class="line">ret 8</span><br></pre></td></tr></table></figure>
 
-<p><img src="/normal%E9%A2%98%E7%9A%84%E4%B8%A4%E4%B8%AA%E5%AE%89%E5%8D%93%E9%80%86%E5%90%91%E9%A2%98%E6%89%80%E5%AD%A6%E5%8F%8A%E5%85%B6%E6%8B%93%E5%B1%95/%E6%A0%88%E5%B8%A7.jpg" alt="栈帧"></p>
+<p><img src="/2021/12/21/normal%E9%A2%98%E7%9A%84%E4%B8%A4%E4%B8%AA%E5%AE%89%E5%8D%93%E9%80%86%E5%90%91%E9%A2%98%E6%89%80%E5%AD%A6%E5%8F%8A%E5%85%B6%E6%8B%93%E5%B1%95/%E6%A0%88%E5%B8%A7.jpg" alt="栈帧"></p>
 <p>（贴一张栈帧帮助理解）</p>
 <p>函数结束后，ret 8表示清理8个字节的栈，函数自己恢复了栈。</p>
 <h2 id="cdecl调用约定-C调用约定"><a href="#cdecl调用约定-C调用约定" class="headerlink" title="cdecl调用约定(C调用约定)"></a>cdecl调用约定(C调用约定)</h2><p>该约定为C语言默认的调用约定：<u>所有参数<strong>从右到左</strong>依次入栈，这些参数由调用者清除，称为手动清栈。</u>命名规则为在函数名前自动加“_”.</p>
@@ -180,7 +180,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://2298233831.github.io/2021/12/21/normal%E9%A2%98%E7%9A%84%E4%B8%A4%E4%B8%AA%E5%AE%89%E5%8D%93%E9%80%86%E5%90%91%E9%A2%98%E6%89%80%E5%AD%A6%E5%8F%8A%E5%85%B6%E6%8B%93%E5%B1%95/" data-id="cl1j9e3q90006aovc3bs58wj4" data-title="normal题的两个安卓逆向题所学及其拓展" class="article-share-link">分享</a>
+      <a data-url="http://2298233831.github.io/2021/12/21/normal%E9%A2%98%E7%9A%84%E4%B8%A4%E4%B8%AA%E5%AE%89%E5%8D%93%E9%80%86%E5%90%91%E9%A2%98%E6%89%80%E5%AD%A6%E5%8F%8A%E5%85%B6%E6%8B%93%E5%B1%95/" data-id="cl1j9oteq0005zgvcaqlx8f08" data-title="normal题的两个安卓逆向题所学及其拓展" class="article-share-link">分享</a>
       
       
       

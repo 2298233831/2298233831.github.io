@@ -13,32 +13,32 @@
 <meta property="og:site_name" content="The Blog of O1d_Yu4n">
 <meta property="og:description" content="UPX部分众所周知，UPX是一种较为常见的压缩壳。（除压缩壳外，还有加密壳） 先对壳做个基本的了解：壳的初始作用是保护软件，但后来发展的方向不一就出现了各种各样的壳，大致有压缩壳、加密壳、VM 壳的分类。压缩壳故名思意，主要作用是用于压缩方面，可以有效的减小软件的大小；加密壳，其主要作用是保护软件；VM 壳是一种很特殊的壳，它利用了虚拟机技术，可以很有效的保护指定地址代码，但很大的牺牲了效率，所以">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://2298233831.github.io/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224113639435.png">
-<meta property="og:image" content="http://2298233831.github.io/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224114154673.png">
-<meta property="og:image" content="http://2298233831.github.io/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224114504354.png">
-<meta property="og:image" content="http://2298233831.github.io/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224120500126.png">
-<meta property="og:image" content="http://2298233831.github.io/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224120527464.png">
-<meta property="og:image" content="http://2298233831.github.io/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224121526295.png">
-<meta property="og:image" content="http://2298233831.github.io/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224122210645.png">
-<meta property="og:image" content="http://2298233831.github.io/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224123046202.png">
-<meta property="og:image" content="http://2298233831.github.io/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224152619953.png">
-<meta property="og:image" content="http://2298233831.github.io/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224151613796.png">
-<meta property="og:image" content="http://2298233831.github.io/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224151859721.png">
-<meta property="og:image" content="http://2298233831.github.io/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224152136922.png">
-<meta property="og:image" content="http://2298233831.github.io/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224155355494.png">
-<meta property="og:image" content="http://2298233831.github.io/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224161108321.png">
-<meta property="og:image" content="http://2298233831.github.io/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224161900975.png">
-<meta property="og:image" content="http://2298233831.github.io/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224161923290.png">
-<meta property="og:image" content="http://2298233831.github.io/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224162116107.png">
-<meta property="og:image" content="http://2298233831.github.io/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224162435728.png">
-<meta property="og:image" content="http://2298233831.github.io/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224162757991.png">
-<meta property="og:image" content="http://2298233831.github.io/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224164128856.png">
-<meta property="og:image" content="http://2298233831.github.io/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224164351755.png">
+<meta property="og:image" content="http://2298233831.github.io/2021/12/24/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224113639435.png">
+<meta property="og:image" content="http://2298233831.github.io/2021/12/24/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224114154673.png">
+<meta property="og:image" content="http://2298233831.github.io/2021/12/24/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224114504354.png">
+<meta property="og:image" content="http://2298233831.github.io/2021/12/24/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224120500126.png">
+<meta property="og:image" content="http://2298233831.github.io/2021/12/24/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224120527464.png">
+<meta property="og:image" content="http://2298233831.github.io/2021/12/24/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224121526295.png">
+<meta property="og:image" content="http://2298233831.github.io/2021/12/24/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224122210645.png">
+<meta property="og:image" content="http://2298233831.github.io/2021/12/24/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224123046202.png">
+<meta property="og:image" content="http://2298233831.github.io/2021/12/24/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224152619953.png">
+<meta property="og:image" content="http://2298233831.github.io/2021/12/24/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224151613796.png">
+<meta property="og:image" content="http://2298233831.github.io/2021/12/24/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224151859721.png">
+<meta property="og:image" content="http://2298233831.github.io/2021/12/24/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224152136922.png">
+<meta property="og:image" content="http://2298233831.github.io/2021/12/24/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224155355494.png">
+<meta property="og:image" content="http://2298233831.github.io/2021/12/24/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224161108321.png">
+<meta property="og:image" content="http://2298233831.github.io/2021/12/24/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224161900975.png">
+<meta property="og:image" content="http://2298233831.github.io/2021/12/24/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224161923290.png">
+<meta property="og:image" content="http://2298233831.github.io/2021/12/24/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224162116107.png">
+<meta property="og:image" content="http://2298233831.github.io/2021/12/24/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224162435728.png">
+<meta property="og:image" content="http://2298233831.github.io/2021/12/24/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224162757991.png">
+<meta property="og:image" content="http://2298233831.github.io/2021/12/24/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224164128856.png">
+<meta property="og:image" content="http://2298233831.github.io/2021/12/24/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224164351755.png">
 <meta property="article:published_time" content="2021-12-24T02:27:24.000Z">
 <meta property="article:modified_time" content="2021-12-25T07:41:17.549Z">
 <meta property="article:author" content="O1d_Yu4n">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://2298233831.github.io/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224113639435.png">
+<meta name="twitter:image" content="http://2298233831.github.io/2021/12/24/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224113639435.png">
   
     <link rel="alternate" href="/atom.xml" title="The Blog of O1d_Yu4n" type="application/atom+xml">
   
@@ -126,66 +126,66 @@
 <li><p>压缩方式大体分为两种：普通压缩和运行时压缩。一张图说明二者区别</p>
 </li>
 </ol>
-<p><img src="/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224113639435.png" alt="image-20211224113639435"></p>
+<p><img src="/2021/12/24/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224113639435.png" alt="image-20211224113639435"></p>
 <p>运行时压缩（也叫PE压缩器）是针对PE文件的。PE文件内部含有解压缩代码，运行瞬间于内存中解压然后执行。</p>
 <p>上文说过，压缩可以节约内存空间，还有一点，能够隐藏PE文件的内部代码和资源。</p>
 <ol start="3">
 <li>既然压缩的目的是为了防止内部代码资源泄露，那么为了对PE文件提供更强的保护，PE保护器就存在了。</li>
 </ol>
-<p><img src="/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224114154673.png" alt="image-20211224114154673"></p>
+<p><img src="/2021/12/24/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224114154673.png" alt="image-20211224114154673"></p>
 <ol start="4">
-<li>压缩文件和正常文件的PE结构的区别(感觉这一块书上已经将的很清楚了，就放原图吧。)<br> <img src="/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224114504354.png" alt="image-20211224114504354"></li>
+<li>压缩文件和正常文件的PE结构的区别(感觉这一块书上已经将的很清楚了，就放原图吧。)<br> <img src="/2021/12/24/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224114504354.png" alt="image-20211224114504354"></li>
 </ol>
-<p>  <img src="/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224120500126.png" alt="image-20211224120500126"></p>
-<p><img src="/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224120527464.png" alt="image-20211224120527464"></p>
+<p>  <img src="/2021/12/24/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224120500126.png" alt="image-20211224120500126"></p>
+<p><img src="/2021/12/24/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224120527464.png" alt="image-20211224120527464"></p>
 <h2 id="脱UPX壳"><a href="#脱UPX壳" class="headerlink" title="脱UPX壳"></a>脱UPX壳</h2><p>32位的就没啥说的了拖进OD找到PUSH ad和POP ad就行了或者能用ESP定律就更好</p>
 <p>64位就需要单步跟踪了，具体情况具体分析（推介X64dbg）。</p>
 <h1 id="关于重定位"><a href="#关于重定位" class="headerlink" title="关于重定位"></a>关于重定位</h1><p>前面浅谈PE文件的时候，简单说过重定位。</p>
 <p>这里再贴一下吧</p>
-<p><img src="/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224121526295.png" alt="image-20211224121526295"></p>
+<p><img src="/2021/12/24/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224121526295.png" alt="image-20211224121526295"></p>
 <p>本次我们注重关注在重定位的原理。</p>
-<h2 id="PE文件重定位的原理"><a href="#PE文件重定位的原理" class="headerlink" title="PE文件重定位的原理"></a>PE文件重定位的原理</h2><p><img src="/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224122210645.png" alt="image-20211224122210645"></p>
+<h2 id="PE文件重定位的原理"><a href="#PE文件重定位的原理" class="headerlink" title="PE文件重定位的原理"></a>PE文件重定位的原理</h2><p><img src="/2021/12/24/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224122210645.png" alt="image-20211224122210645"></p>
 <p>查值通过基址重定位表完成，基址定位表地址如下：</p>
-<p><img src="/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224123046202.png" alt="image-20211224123046202"></p>
+<p><img src="/2021/12/24/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224123046202.png" alt="image-20211224123046202"></p>
 <p>基址定位表是IMAGE_BASE_RELOCATION结构体数组</p>
 <p>该结构体含有两个成员：1. 基准地址virtualaddrss—RVA值（DWORD型）；2.SizeOfBlock—重定位块的大小（DWORD型）还有一个被注释的Typeoffset—表示该结构体下会出现WORD型的数组，该数组元素的值就是硬编码在程序中的地址偏移。</p>
 <p>此处易将VA和RVA混淆，贴一个。</p>
-<p><img src="/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224152619953.png" alt="image-20211224152619953"></p>
+<p><img src="/2021/12/24/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224152619953.png" alt="image-20211224152619953"></p>
 <p>通过找到基址重定位表的RVA的值，我们在.reloc节区可以发现</p>
-<p><img src="/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224151613796.png" alt="image-20211224151613796"></p>
-<p><img src="/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224151859721.png" alt="image-20211224151859721"></p>
+<p><img src="/2021/12/24/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224151613796.png" alt="image-20211224151613796"></p>
+<p><img src="/2021/12/24/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224151859721.png" alt="image-20211224151859721"></p>
 <p>该重定位节区在2AE00开始，那根据其结构体成员可知，RVA的值位1000，重定位块的大小为150（都是小端序标识法。）</p>
-<p><img src="/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224152136922.png" alt="image-20211224152136922"></p>
+<p><img src="/2021/12/24/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224152136922.png" alt="image-20211224152136922"></p>
 <p>我们已经知道Typeoffset（它的低12位是真正的基于VirtualSize位置的偏移。）是WORD型（两字节，16位）的，其由4位的Type和12位的offset合成的。</p>
 <p>比如第一个3420，其Type为3，offset为420。</p>
 <p>程序中硬编码地址的偏移用如下等式换算：</p>
 <p>VirtualSize+Offsize&#x3D;RVA（该等式中，VirtualSize和RVA易混淆，见上文所贴的图。）</p>
-<p><img src="/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224155355494.png" alt="image-20211224155355494"></p>
+<p><img src="/2021/12/24/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224155355494.png" alt="image-20211224155355494"></p>
 <p>可以看到图片下方的ds里有IAT的地址VA，C010C4（不同设备运行，值不一样。）</p>
 <p>使用上述偏移值可以查找硬编码地址值，将该值减去ImageBase,再加上实际加载地址，即可得到VA，完成重定位。</p>
 <p>对于程序内硬编码的地址，PE装载器都做如上的处理，根据实际加载的内存地址修正后，将得到的值覆盖到同一位置上。对一个IMAGE_BASE_RELOCATION结构体的所有TypeOffset都做如上处理，且对RVA 1000～2000地址区域对应的所有硬编码地址都要进行PE重定位处理。如果TypeOffset值为0，说明一个IMAGE_BASE_RELOCATION结构体结束。至此，完成重定位流程。</p>
 <h1 id="删除重定位节区-reloc"><a href="#删除重定位节区-reloc" class="headerlink" title="删除重定位节区.reloc"></a>删除重定位节区.reloc</h1><p>由于该节区对程序正常运行没有影响，且删除后文件大小将缩减。故试着删除：</p>
-<p><img src="/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224161108321.png" alt="image-20211224161108321"></p>
+<p><img src="/2021/12/24/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224161108321.png" alt="image-20211224161108321"></p>
 <p>可以看到，该节区区域为270-297，用00填充该区域；接着删除该节区，根据该节区的其起始偏移位置C000，一直到末尾，删除即可（因为.reloc为最后一个节区，所以直接到拉到文件末尾进行删除）；然后修改节区数，该文件原有5个节区，现在删了一个，将其改为4个，在文件头里面修改number os sections</p>
-<p><img src="/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224161900975.png" alt="image-20211224161900975"></p>
-<p>下图为已经更改过的<img src="/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224161923290.png" alt="image-20211224161923290"></p>
+<p><img src="/2021/12/24/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224161900975.png" alt="image-20211224161900975"></p>
+<p>下图为已经更改过的<img src="/2021/12/24/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224161923290.png" alt="image-20211224161923290"></p>
 <p>最后就是修改可选头的文件（映像）大小，size of image。</p>
 <p>同样的的方法</p>
-<p><img src="/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224162116107.png" alt="image-20211224162116107"></p>
+<p><img src="/2021/12/24/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224162116107.png" alt="image-20211224162116107"></p>
 <p>该重定位节区的大小为E40</p>
 <p>这里还需要用到如下知识。（选自加密与解密第四版）</p>
-<p><img src="/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224162435728.png" alt="image-20211224162435728"></p>
+<p><img src="/2021/12/24/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224162435728.png" alt="image-20211224162435728"></p>
 <p>在可选头中，我们找到了两种对齐值</p>
-<p><img src="/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224162757991.png" alt="image-20211224162757991"></p>
+<p><img src="/2021/12/24/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224162757991.png" alt="image-20211224162757991"></p>
 <p>故，E40需对齐到1000.再用原本的size of image将其减去，则为10000，做出修改。</p>
 <p>至此，重定位节区算是删除完成了。</p>
 <h1 id="UPack-PE文件头分析及查找OEP"><a href="#UPack-PE文件头分析及查找OEP" class="headerlink" title="UPack PE文件头分析及查找OEP"></a>UPack PE文件头分析及查找OEP</h1><p>感觉没啥好说的，对着书看吧…</p>
 <h1 id="内嵌补丁-内嵌代码补丁"><a href="#内嵌补丁-内嵌代码补丁" class="headerlink" title="内嵌补丁(内嵌代码补丁)"></a>内嵌补丁(内嵌代码补丁)</h1><p>先上一张概念图:</p>
-<p><img src="/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224164128856.png" alt="image-20211224164128856"></p>
+<p><img src="/2021/12/24/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224164128856.png" alt="image-20211224164128856"></p>
 <p>整个过程中,值得注意的点:</p>
 <ol>
 <li>程序运行的逻辑</li>
-<li>代码整体结构(借用一下书上的图)<img src="/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224164351755.png" alt="image-20211224164351755"></li>
+<li>代码整体结构(借用一下书上的图)<img src="/2021/12/24/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224164351755.png" alt="image-20211224164351755"></li>
 <li>补丁代码设置的位置<ul>
 <li>设置到文件的空白区域</li>
 <li>扩展最后节区后设置</li>
@@ -201,7 +201,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://2298233831.github.io/2021/12/24/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/" data-id="cl1j9e3qb0009aovcfkuygnsn" data-title="逆向工程核心原理PE文件格式部分总结" class="article-share-link">分享</a>
+      <a data-url="http://2298233831.github.io/2021/12/24/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/" data-id="cl1j9oteu0007zgvcd32s4unm" data-title="逆向工程核心原理PE文件格式部分总结" class="article-share-link">分享</a>
       
       
       

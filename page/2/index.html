@@ -96,11 +96,11 @@
         <h1 id="逆向工程核心原理第十三章PE文件格式"><a href="#逆向工程核心原理第十三章PE文件格式" class="headerlink" title="逆向工程核心原理第十三章PE文件格式"></a>逆向工程核心原理第十三章PE文件格式</h1><h1 id="准备知识"><a href="#准备知识" class="headerlink" title="准备知识"></a>准备知识</h1><ul>
 <li>首先是类型</li>
 </ul>
-<p><img src="/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0PE%E6%96%87%E4%BB%B6/image-20211208184817595.png" alt="image-20211208184817595"></p>
+<p><img src="/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0PE%E6%96%87%E4%BB%B6/image-20211208184817595.png" alt="image-20211208184817595"></p>
 <p>(除OBJ之外都是可执行的，DLL、SYS是用其他方法间接执行的。OBJ不能以任何形式执行，所以逆向分析中一般不管它。)</p>
 <ul>
-<li><p>再贴一个易混淆的<img src="/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0PE%E6%96%87%E4%BB%B6/image-20211208184932670.png" alt="image-20211208184932670"></p>
-<p><img src="/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0PE%E6%96%87%E4%BB%B6/image-20211208190541199.png" alt="image-20211208190541199"></p>
+<li><p>再贴一个易混淆的<img src="/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0PE%E6%96%87%E4%BB%B6/image-20211208184932670.png" alt="image-20211208184932670"></p>
+<p><img src="/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0PE%E6%96%87%E4%BB%B6/image-20211208190541199.png" alt="image-20211208190541199"></p>
 <p>（RVA+imageBase&#x3D;VA）</p>
 </li>
 <li><p><strong>节区</strong>：Flash芯片的最小<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8%E5%8D%95%E4%BD%8D">数据存储单位</a>称为节区。节区通常情况包含节区头、节区数据、节区尾等3个部分</p>
@@ -108,7 +108,7 @@
 </li>
 </ul>
 <p>在生成进程时（加载到内存中），操作系统(OS)会为程序单独分配4G大小的虚拟内存，每个程序所分配的空间<em><strong>互不影响</strong></em><u>(即使运行同一程序)</u>。)</p>
-<p>​    <img src="/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0PE%E6%96%87%E4%BB%B6/image-20211211133948441.png" alt="image-20211211133948441">                                                                                                                                                                                                    </p>
+<p>​    <img src="/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0PE%E6%96%87%E4%BB%B6/image-20211211133948441.png" alt="image-20211211133948441">                                                                                                                                                                                                    </p>
 <h1 id="接下来正式开始"><a href="#接下来正式开始" class="headerlink" title="接下来正式开始"></a>接下来正式开始</h1><ul>
 <li><p>在Windows下所谓PE文件即Portable Executable，意为可移植的可执行的文件。常见的.EXE、.DLL、.OCX、.SYS、.COM都是PE文件。PE文件有一个共同特点：前两个字节为4D 5A（MZ）。如果一个文件前两个字节不是4D 5A则其肯定不是可执行文件。比如用16进制文本编辑器打开一个“.xls”文件其前两个字节为：0XD0 0XCF；打开一个“.pdf”其前两个字节为：0X25 0X50。</p>
 <p>PE文件结构：DOS头+PE头+节表+.data&#x2F;.rdata&#x2F;.text。<br><strong>注意：</strong>一个exe文件本身是一个PE文件，但是由于包含dll库，所以一个exe文件也是许多PE文件组成的(包含多个dll)一个PE文件。</p>
@@ -121,40 +121,40 @@
 </li>
 <li><p>NT头：由签名结构体（值为50450000h–”PE“00）,文件头和可选头组成。NT头的结构体大小为F8(十进制为248). </p>
 <p>文件头中，值得注意的是machine码，每个CPU都有唯一的machine码</p>
-<p><img src="/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0PE%E6%96%87%E4%BB%B6/image-20211211115319553.png" alt="image-20211211115319553"></p>
+<p><img src="/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0PE%E6%96%87%E4%BB%B6/image-20211211115319553.png" alt="image-20211211115319553"></p>
 </li>
 </ul>
-<p><img src="/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0PE%E6%96%87%E4%BB%B6/image-20211211115418486.png" alt="image-20211211115418486"></p>
+<p><img src="/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0PE%E6%96%87%E4%BB%B6/image-20211211115418486.png" alt="image-20211211115418486"></p>
 <p>RVA to RAW</p>
-<p><img src="/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0PE%E6%96%87%E4%BB%B6/image-20211211122015407.png" alt="image-20211211122015407"></p>
+<p><img src="/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0PE%E6%96%87%E4%BB%B6/image-20211211122015407.png" alt="image-20211211122015407"></p>
 <p>（注：每个PE文件中的RVA和Pointer等值是不一样的，需根据具体情况来进行计算。上述VietualAddres是指的SizeofRawData）</p>
 <ul>
 <li><p>IAT（导入地址表）—一种记录程序正在使用哪些库中的哪些函数的表格。（相对的为EAT—导出地址表。）</p>
-<p><img src="/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0PE%E6%96%87%E4%BB%B6/image-20211211132147232.png" alt="image-20211211132147232"></p>
-<p><img src="/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0PE%E6%96%87%E4%BB%B6/image-20211211133010828.png" alt="image-20211211133010828"></p>
+<p><img src="/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0PE%E6%96%87%E4%BB%B6/image-20211211132147232.png" alt="image-20211211132147232"></p>
+<p><img src="/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0PE%E6%96%87%E4%BB%B6/image-20211211133010828.png" alt="image-20211211133010828"></p>
 <p>INT是一个包含导入函数的信息的结构体指针数组。</p>
-<p><img src="/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0PE%E6%96%87%E4%BB%B6/image-20211211140607158.png" alt="image-20211211140607158"></p>
+<p><img src="/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0PE%E6%96%87%E4%BB%B6/image-20211211140607158.png" alt="image-20211211140607158"></p>
 <p>重要成员</p>
-<p><img src="/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0PE%E6%96%87%E4%BB%B6/image-20211211140348489.png" alt="image-20211211140348489"></p>
+<p><img src="/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0PE%E6%96%87%E4%BB%B6/image-20211211140348489.png" alt="image-20211211140348489"></p>
 <p>IAT的导入顺序如下</p>
-<p><img src="/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0PE%E6%96%87%E4%BB%B6/image-20211211140800787.png" alt="image-20211211140800787"></p>
+<p><img src="/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0PE%E6%96%87%E4%BB%B6/image-20211211140800787.png" alt="image-20211211140800787"></p>
 <ul>
 <li>EAT(导出地址表)—它是不同的应用程序可以调用库文件中欧共提供的函数，只有通过EAT才能准确求得相应库中导出函数的起始地址。(在PE文件中仅有一个用来说明库EAT的结构体。)</li>
 </ul>
-<p><img src="/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0PE%E6%96%87%E4%BB%B6/image-20211211132631404.png" alt="image-20211211132631404"></p>
+<p><img src="/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0PE%E6%96%87%E4%BB%B6/image-20211211132631404.png" alt="image-20211211132631404"></p>
 <ul>
 <li>IMAGE_EXPORT_DIRECTORY的重要成员如下图</li>
 </ul>
-<p><img src="/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0PE%E6%96%87%E4%BB%B6/image-20211211132812251.png" alt="image-20211211132812251"></p>
+<p><img src="/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0PE%E6%96%87%E4%BB%B6/image-20211211132812251.png" alt="image-20211211132812251"></p>
 </li>
 <li><p>DLL—一种动态链接库（附上DLL概念的描述和加载方式。）</p>
-<p><img src="/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0PE%E6%96%87%E4%BB%B6/image-20211211130223999.png" alt="image-20211211130223999"></p>
+<p><img src="/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0PE%E6%96%87%E4%BB%B6/image-20211211130223999.png" alt="image-20211211130223999"></p>
 </li>
 </ul>
 <p>DLL的存在使得内存和磁盘空间的浪费得以减小。</p>
 <p><strong>重定位</strong>：PE装载器先把一个DLL文件装载到内存为10000000(Imagebase处)，然后尝试把另一个DLL文件也装载到该处，可该处已经装载了一个，故需要将其装载到其他内存地址(空白的)。</p>
-<p><img src="/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0PE%E6%96%87%E4%BB%B6/image-20211211130953633.png" alt="image-20211211130953633"></p>
-<p><img src="/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0PE%E6%96%87%E4%BB%B6/image-20211211131019298.png" alt="image-20211211131019298"></p>
+<p><img src="/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0PE%E6%96%87%E4%BB%B6/image-20211211130953633.png" alt="image-20211211130953633"></p>
+<p><img src="/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0PE%E6%96%87%E4%BB%B6/image-20211211131019298.png" alt="image-20211211131019298"></p>
 <p>​        (注：ordinal为函数的固有编号。)</p>
 <ul>
 <li>值得一提的是，只要符合了PE文件规范就是PE文件，故可以在规范之外作出改动，从而制作出一些奇异的PE文件，这一类统称为Patched PE文件。(还没学到，以后会写。)</li>
@@ -163,7 +163,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://2298233831.github.io/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0PE%E6%96%87%E4%BB%B6/" data-id="cl1j9e3qc000baovcbm8u1h8l" data-title="逆向工程核心原理第十三章PE文件" class="article-share-link">分享</a>
+      <a data-url="http://2298233831.github.io/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0PE%E6%96%87%E4%BB%B6/" data-id="cl1j9otew000azgvceyhz4oon" data-title="逆向工程核心原理第十三章PE文件" class="article-share-link">分享</a>
       
       
       
