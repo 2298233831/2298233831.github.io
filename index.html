@@ -145,6 +145,157 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://2298233831.github.io/2022/04/11/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E9%AB%98%E7%BA%A7%E9%80%86%E5%90%91%E5%88%86%E6%9E%90%E6%8A%80%E6%9C%AF/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="O1d_Yu4n">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="The Blog of O1d_Yu4n">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/04/11/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E9%AB%98%E7%BA%A7%E9%80%86%E5%90%91%E5%88%86%E6%9E%90%E6%8A%80%E6%9C%AF/" class="post-title-link" itemprop="url">逆向工程核心原理_高级逆向分析技术</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-04-11 08:55:19 / 修改时间：09:03:44" itemprop="dateCreated datePublished" datetime="2022-04-11T08:55:19+08:00">2022-04-11</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="TLS-Thread-Local-Storage-回调函数"><a href="#TLS-Thread-Local-Storage-回调函数" class="headerlink" title="TLS(Thread Local Storage)回调函数"></a>TLS(Thread Local Storage)回调函数</h1><p>首先需要注意的一点就是，TLS回调函数是在程序进入OEP之前调用的，因此利用这一特性可以在此设置反调试。</p>
+<p>简要说明TLS定义:TLS是各线程的独立的数据存储空间，使用TLS技术可在线程内部独立使用或修改进程的全局数据或静态数据，就像对待自身的局部变量一样。</p>
+<p>那么TLS回调函数是指</p>
+<p><img src="/2022/04/11/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E9%AB%98%E7%BA%A7%E9%80%86%E5%90%91%E5%88%86%E6%9E%90%E6%8A%80%E6%9C%AF/image-20220409084748247.png" alt="image-20220409084748247"></p>
+<p>值得一提的是，TLS表是需要在编程中开启TLS功能才会被设置在PE头文件中</p>
+<p>IMAGE_TLS_DIRECTORY结构体有两种版本，32位和64位。</p>
+<p>AddressOfCallBacks： 指向TLS注册的回调函数的函数指针(地址)数组（这个逆向时就很重要了）</p>
+<p>通过TLS回调函数和DLLmain的定义比较可以发现，二者是类似的</p>
+<p><img src="/2022/04/11/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E9%AB%98%E7%BA%A7%E9%80%86%E5%90%91%E5%88%86%E6%9E%90%E6%8A%80%E6%9C%AF/image-20220409085002301.png" alt="image-20220409085002301"></p>
+<p><img src="/2022/04/11/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E9%AB%98%E7%BA%A7%E9%80%86%E5%90%91%E5%88%86%E6%9E%90%E6%8A%80%E6%9C%AF/image-20220409085011556.png" alt="image-20220409085011556"></p>
+<p>上述图一中，reason是指调用TLS函数的原因</p>
+<p>如图所示</p>
+<p><img src="/2022/04/11/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E9%AB%98%E7%BA%A7%E9%80%86%E5%90%91%E5%88%86%E6%9E%90%E6%8A%80%E6%9C%AF/image-20220409085140790.png" alt="image-20220409085140790"></p>
+<p>分别是DLL进程&#x2F;线程附加；DLL进程&#x2F;线程分离</p>
+<p><img src="/2022/04/11/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E9%AB%98%E7%BA%A7%E9%80%86%E5%90%91%E5%88%86%E6%9E%90%E6%8A%80%E6%9C%AF/image-20220409182903022.png" alt="image-20220409182903022"></p>
+<p>关于调试TLS函数和手动添加TLS函数此处不在描述，过程中涉及对PE文件结构知识的回顾，重在实践。</p>
+<h1 id="TEB"><a href="#TEB" class="headerlink" title="TEB"></a>TEB</h1><p>贴上书中的定义</p>
+<p><img src="/2022/04/11/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E9%AB%98%E7%BA%A7%E9%80%86%E5%90%91%E5%88%86%E6%9E%90%E6%8A%80%E6%9C%AF/image-20220410113647863.png" alt="image-20220410113647863"></p>
+<p>丛书中的描述可知，TEB结构体的成员多而复杂，但在用户模式调试中起重要作用的成员有两个</p>
+<p><img src="/2022/04/11/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E9%AB%98%E7%BA%A7%E9%80%86%E5%90%91%E5%88%86%E6%9E%90%E6%8A%80%E6%9C%AF/image-20220410113850420.png" alt="image-20220410113850420"></p>
+<p>先看ProcessEnvironmentBlock，它是指向PEB—进程环境块结构体的指针.每个进程对应一个PEB结构体</p>
+<p>再看NtTib成员，TEB结构体的第一个成员为_NT_TIB（Thread Information Block—线程信息块）结构体</p>
+<p>下图为其结构体定义</p>
+<p><img src="/2022/04/11/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E9%AB%98%E7%BA%A7%E9%80%86%E5%90%91%E5%88%86%E6%9E%90%E6%8A%80%E6%9C%AF/image-20220410114802311.png" alt="image-20220410114802311"></p>
+<p>self成员为该结构体的自引用指针，同时因为该结构体为TEB的第一个结构体成员，所以它同时也是指向TEB结构体的指针。</p>
+<h2 id="TEB访问方法（用户模式下）"><a href="#TEB访问方法（用户模式下）" class="headerlink" title="TEB访问方法（用户模式下）"></a>TEB访问方法（用户模式下）</h2><p>这里对FS段寄存器做了说明</p>
+<p>原文解释的很清楚</p>
+<p><img src="/2022/04/11/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E9%AB%98%E7%BA%A7%E9%80%86%E5%90%91%E5%88%86%E6%9E%90%E6%8A%80%E6%9C%AF/image-20220410120445854.png" alt="image-20220410120445854"></p>
+<p>由上可知，FS实际存储的是SDT的索引</p>
+<p><img src="/2022/04/11/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E9%AB%98%E7%BA%A7%E9%80%86%E5%90%91%E5%88%86%E6%9E%90%E6%8A%80%E6%9C%AF/image-20220410120647654.png" alt="image-20220410120647654"></p>
+<h1 id="PEB-进程环境块"><a href="#PEB-进程环境块" class="headerlink" title="PEB(进程环境块)"></a>PEB(进程环境块)</h1><p>PEB是存放进程信息的结构体</p>
+<p>根据PEB结构体地址我们可以用如下方式访问PEB结构体</p>
+<p><img src="/2022/04/11/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E9%AB%98%E7%BA%A7%E9%80%86%E5%90%91%E5%88%86%E6%9E%90%E6%8A%80%E6%9C%AF/image-20220410121548028.png" alt="image-20220410121548028"></p>
+<h2 id="PEB的重要成员"><a href="#PEB的重要成员" class="headerlink" title="PEB的重要成员"></a>PEB的重要成员</h2><p><img src="/2022/04/11/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E9%AB%98%E7%BA%A7%E9%80%86%E5%90%91%E5%88%86%E6%9E%90%E6%8A%80%E6%9C%AF/image-20220410121808724.png" alt="image-20220410121808724"></p>
+<p>先看第一个成员，顾名思义，用来检测当前进程是否处于调试状态，是则返回1，否则返回0.</p>
+<p><img src="/2022/04/11/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E9%AB%98%E7%BA%A7%E9%80%86%E5%90%91%E5%88%86%E6%9E%90%E6%8A%80%E6%9C%AF/image-20220410122356393.png" alt="image-20220410122356393"></p>
+<p>可以看到该API就是通过调用该成员实现检测当前进程是否处于调试状态。</p>
+<p>接下来是第二个成员</p>
+<p>该进程用来获取进程的ImageBase</p>
+<p><img src="/2022/04/11/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E9%AB%98%E7%BA%A7%E9%80%86%E5%90%91%E5%88%86%E6%9E%90%E6%8A%80%E6%9C%AF/image-20220410122602024.png" alt="image-20220410122602024"></p>
+<p>上图的API用来获取ImageBase，实现方法与上一个API类似。</p>
+<p>再下一个Ldr，该成员是指向PEB_LDR_DATA结构体的指针，结构体成员如下图所示</p>
+<p><img src="/2022/04/11/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E9%AB%98%E7%BA%A7%E9%80%86%E5%90%91%E5%88%86%E6%9E%90%E6%8A%80%E6%9C%AF/image-20220410122801231.png" alt="image-20220410122801231"></p>
+<p>该成员可直接获取加载到进程的DLL模块的加载基地址</p>
+<p>可以看到结构体中有三个_LIST_ENTRY类型的成员。，该结构体定义如下图</p>
+<p><img src="/2022/04/11/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E9%AB%98%E7%BA%A7%E9%80%86%E5%90%91%E5%88%86%E6%9E%90%E6%8A%80%E6%9C%AF/image-20220410123646015.png" alt="image-20220410123646015"></p>
+<p>最后两个成员都应用于反调试技术。进程处于调试状态时，有特定值。</p>
+<h1 id="SEH"><a href="#SEH" class="headerlink" title="SEH"></a>SEH</h1><p><img src="/2022/04/11/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E9%AB%98%E7%BA%A7%E9%80%86%E5%90%91%E5%88%86%E6%9E%90%E6%8A%80%E6%9C%AF/image-20220410151204978.png" alt="image-20220410151204978"></p>
+<p>SEH机制在程序源代码中使用try,except,finally关键字来实现。</p>
+<p>书中第一个例子的异常触发是由于访问未分配的内存。</p>
+<p><img src="/2022/04/11/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E9%AB%98%E7%BA%A7%E9%80%86%E5%90%91%E5%88%86%E6%9E%90%E6%8A%80%E6%9C%AF/image-20220410162947013.png" alt="image-20220410162947013"></p>
+<p>操作系统的异常处理方法大致可根据程序运行情况分为两大类</p>
+<ol>
+<li>正常运行时处理</li>
+<li>调试运行时处理</li>
+</ol>
+<p>第一种操作系统会将异常交给进程处理，若进程代码有相应的解决代码，则顺利处理，否则终止进程运行。</p>
+<p>第二种则是交给调试器处理。调试器的权限很多，除了与被调试的进程有几乎一样的权限外，还有被调试者的虚拟内存，寄存器的读写权限。在遇到异常时，调试器会暂停运行，异常处理完后继续调试</p>
+<p>下图为几种处理方法</p>
+<p><img src="/2022/04/11/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E9%AB%98%E7%BA%A7%E9%80%86%E5%90%91%E5%88%86%E6%9E%90%E6%8A%80%E6%9C%AF/image-20220410165322561.png" alt="image-20220410165322561"></p>
+<p>一下是操作系统所定义的—异常</p>
+<p><img src="/2022/04/11/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E9%AB%98%E7%BA%A7%E9%80%86%E5%90%91%E5%88%86%E6%9E%90%E6%8A%80%E6%9C%AF/image-20220410165654556.png" alt="image-20220410165654556"></p>
+<p>书中着重讨论了5种</p>
+<h2 id="EXCEPTION-ACCESS-VIOLATION（C0000005）"><a href="#EXCEPTION-ACCESS-VIOLATION（C0000005）" class="headerlink" title="EXCEPTION_ACCESS_VIOLATION（C0000005）"></a>EXCEPTION_ACCESS_VIOLATION（C0000005）</h2><p>这就是访问不存在或不具访问权限的内存区域是所触发的异常—非法访问异常（最常见）</p>
+<p><img src="/2022/04/11/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E9%AB%98%E7%BA%A7%E9%80%86%E5%90%91%E5%88%86%E6%9E%90%E6%8A%80%E6%9C%AF/image-20220410170337983.png" alt="image-20220410170337983"></p>
+<h2 id="EXCEPTION-BREAKPOINT-80000003"><a href="#EXCEPTION-BREAKPOINT-80000003" class="headerlink" title="EXCEPTION_BREAKPOINT(80000003)"></a>EXCEPTION_BREAKPOINT(80000003)</h2><p>这就是调试器实现断点的原理，CPU遇到被设置了断点的代码会暂停运行。</p>
+<p>实现方法：</p>
+<p>​    INT3为设置断点命令的汇编语言，所对应的机器码为0xCC。CPU若遇到了该指令，即触发该异常</p>
+<h2 id="EXCEPTION-ILLEGAL-INSTRUCTION-C000001D"><a href="#EXCEPTION-ILLEGAL-INSTRUCTION-C000001D" class="headerlink" title="EXCEPTION_ILLEGAL_INSTRUCTION(C000001D)"></a>EXCEPTION_ILLEGAL_INSTRUCTION(C000001D)</h2><p>CPU遇到无法解析（在该CPU架构下未定义）的指令时触发异常</p>
+<h2 id="EXCEPTION-INT-DIVIDE-BY-ZERO-C0000094"><a href="#EXCEPTION-INT-DIVIDE-BY-ZERO-C0000094" class="headerlink" title="EXCEPTION_INT_DIVIDE_BY_ZERO(C0000094)"></a>EXCEPTION_INT_DIVIDE_BY_ZERO(C0000094)</h2><p>小学数学经典错误，整数除法当中，分母为0.当然，若分母为某个变量，变量在某个时刻为0，也会触发该异常</p>
+<p>。比如一个变量自己跟自己异或，返回0</p>
+<h2 id="EXCEPTION-SINGLE-STEP"><a href="#EXCEPTION-SINGLE-STEP" class="headerlink" title="EXCEPTION_SINGLE_STEP"></a>EXCEPTION_SINGLE_STEP</h2><p>单步过后程序暂停，程序进入单步模式后，每执行一次单步，就触发一次该异常。</p>
+<p><img src="/2022/04/11/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E9%AB%98%E7%BA%A7%E9%80%86%E5%90%91%E5%88%86%E6%9E%90%E6%8A%80%E6%9C%AF/image-20220410172513951.png" alt="image-20220410172513951"></p>
+<h2 id="SEH链"><a href="#SEH链" class="headerlink" title="SEH链"></a>SEH链</h2><p>原图简洁明了</p>
+<p><img src="/2022/04/11/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E9%AB%98%E7%BA%A7%E9%80%86%E5%90%91%E5%88%86%E6%9E%90%E6%8A%80%E6%9C%AF/image-20220410172810751.png" alt="image-20220410172810751"></p>
+<h2 id="异常处理函数的定义"><a href="#异常处理函数的定义" class="headerlink" title="异常处理函数的定义"></a>异常处理函数的定义</h2><p><img src="/2022/04/11/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E9%AB%98%E7%BA%A7%E9%80%86%E5%90%91%E5%88%86%E6%9E%90%E6%8A%80%E6%9C%AF/image-20220410172842993.png" alt="image-20220410172842993"></p>
+<p>该函数传入四个参数,返回一个枚举类型.四个参数都保存异常的相关信息,第三个参数是指向CONTEXT结构体的指针.</p>
+<p>该结构体的定义如下</p>
+<p><img src="/2022/04/11/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E9%AB%98%E7%BA%A7%E9%80%86%E5%90%91%E5%88%86%E6%9E%90%E6%8A%80%E6%9C%AF/image-20220410180000470.png" alt="image-20220410180000470"></p>
+<p>该结构体用来备份CPU寄存器的值(多线程环境下需要).每个线程内部都拥有一个CONTEXT结构体,当CPU暂时离开当前线程去执行其他线程时,CPU寄存器的值就会保存到当前的CONTEXT结构体中,再次运行该线程时,就会用保存的值覆盖寄存器的值,从之前暂停的代码处继续执行.正是因此,OS才可以在多线程下安全运行各线程.</p>
+<p><img src="/2022/04/11/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E9%AB%98%E7%BA%A7%E9%80%86%E5%90%91%E5%88%86%E6%9E%90%E6%8A%80%E6%9C%AF/image-20220410180451097.png" alt="image-20220410180451097"></p>
+<p>所返回的枚举类型如下</p>
+<p><img src="/2022/04/11/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E9%AB%98%E7%BA%A7%E9%80%86%E5%90%91%E5%88%86%E6%9E%90%E6%8A%80%E6%9C%AF/image-20220410183502324.png" alt="image-20220410183502324"></p>
+<p>在异常发生时执行异常代码的线程会被中断运行,转而运行SEH,OS会把线程的CONTEXT结构体指针传递给异常处理函数的相应参数.</p>
+<p>第一个成员是一个结构体,其定义如下</p>
+<p><img src="/2022/04/11/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E9%AB%98%E7%BA%A7%E9%80%86%E5%90%91%E5%88%86%E6%9E%90%E6%8A%80%E6%9C%AF/image-20220410174054428.png" alt="image-20220410174054428"></p>
+<p>其中,第一个成员用来指出异常类型;第四个则用来表示发生异常的代码地址.</p>
+<p>TEB结构体的第一个成员是TEB.NtTib.ExceptionList,通过它可以很容易地访问进程的SEH链.</p>
+<p><img src="/2022/04/11/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E9%AB%98%E7%BA%A7%E9%80%86%E5%90%91%E5%88%86%E6%9E%90%E6%8A%80%E6%9C%AF/image-20220410185707466.png" alt="image-20220410185707466"></p>
+<p>SEH安装方法</p>
+<p><img src="/2022/04/11/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E9%AB%98%E7%BA%A7%E9%80%86%E5%90%91%E5%88%86%E6%9E%90%E6%8A%80%E6%9C%AF/image-20220410185822888.png" alt="image-20220410185822888"></p>
+<p>后面的调试建议动手调，没有什么需要特别说明的。</p>
+<p>关于IA32指令解析，就像是在教你如何查阅程序员的字典一样，跟着阅读即可。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://2298233831.github.io/2022/03/25/IL2CPP%E5%AD%A6%E4%B9%A0/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1494,138 +1645,11 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://2298233831.github.io/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0PE%E6%96%87%E4%BB%B6/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="O1d_Yu4n">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="The Blog of O1d_Yu4n">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0PE%E6%96%87%E4%BB%B6/" class="post-title-link" itemprop="url">逆向工程核心原理第十三章PE文件</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-12-12 20:14:09" itemprop="dateCreated datePublished" datetime="2021-12-12T20:14:09+08:00">2021-12-12</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-12-22 21:17:00" itemprop="dateModified" datetime="2021-12-22T21:17:00+08:00">2021-12-22</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="逆向工程核心原理第十三章PE文件格式"><a href="#逆向工程核心原理第十三章PE文件格式" class="headerlink" title="逆向工程核心原理第十三章PE文件格式"></a>逆向工程核心原理第十三章PE文件格式</h1><h1 id="准备知识"><a href="#准备知识" class="headerlink" title="准备知识"></a>准备知识</h1><ul>
-<li>首先是类型</li>
-</ul>
-<p><img src="/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0PE%E6%96%87%E4%BB%B6/image-20211208184817595.png" alt="image-20211208184817595"></p>
-<p>(除OBJ之外都是可执行的，DLL、SYS是用其他方法间接执行的。OBJ不能以任何形式执行，所以逆向分析中一般不管它。)</p>
-<ul>
-<li><p>再贴一个易混淆的<img src="/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0PE%E6%96%87%E4%BB%B6/image-20211208184932670.png" alt="image-20211208184932670"></p>
-<p><img src="/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0PE%E6%96%87%E4%BB%B6/image-20211208190541199.png" alt="image-20211208190541199"></p>
-<p>（RVA+imageBase&#x3D;VA）</p>
-</li>
-<li><p><strong>节区</strong>：Flash芯片的最小<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8%E5%8D%95%E4%BD%8D">数据存储单位</a>称为节区。节区通常情况包含节区头、节区数据、节区尾等3个部分</p>
-<p>(节区头和节区尾用来存储该节区的一些管理字、<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/ECC%E6%A0%A1%E9%AA%8C/237342">ECC校验</a>等管理信息，而节区数据则是存放实际有效的数据。这里可以将节区看成是带管理信息的扇区，一般情况下节区数据的长度为512个字节（一个扇区长度）。)</p>
-</li>
-</ul>
-<p>在生成进程时（加载到内存中），操作系统(OS)会为程序单独分配4G大小的虚拟内存，每个程序所分配的空间<em><strong>互不影响</strong></em><u>(即使运行同一程序)</u>。)</p>
-<p>​    <img src="/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0PE%E6%96%87%E4%BB%B6/image-20211211133948441.png" alt="image-20211211133948441">                                                                                                                                                                                                    </p>
-<h1 id="接下来正式开始"><a href="#接下来正式开始" class="headerlink" title="接下来正式开始"></a>接下来正式开始</h1><ul>
-<li><p>在Windows下所谓PE文件即Portable Executable，意为可移植的可执行的文件。常见的.EXE、.DLL、.OCX、.SYS、.COM都是PE文件。PE文件有一个共同特点：前两个字节为4D 5A（MZ）。如果一个文件前两个字节不是4D 5A则其肯定不是可执行文件。比如用16进制文本编辑器打开一个“.xls”文件其前两个字节为：0XD0 0XCF；打开一个“.pdf”其前两个字节为：0X25 0X50。</p>
-<p>PE文件结构：DOS头+PE头+节表+.data&#x2F;.rdata&#x2F;.text。<br><strong>注意：</strong>一个exe文件本身是一个PE文件，但是由于包含dll库，所以一个exe文件也是许多PE文件组成的(包含多个dll)一个PE文件。</p>
-</li>
-<li><p>DOS头和DOS存根</p>
-<p>DOS头结构体中的v拉两个重要成员是e_magic(DOS签名)和e_lfanew(指示NT头的偏移（不同文件的值不同。）)</p>
-<p>如第一条所说，所有PE文件的前两个字节都必须是4D5A(MZ)，e_lfanew的值为000000E0</p>
-<p>（Intel的CPU采用小端序标识法存储数据–逆序。）</p>
-<p>DOS存根为可选内容（有无都不影响程序正常运行，且大小不固定。），其有代码和数据混合组成。</p>
-</li>
-<li><p>NT头：由签名结构体（值为50450000h–”PE“00）,文件头和可选头组成。NT头的结构体大小为F8(十进制为248). </p>
-<p>文件头中，值得注意的是machine码，每个CPU都有唯一的machine码</p>
-<p><img src="/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0PE%E6%96%87%E4%BB%B6/image-20211211115319553.png" alt="image-20211211115319553"></p>
-</li>
-</ul>
-<p><img src="/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0PE%E6%96%87%E4%BB%B6/image-20211211115418486.png" alt="image-20211211115418486"></p>
-<p>RVA to RAW</p>
-<p><img src="/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0PE%E6%96%87%E4%BB%B6/image-20211211122015407.png" alt="image-20211211122015407"></p>
-<p>（注：每个PE文件中的RVA和Pointer等值是不一样的，需根据具体情况来进行计算。上述VietualAddres是指的SizeofRawData）</p>
-<ul>
-<li><p>IAT（导入地址表）—一种记录程序正在使用哪些库中的哪些函数的表格。（相对的为EAT—导出地址表。）</p>
-<p><img src="/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0PE%E6%96%87%E4%BB%B6/image-20211211132147232.png" alt="image-20211211132147232"></p>
-<p><img src="/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0PE%E6%96%87%E4%BB%B6/image-20211211133010828.png" alt="image-20211211133010828"></p>
-<p>INT是一个包含导入函数的信息的结构体指针数组。</p>
-<p><img src="/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0PE%E6%96%87%E4%BB%B6/image-20211211140607158.png" alt="image-20211211140607158"></p>
-<p>重要成员</p>
-<p><img src="/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0PE%E6%96%87%E4%BB%B6/image-20211211140348489.png" alt="image-20211211140348489"></p>
-<p>IAT的导入顺序如下</p>
-<p><img src="/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0PE%E6%96%87%E4%BB%B6/image-20211211140800787.png" alt="image-20211211140800787"></p>
-<ul>
-<li>EAT(导出地址表)—它是不同的应用程序可以调用库文件中欧共提供的函数，只有通过EAT才能准确求得相应库中导出函数的起始地址。(在PE文件中仅有一个用来说明库EAT的结构体。)</li>
-</ul>
-<p><img src="/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0PE%E6%96%87%E4%BB%B6/image-20211211132631404.png" alt="image-20211211132631404"></p>
-<ul>
-<li>IMAGE_EXPORT_DIRECTORY的重要成员如下图</li>
-</ul>
-<p><img src="/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0PE%E6%96%87%E4%BB%B6/image-20211211132812251.png" alt="image-20211211132812251"></p>
-</li>
-<li><p>DLL—一种动态链接库（附上DLL概念的描述和加载方式。）</p>
-<p><img src="/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0PE%E6%96%87%E4%BB%B6/image-20211211130223999.png" alt="image-20211211130223999"></p>
-</li>
-</ul>
-<p>DLL的存在使得内存和磁盘空间的浪费得以减小。</p>
-<p><strong>重定位</strong>：PE装载器先把一个DLL文件装载到内存为10000000(Imagebase处)，然后尝试把另一个DLL文件也装载到该处，可该处已经装载了一个，故需要将其装载到其他内存地址(空白的)。</p>
-<p><img src="/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0PE%E6%96%87%E4%BB%B6/image-20211211130953633.png" alt="image-20211211130953633"></p>
-<p><img src="/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0PE%E6%96%87%E4%BB%B6/image-20211211131019298.png" alt="image-20211211131019298"></p>
-<p>​        (注：ordinal为函数的固有编号。)</p>
-<ul>
-<li>值得一提的是，只要符合了PE文件规范就是PE文件，故可以在规范之外作出改动，从而制作出一些奇异的PE文件，这一类统称为Patched PE文件。(还没学到，以后会写。)</li>
-</ul>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+  </nav>
 
 
 
@@ -1690,7 +1714,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">10</span>
+          <span class="site-state-item-count">11</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

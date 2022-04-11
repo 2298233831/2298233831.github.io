@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.1.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"2298233831.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="TLS(Thread Local Storage)回调函数首先需要注意的一点就是，TLS回调函数是在程序进入OEP之前调用的，因此利用这一特性可以在此设置反调试。 简要说明TLS定义:TLS是各线程的独立的数据存储空间，使用TLS技术可在线程内部独立使用或修改进程的全局数据或静态数据，就像对待自身的局部变量一样。 那么TLS回调函数是指  值得一提的是，TLS表是需要在编程中开启TLS功能才会被设">
+<meta property="og:type" content="article">
+<meta property="og:title" content="逆向工程核心原理_高级逆向分析技术">
+<meta property="og:url" content="http://2298233831.github.io/2022/04/11/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E9%AB%98%E7%BA%A7%E9%80%86%E5%90%91%E5%88%86%E6%9E%90%E6%8A%80%E6%9C%AF/index.html">
+<meta property="og:site_name" content="The Blog of O1d_Yu4n">
+<meta property="og:description" content="TLS(Thread Local Storage)回调函数首先需要注意的一点就是，TLS回调函数是在程序进入OEP之前调用的，因此利用这一特性可以在此设置反调试。 简要说明TLS定义:TLS是各线程的独立的数据存储空间，使用TLS技术可在线程内部独立使用或修改进程的全局数据或静态数据，就像对待自身的局部变量一样。 那么TLS回调函数是指  值得一提的是，TLS表是需要在编程中开启TLS功能才会被设">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://2298233831.github.io/2022/04/11/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E9%AB%98%E7%BA%A7%E9%80%86%E5%90%91%E5%88%86%E6%9E%90%E6%8A%80%E6%9C%AF/image-20220409084748247.png">
+<meta property="og:image" content="http://2298233831.github.io/2022/04/11/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E9%AB%98%E7%BA%A7%E9%80%86%E5%90%91%E5%88%86%E6%9E%90%E6%8A%80%E6%9C%AF/image-20220409085002301.png">
+<meta property="og:image" content="http://2298233831.github.io/2022/04/11/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E9%AB%98%E7%BA%A7%E9%80%86%E5%90%91%E5%88%86%E6%9E%90%E6%8A%80%E6%9C%AF/image-20220409085011556.png">
+<meta property="og:image" content="http://2298233831.github.io/2022/04/11/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E9%AB%98%E7%BA%A7%E9%80%86%E5%90%91%E5%88%86%E6%9E%90%E6%8A%80%E6%9C%AF/image-20220409085140790.png">
+<meta property="og:image" content="http://2298233831.github.io/2022/04/11/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E9%AB%98%E7%BA%A7%E9%80%86%E5%90%91%E5%88%86%E6%9E%90%E6%8A%80%E6%9C%AF/image-20220409182903022.png">
+<meta property="og:image" content="http://2298233831.github.io/2022/04/11/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E9%AB%98%E7%BA%A7%E9%80%86%E5%90%91%E5%88%86%E6%9E%90%E6%8A%80%E6%9C%AF/image-20220410113647863.png">
+<meta property="og:image" content="http://2298233831.github.io/2022/04/11/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E9%AB%98%E7%BA%A7%E9%80%86%E5%90%91%E5%88%86%E6%9E%90%E6%8A%80%E6%9C%AF/image-20220410113850420.png">
+<meta property="og:image" content="http://2298233831.github.io/2022/04/11/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E9%AB%98%E7%BA%A7%E9%80%86%E5%90%91%E5%88%86%E6%9E%90%E6%8A%80%E6%9C%AF/image-20220410114802311.png">
+<meta property="og:image" content="http://2298233831.github.io/2022/04/11/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E9%AB%98%E7%BA%A7%E9%80%86%E5%90%91%E5%88%86%E6%9E%90%E6%8A%80%E6%9C%AF/image-20220410120445854.png">
+<meta property="og:image" content="http://2298233831.github.io/2022/04/11/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E9%AB%98%E7%BA%A7%E9%80%86%E5%90%91%E5%88%86%E6%9E%90%E6%8A%80%E6%9C%AF/image-20220410120647654.png">
+<meta property="og:image" content="http://2298233831.github.io/2022/04/11/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E9%AB%98%E7%BA%A7%E9%80%86%E5%90%91%E5%88%86%E6%9E%90%E6%8A%80%E6%9C%AF/image-20220410121548028.png">
+<meta property="og:image" content="http://2298233831.github.io/2022/04/11/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E9%AB%98%E7%BA%A7%E9%80%86%E5%90%91%E5%88%86%E6%9E%90%E6%8A%80%E6%9C%AF/image-20220410121808724.png">
+<meta property="og:image" content="http://2298233831.github.io/2022/04/11/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E9%AB%98%E7%BA%A7%E9%80%86%E5%90%91%E5%88%86%E6%9E%90%E6%8A%80%E6%9C%AF/image-20220410122356393.png">
+<meta property="og:image" content="http://2298233831.github.io/2022/04/11/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E9%AB%98%E7%BA%A7%E9%80%86%E5%90%91%E5%88%86%E6%9E%90%E6%8A%80%E6%9C%AF/image-20220410122602024.png">
+<meta property="og:image" content="http://2298233831.github.io/2022/04/11/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E9%AB%98%E7%BA%A7%E9%80%86%E5%90%91%E5%88%86%E6%9E%90%E6%8A%80%E6%9C%AF/image-20220410122801231.png">
+<meta property="og:image" content="http://2298233831.github.io/2022/04/11/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E9%AB%98%E7%BA%A7%E9%80%86%E5%90%91%E5%88%86%E6%9E%90%E6%8A%80%E6%9C%AF/image-20220410123646015.png">
+<meta property="og:image" content="http://2298233831.github.io/2022/04/11/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E9%AB%98%E7%BA%A7%E9%80%86%E5%90%91%E5%88%86%E6%9E%90%E6%8A%80%E6%9C%AF/image-20220410151204978.png">
+<meta property="og:image" content="http://2298233831.github.io/2022/04/11/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E9%AB%98%E7%BA%A7%E9%80%86%E5%90%91%E5%88%86%E6%9E%90%E6%8A%80%E6%9C%AF/image-20220410162947013.png">
+<meta property="og:image" content="http://2298233831.github.io/2022/04/11/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E9%AB%98%E7%BA%A7%E9%80%86%E5%90%91%E5%88%86%E6%9E%90%E6%8A%80%E6%9C%AF/image-20220410165322561.png">
+<meta property="og:image" content="http://2298233831.github.io/2022/04/11/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E9%AB%98%E7%BA%A7%E9%80%86%E5%90%91%E5%88%86%E6%9E%90%E6%8A%80%E6%9C%AF/image-20220410165654556.png">
+<meta property="og:image" content="http://2298233831.github.io/2022/04/11/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E9%AB%98%E7%BA%A7%E9%80%86%E5%90%91%E5%88%86%E6%9E%90%E6%8A%80%E6%9C%AF/image-20220410170337983.png">
+<meta property="og:image" content="http://2298233831.github.io/2022/04/11/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E9%AB%98%E7%BA%A7%E9%80%86%E5%90%91%E5%88%86%E6%9E%90%E6%8A%80%E6%9C%AF/image-20220410172513951.png">
+<meta property="og:image" content="http://2298233831.github.io/2022/04/11/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E9%AB%98%E7%BA%A7%E9%80%86%E5%90%91%E5%88%86%E6%9E%90%E6%8A%80%E6%9C%AF/image-20220410172810751.png">
+<meta property="og:image" content="http://2298233831.github.io/2022/04/11/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E9%AB%98%E7%BA%A7%E9%80%86%E5%90%91%E5%88%86%E6%9E%90%E6%8A%80%E6%9C%AF/image-20220410172842993.png">
+<meta property="og:image" content="http://2298233831.github.io/2022/04/11/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E9%AB%98%E7%BA%A7%E9%80%86%E5%90%91%E5%88%86%E6%9E%90%E6%8A%80%E6%9C%AF/image-20220410180000470.png">
+<meta property="og:image" content="http://2298233831.github.io/2022/04/11/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E9%AB%98%E7%BA%A7%E9%80%86%E5%90%91%E5%88%86%E6%9E%90%E6%8A%80%E6%9C%AF/image-20220410180451097.png">
+<meta property="og:image" content="http://2298233831.github.io/2022/04/11/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E9%AB%98%E7%BA%A7%E9%80%86%E5%90%91%E5%88%86%E6%9E%90%E6%8A%80%E6%9C%AF/image-20220410183502324.png">
+<meta property="og:image" content="http://2298233831.github.io/2022/04/11/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E9%AB%98%E7%BA%A7%E9%80%86%E5%90%91%E5%88%86%E6%9E%90%E6%8A%80%E6%9C%AF/image-20220410174054428.png">
+<meta property="og:image" content="http://2298233831.github.io/2022/04/11/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E9%AB%98%E7%BA%A7%E9%80%86%E5%90%91%E5%88%86%E6%9E%90%E6%8A%80%E6%9C%AF/image-20220410185707466.png">
+<meta property="og:image" content="http://2298233831.github.io/2022/04/11/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E9%AB%98%E7%BA%A7%E9%80%86%E5%90%91%E5%88%86%E6%9E%90%E6%8A%80%E6%9C%AF/image-20220410185822888.png">
+<meta property="article:published_time" content="2022-04-11T00:55:19.000Z">
+<meta property="article:modified_time" content="2022-04-11T01:03:44.782Z">
+<meta property="article:author" content="O1d_Yu4n">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://2298233831.github.io/2022/04/11/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E9%AB%98%E7%BA%A7%E9%80%86%E5%90%91%E5%88%86%E6%9E%90%E6%8A%80%E6%9C%AF/image-20220409084748247.png">
+
+<link rel="canonical" href="http://2298233831.github.io/2022/04/11/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E9%AB%98%E7%BA%A7%E9%80%86%E5%90%91%E5%88%86%E6%9E%90%E6%8A%80%E6%9C%AF/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>逆向工程核心原理_高级逆向分析技术 | The Blog of O1d_Yu4n</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">The Blog of O1d_Yu4n</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://2298233831.github.io/2022/04/11/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E9%AB%98%E7%BA%A7%E9%80%86%E5%90%91%E5%88%86%E6%9E%90%E6%8A%80%E6%9C%AF/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="O1d_Yu4n">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="The Blog of O1d_Yu4n">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          逆向工程核心原理_高级逆向分析技术
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-04-11 08:55:19 / 修改时间：09:03:44" itemprop="dateCreated datePublished" datetime="2022-04-11T08:55:19+08:00">2022-04-11</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="TLS-Thread-Local-Storage-回调函数"><a href="#TLS-Thread-Local-Storage-回调函数" class="headerlink" title="TLS(Thread Local Storage)回调函数"></a>TLS(Thread Local Storage)回调函数</h1><p>首先需要注意的一点就是，TLS回调函数是在程序进入OEP之前调用的，因此利用这一特性可以在此设置反调试。</p>
+<p>简要说明TLS定义:TLS是各线程的独立的数据存储空间，使用TLS技术可在线程内部独立使用或修改进程的全局数据或静态数据，就像对待自身的局部变量一样。</p>
+<p>那么TLS回调函数是指</p>
+<p><img src="/2022/04/11/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E9%AB%98%E7%BA%A7%E9%80%86%E5%90%91%E5%88%86%E6%9E%90%E6%8A%80%E6%9C%AF/image-20220409084748247.png" alt="image-20220409084748247"></p>
+<p>值得一提的是，TLS表是需要在编程中开启TLS功能才会被设置在PE头文件中</p>
+<p>IMAGE_TLS_DIRECTORY结构体有两种版本，32位和64位。</p>
+<p>AddressOfCallBacks： 指向TLS注册的回调函数的函数指针(地址)数组（这个逆向时就很重要了）</p>
+<p>通过TLS回调函数和DLLmain的定义比较可以发现，二者是类似的</p>
+<p><img src="/2022/04/11/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E9%AB%98%E7%BA%A7%E9%80%86%E5%90%91%E5%88%86%E6%9E%90%E6%8A%80%E6%9C%AF/image-20220409085002301.png" alt="image-20220409085002301"></p>
+<p><img src="/2022/04/11/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E9%AB%98%E7%BA%A7%E9%80%86%E5%90%91%E5%88%86%E6%9E%90%E6%8A%80%E6%9C%AF/image-20220409085011556.png" alt="image-20220409085011556"></p>
+<p>上述图一中，reason是指调用TLS函数的原因</p>
+<p>如图所示</p>
+<p><img src="/2022/04/11/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E9%AB%98%E7%BA%A7%E9%80%86%E5%90%91%E5%88%86%E6%9E%90%E6%8A%80%E6%9C%AF/image-20220409085140790.png" alt="image-20220409085140790"></p>
+<p>分别是DLL进程&#x2F;线程附加；DLL进程&#x2F;线程分离</p>
+<p><img src="/2022/04/11/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E9%AB%98%E7%BA%A7%E9%80%86%E5%90%91%E5%88%86%E6%9E%90%E6%8A%80%E6%9C%AF/image-20220409182903022.png" alt="image-20220409182903022"></p>
+<p>关于调试TLS函数和手动添加TLS函数此处不在描述，过程中涉及对PE文件结构知识的回顾，重在实践。</p>
+<h1 id="TEB"><a href="#TEB" class="headerlink" title="TEB"></a>TEB</h1><p>贴上书中的定义</p>
+<p><img src="/2022/04/11/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E9%AB%98%E7%BA%A7%E9%80%86%E5%90%91%E5%88%86%E6%9E%90%E6%8A%80%E6%9C%AF/image-20220410113647863.png" alt="image-20220410113647863"></p>
+<p>丛书中的描述可知，TEB结构体的成员多而复杂，但在用户模式调试中起重要作用的成员有两个</p>
+<p><img src="/2022/04/11/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E9%AB%98%E7%BA%A7%E9%80%86%E5%90%91%E5%88%86%E6%9E%90%E6%8A%80%E6%9C%AF/image-20220410113850420.png" alt="image-20220410113850420"></p>
+<p>先看ProcessEnvironmentBlock，它是指向PEB—进程环境块结构体的指针.每个进程对应一个PEB结构体</p>
+<p>再看NtTib成员，TEB结构体的第一个成员为_NT_TIB（Thread Information Block—线程信息块）结构体</p>
+<p>下图为其结构体定义</p>
+<p><img src="/2022/04/11/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E9%AB%98%E7%BA%A7%E9%80%86%E5%90%91%E5%88%86%E6%9E%90%E6%8A%80%E6%9C%AF/image-20220410114802311.png" alt="image-20220410114802311"></p>
+<p>self成员为该结构体的自引用指针，同时因为该结构体为TEB的第一个结构体成员，所以它同时也是指向TEB结构体的指针。</p>
+<h2 id="TEB访问方法（用户模式下）"><a href="#TEB访问方法（用户模式下）" class="headerlink" title="TEB访问方法（用户模式下）"></a>TEB访问方法（用户模式下）</h2><p>这里对FS段寄存器做了说明</p>
+<p>原文解释的很清楚</p>
+<p><img src="/2022/04/11/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E9%AB%98%E7%BA%A7%E9%80%86%E5%90%91%E5%88%86%E6%9E%90%E6%8A%80%E6%9C%AF/image-20220410120445854.png" alt="image-20220410120445854"></p>
+<p>由上可知，FS实际存储的是SDT的索引</p>
+<p><img src="/2022/04/11/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E9%AB%98%E7%BA%A7%E9%80%86%E5%90%91%E5%88%86%E6%9E%90%E6%8A%80%E6%9C%AF/image-20220410120647654.png" alt="image-20220410120647654"></p>
+<h1 id="PEB-进程环境块"><a href="#PEB-进程环境块" class="headerlink" title="PEB(进程环境块)"></a>PEB(进程环境块)</h1><p>PEB是存放进程信息的结构体</p>
+<p>根据PEB结构体地址我们可以用如下方式访问PEB结构体</p>
+<p><img src="/2022/04/11/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E9%AB%98%E7%BA%A7%E9%80%86%E5%90%91%E5%88%86%E6%9E%90%E6%8A%80%E6%9C%AF/image-20220410121548028.png" alt="image-20220410121548028"></p>
+<h2 id="PEB的重要成员"><a href="#PEB的重要成员" class="headerlink" title="PEB的重要成员"></a>PEB的重要成员</h2><p><img src="/2022/04/11/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E9%AB%98%E7%BA%A7%E9%80%86%E5%90%91%E5%88%86%E6%9E%90%E6%8A%80%E6%9C%AF/image-20220410121808724.png" alt="image-20220410121808724"></p>
+<p>先看第一个成员，顾名思义，用来检测当前进程是否处于调试状态，是则返回1，否则返回0.</p>
+<p><img src="/2022/04/11/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E9%AB%98%E7%BA%A7%E9%80%86%E5%90%91%E5%88%86%E6%9E%90%E6%8A%80%E6%9C%AF/image-20220410122356393.png" alt="image-20220410122356393"></p>
+<p>可以看到该API就是通过调用该成员实现检测当前进程是否处于调试状态。</p>
+<p>接下来是第二个成员</p>
+<p>该进程用来获取进程的ImageBase</p>
+<p><img src="/2022/04/11/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E9%AB%98%E7%BA%A7%E9%80%86%E5%90%91%E5%88%86%E6%9E%90%E6%8A%80%E6%9C%AF/image-20220410122602024.png" alt="image-20220410122602024"></p>
+<p>上图的API用来获取ImageBase，实现方法与上一个API类似。</p>
+<p>再下一个Ldr，该成员是指向PEB_LDR_DATA结构体的指针，结构体成员如下图所示</p>
+<p><img src="/2022/04/11/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E9%AB%98%E7%BA%A7%E9%80%86%E5%90%91%E5%88%86%E6%9E%90%E6%8A%80%E6%9C%AF/image-20220410122801231.png" alt="image-20220410122801231"></p>
+<p>该成员可直接获取加载到进程的DLL模块的加载基地址</p>
+<p>可以看到结构体中有三个_LIST_ENTRY类型的成员。，该结构体定义如下图</p>
+<p><img src="/2022/04/11/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E9%AB%98%E7%BA%A7%E9%80%86%E5%90%91%E5%88%86%E6%9E%90%E6%8A%80%E6%9C%AF/image-20220410123646015.png" alt="image-20220410123646015"></p>
+<p>最后两个成员都应用于反调试技术。进程处于调试状态时，有特定值。</p>
+<h1 id="SEH"><a href="#SEH" class="headerlink" title="SEH"></a>SEH</h1><p><img src="/2022/04/11/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E9%AB%98%E7%BA%A7%E9%80%86%E5%90%91%E5%88%86%E6%9E%90%E6%8A%80%E6%9C%AF/image-20220410151204978.png" alt="image-20220410151204978"></p>
+<p>SEH机制在程序源代码中使用try,except,finally关键字来实现。</p>
+<p>书中第一个例子的异常触发是由于访问未分配的内存。</p>
+<p><img src="/2022/04/11/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E9%AB%98%E7%BA%A7%E9%80%86%E5%90%91%E5%88%86%E6%9E%90%E6%8A%80%E6%9C%AF/image-20220410162947013.png" alt="image-20220410162947013"></p>
+<p>操作系统的异常处理方法大致可根据程序运行情况分为两大类</p>
+<ol>
+<li>正常运行时处理</li>
+<li>调试运行时处理</li>
+</ol>
+<p>第一种操作系统会将异常交给进程处理，若进程代码有相应的解决代码，则顺利处理，否则终止进程运行。</p>
+<p>第二种则是交给调试器处理。调试器的权限很多，除了与被调试的进程有几乎一样的权限外，还有被调试者的虚拟内存，寄存器的读写权限。在遇到异常时，调试器会暂停运行，异常处理完后继续调试</p>
+<p>下图为几种处理方法</p>
+<p><img src="/2022/04/11/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E9%AB%98%E7%BA%A7%E9%80%86%E5%90%91%E5%88%86%E6%9E%90%E6%8A%80%E6%9C%AF/image-20220410165322561.png" alt="image-20220410165322561"></p>
+<p>一下是操作系统所定义的—异常</p>
+<p><img src="/2022/04/11/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E9%AB%98%E7%BA%A7%E9%80%86%E5%90%91%E5%88%86%E6%9E%90%E6%8A%80%E6%9C%AF/image-20220410165654556.png" alt="image-20220410165654556"></p>
+<p>书中着重讨论了5种</p>
+<h2 id="EXCEPTION-ACCESS-VIOLATION（C0000005）"><a href="#EXCEPTION-ACCESS-VIOLATION（C0000005）" class="headerlink" title="EXCEPTION_ACCESS_VIOLATION（C0000005）"></a>EXCEPTION_ACCESS_VIOLATION（C0000005）</h2><p>这就是访问不存在或不具访问权限的内存区域是所触发的异常—非法访问异常（最常见）</p>
+<p><img src="/2022/04/11/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E9%AB%98%E7%BA%A7%E9%80%86%E5%90%91%E5%88%86%E6%9E%90%E6%8A%80%E6%9C%AF/image-20220410170337983.png" alt="image-20220410170337983"></p>
+<h2 id="EXCEPTION-BREAKPOINT-80000003"><a href="#EXCEPTION-BREAKPOINT-80000003" class="headerlink" title="EXCEPTION_BREAKPOINT(80000003)"></a>EXCEPTION_BREAKPOINT(80000003)</h2><p>这就是调试器实现断点的原理，CPU遇到被设置了断点的代码会暂停运行。</p>
+<p>实现方法：</p>
+<p>​    INT3为设置断点命令的汇编语言，所对应的机器码为0xCC。CPU若遇到了该指令，即触发该异常</p>
+<h2 id="EXCEPTION-ILLEGAL-INSTRUCTION-C000001D"><a href="#EXCEPTION-ILLEGAL-INSTRUCTION-C000001D" class="headerlink" title="EXCEPTION_ILLEGAL_INSTRUCTION(C000001D)"></a>EXCEPTION_ILLEGAL_INSTRUCTION(C000001D)</h2><p>CPU遇到无法解析（在该CPU架构下未定义）的指令时触发异常</p>
+<h2 id="EXCEPTION-INT-DIVIDE-BY-ZERO-C0000094"><a href="#EXCEPTION-INT-DIVIDE-BY-ZERO-C0000094" class="headerlink" title="EXCEPTION_INT_DIVIDE_BY_ZERO(C0000094)"></a>EXCEPTION_INT_DIVIDE_BY_ZERO(C0000094)</h2><p>小学数学经典错误，整数除法当中，分母为0.当然，若分母为某个变量，变量在某个时刻为0，也会触发该异常</p>
+<p>。比如一个变量自己跟自己异或，返回0</p>
+<h2 id="EXCEPTION-SINGLE-STEP"><a href="#EXCEPTION-SINGLE-STEP" class="headerlink" title="EXCEPTION_SINGLE_STEP"></a>EXCEPTION_SINGLE_STEP</h2><p>单步过后程序暂停，程序进入单步模式后，每执行一次单步，就触发一次该异常。</p>
+<p><img src="/2022/04/11/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E9%AB%98%E7%BA%A7%E9%80%86%E5%90%91%E5%88%86%E6%9E%90%E6%8A%80%E6%9C%AF/image-20220410172513951.png" alt="image-20220410172513951"></p>
+<h2 id="SEH链"><a href="#SEH链" class="headerlink" title="SEH链"></a>SEH链</h2><p>原图简洁明了</p>
+<p><img src="/2022/04/11/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E9%AB%98%E7%BA%A7%E9%80%86%E5%90%91%E5%88%86%E6%9E%90%E6%8A%80%E6%9C%AF/image-20220410172810751.png" alt="image-20220410172810751"></p>
+<h2 id="异常处理函数的定义"><a href="#异常处理函数的定义" class="headerlink" title="异常处理函数的定义"></a>异常处理函数的定义</h2><p><img src="/2022/04/11/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E9%AB%98%E7%BA%A7%E9%80%86%E5%90%91%E5%88%86%E6%9E%90%E6%8A%80%E6%9C%AF/image-20220410172842993.png" alt="image-20220410172842993"></p>
+<p>该函数传入四个参数,返回一个枚举类型.四个参数都保存异常的相关信息,第三个参数是指向CONTEXT结构体的指针.</p>
+<p>该结构体的定义如下</p>
+<p><img src="/2022/04/11/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E9%AB%98%E7%BA%A7%E9%80%86%E5%90%91%E5%88%86%E6%9E%90%E6%8A%80%E6%9C%AF/image-20220410180000470.png" alt="image-20220410180000470"></p>
+<p>该结构体用来备份CPU寄存器的值(多线程环境下需要).每个线程内部都拥有一个CONTEXT结构体,当CPU暂时离开当前线程去执行其他线程时,CPU寄存器的值就会保存到当前的CONTEXT结构体中,再次运行该线程时,就会用保存的值覆盖寄存器的值,从之前暂停的代码处继续执行.正是因此,OS才可以在多线程下安全运行各线程.</p>
+<p><img src="/2022/04/11/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E9%AB%98%E7%BA%A7%E9%80%86%E5%90%91%E5%88%86%E6%9E%90%E6%8A%80%E6%9C%AF/image-20220410180451097.png" alt="image-20220410180451097"></p>
+<p>所返回的枚举类型如下</p>
+<p><img src="/2022/04/11/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E9%AB%98%E7%BA%A7%E9%80%86%E5%90%91%E5%88%86%E6%9E%90%E6%8A%80%E6%9C%AF/image-20220410183502324.png" alt="image-20220410183502324"></p>
+<p>在异常发生时执行异常代码的线程会被中断运行,转而运行SEH,OS会把线程的CONTEXT结构体指针传递给异常处理函数的相应参数.</p>
+<p>第一个成员是一个结构体,其定义如下</p>
+<p><img src="/2022/04/11/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E9%AB%98%E7%BA%A7%E9%80%86%E5%90%91%E5%88%86%E6%9E%90%E6%8A%80%E6%9C%AF/image-20220410174054428.png" alt="image-20220410174054428"></p>
+<p>其中,第一个成员用来指出异常类型;第四个则用来表示发生异常的代码地址.</p>
+<p>TEB结构体的第一个成员是TEB.NtTib.ExceptionList,通过它可以很容易地访问进程的SEH链.</p>
+<p><img src="/2022/04/11/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E9%AB%98%E7%BA%A7%E9%80%86%E5%90%91%E5%88%86%E6%9E%90%E6%8A%80%E6%9C%AF/image-20220410185707466.png" alt="image-20220410185707466"></p>
+<p>SEH安装方法</p>
+<p><img src="/2022/04/11/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E9%AB%98%E7%BA%A7%E9%80%86%E5%90%91%E5%88%86%E6%9E%90%E6%8A%80%E6%9C%AF/image-20220410185822888.png" alt="image-20220410185822888"></p>
+<p>后面的调试建议动手调，没有什么需要特别说明的。</p>
+<p>关于IA32指令解析，就像是在教你如何查阅程序员的字典一样，跟着阅读即可。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/03/25/IL2CPP%E5%AD%A6%E4%B9%A0/" rel="prev" title="IL2CPP学习">
+      <i class="fa fa-chevron-left"></i> IL2CPP学习
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#TLS-Thread-Local-Storage-%E5%9B%9E%E8%B0%83%E5%87%BD%E6%95%B0"><span class="nav-number">1.</span> <span class="nav-text">TLS(Thread Local Storage)回调函数</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#TEB"><span class="nav-number">2.</span> <span class="nav-text">TEB</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#TEB%E8%AE%BF%E9%97%AE%E6%96%B9%E6%B3%95%EF%BC%88%E7%94%A8%E6%88%B7%E6%A8%A1%E5%BC%8F%E4%B8%8B%EF%BC%89"><span class="nav-number">2.1.</span> <span class="nav-text">TEB访问方法（用户模式下）</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#PEB-%E8%BF%9B%E7%A8%8B%E7%8E%AF%E5%A2%83%E5%9D%97"><span class="nav-number">3.</span> <span class="nav-text">PEB(进程环境块)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#PEB%E7%9A%84%E9%87%8D%E8%A6%81%E6%88%90%E5%91%98"><span class="nav-number">3.1.</span> <span class="nav-text">PEB的重要成员</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#SEH"><span class="nav-number">4.</span> <span class="nav-text">SEH</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#EXCEPTION-ACCESS-VIOLATION%EF%BC%88C0000005%EF%BC%89"><span class="nav-number">4.1.</span> <span class="nav-text">EXCEPTION_ACCESS_VIOLATION（C0000005）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#EXCEPTION-BREAKPOINT-80000003"><span class="nav-number">4.2.</span> <span class="nav-text">EXCEPTION_BREAKPOINT(80000003)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#EXCEPTION-ILLEGAL-INSTRUCTION-C000001D"><span class="nav-number">4.3.</span> <span class="nav-text">EXCEPTION_ILLEGAL_INSTRUCTION(C000001D)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#EXCEPTION-INT-DIVIDE-BY-ZERO-C0000094"><span class="nav-number">4.4.</span> <span class="nav-text">EXCEPTION_INT_DIVIDE_BY_ZERO(C0000094)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#EXCEPTION-SINGLE-STEP"><span class="nav-number">4.5.</span> <span class="nav-text">EXCEPTION_SINGLE_STEP</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SEH%E9%93%BE"><span class="nav-number">4.6.</span> <span class="nav-text">SEH链</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86%E5%87%BD%E6%95%B0%E7%9A%84%E5%AE%9A%E4%B9%89"><span class="nav-number">4.7.</span> <span class="nav-text">异常处理函数的定义</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">O1d_Yu4n</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">11</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">O1d_Yu4n</span>
+</div>
+<!--
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+-->
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
