@@ -145,6 +145,123 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://2298233831.github.io/2022/04/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E5%8F%8D%E8%B0%83%E8%AF%95%E6%8A%80%E6%9C%AF/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="O1d_Yu4n">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="The Blog of O1d_Yu4n">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/04/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E5%8F%8D%E8%B0%83%E8%AF%95%E6%8A%80%E6%9C%AF/" class="post-title-link" itemprop="url">逆向工程核心原理_反调试技术</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-04-12 15:54:48 / 修改时间：15:58:00" itemprop="dateCreated datePublished" datetime="2022-04-12T15:54:48+08:00">2022-04-12</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="反调试技术"><a href="#反调试技术" class="headerlink" title="反调试技术"></a>反调试技术</h1><p>在开始前，先用一张图简要说明反调试技术的种类</p>
+<p><img src="/2022/04/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E5%8F%8D%E8%B0%83%E8%AF%95%E6%8A%80%E6%9C%AF/image-20220412122021162.png" alt="image-20220412122021162"></p>
+<h1 id="静态反调试"><a href="#静态反调试" class="headerlink" title="静态反调试"></a>静态反调试</h1><p>承接之前学习的PEB结构体，该结构体的成员主要有以下四个更值得关注，且都与反调试有关。</p>
+<p><img src="/2022/04/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E5%8F%8D%E8%B0%83%E8%AF%95%E6%8A%80%E6%9C%AF/image-20220412122133677.png" alt="image-20220412122133677"></p>
+<p>首先复习下如何访问PEB结构体</p>
+<p><img src="/2022/04/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E5%8F%8D%E8%B0%83%E8%AF%95%E6%8A%80%E6%9C%AF/image-20220412122227236.png" alt="image-20220412122227236"></p>
+<p>利用上面的方式再加上上面四个成员的偏移量就可以访问对应的成员了。</p>
+<h2 id="BeingDebugged"><a href="#BeingDebugged" class="headerlink" title="BeingDebugged"></a>BeingDebugged</h2><p>该成员在值为1是表示进程处在调试状态，为0则正常运行。</p>
+<h2 id="Ldr"><a href="#Ldr" class="headerlink" title="Ldr"></a>Ldr</h2><p>在进程处于调试状态的堆区中，未使用的内存区域全部由0xFEEEFEEE填充，若将其用NULL覆盖即表明程序处于正常运行状态。</p>
+<h2 id="Process-Heap"><a href="#Process-Heap" class="headerlink" title="Process Heap"></a>Process Heap</h2><p>该成员是指向Heap结构体的指针</p>
+<p><img src="/2022/04/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E5%8F%8D%E8%B0%83%E8%AF%95%E6%8A%80%E6%9C%AF/image-20220412122817083.png" alt="image-20220412122817083"></p>
+<p>其中，在正常运行时，Flags和Force Flags成员会被设置为特定的值，分别为0x2,0x0</p>
+<h2 id="NtGlobalFlag"><a href="#NtGlobalFlag" class="headerlink" title="NtGlobalFlag"></a>NtGlobalFlag</h2><p>调试状态时该成员的值会被设置为0x70，正常运行状态则值为0.</p>
+<h2 id="NtQueryInformationProcess"><a href="#NtQueryInformationProcess" class="headerlink" title="NtQueryInformationProcess"></a>NtQueryInformationProcess</h2><p><img src="/2022/04/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E5%8F%8D%E8%B0%83%E8%AF%95%E6%8A%80%E6%9C%AF/image-20220412141513488.png" alt="image-20220412141513488"></p>
+<p><img src="/2022/04/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E5%8F%8D%E8%B0%83%E8%AF%95%E6%8A%80%E6%9C%AF/image-20220412141652792.png" alt="image-20220412141652792"></p>
+<p>此处的例子出于将会多次涉及参数数值的更改，会很麻烦，所以涉及api hook，</p>
+<h2 id="NtQureyObject"><a href="#NtQureyObject" class="headerlink" title="NtQureyObject"></a>NtQureyObject</h2><p>首先，当进程处于调试状态时，系统会分配一个调试对象类型的内核对象，通过检测该对象是否存在，即可判断是否处于调试状态。</p>
+<p>简要说明检测过程：</p>
+<p>通过NtQureyObject()api获取系统各种内核对象的信息。定义如下</p>
+<p><img src="/2022/04/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E5%8F%8D%E8%B0%83%E8%AF%95%E6%8A%80%E6%9C%AF/image-20220412143047207.png" alt="image-20220412143047207"></p>
+<p>通过书中的调试案例可更快理解该反调试的具体过程</p>
+<h2 id="ZwSetInformationThread"><a href="#ZwSetInformationThread" class="headerlink" title="ZwSetInformationThread"></a>ZwSetInformationThread</h2><p>该api会将线程隐藏，调试器无法接受信息，从而无法调试。</p>
+<p>可以让该api不调用，可以解决问题，或者在调用该api之前，将存储在栈中的的第二个参数ThreadInformationClass的值设置为0即可。</p>
+<h2 id="and-so-on"><a href="#and-so-on" class="headerlink" title="and so on"></a>and so on</h2><p>再者就是之前介绍过的TLS回调函数实现反调试了，很经典。</p>
+<p>书中最后还介绍了一种通过检测程序运行所处的系统是否为你想专用的系统来决定是否实现反调试。</p>
+<p><img src="/2022/04/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E5%8F%8D%E8%B0%83%E8%AF%95%E6%8A%80%E6%9C%AF/image-20220412144545994.png" alt="image-20220412144545994"></p>
+<h1 id="动态反调试技术"><a href="#动态反调试技术" class="headerlink" title="动态反调试技术"></a>动态反调试技术</h1><p>异常是常被用来实现动态反调试的手段之一。本章前面所描述的部分内容可在SEH那章找到。</p>
+<p>而当进程中未注册SEH或SEH未处理异常时</p>
+<p><img src="/2022/04/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E5%8F%8D%E8%B0%83%E8%AF%95%E6%8A%80%E6%9C%AF/image-20220412144910002.png" alt="image-20220412144910002"></p>
+<h2 id="Timing-Check"><a href="#Timing-Check" class="headerlink" title="Timing Check"></a>Timing Check</h2><p>原理为当程序在正常运行时和调试时所耗费的时间不同来检测进程是否处于调试状态。</p>
+<p>如下是检测方法</p>
+<p><img src="/2022/04/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E5%8F%8D%E8%B0%83%E8%AF%95%E6%8A%80%E6%9C%AF/image-20220412145143458.png" alt="image-20220412145143458"></p>
+<p>RDTSC反调试的破解方式如图</p>
+<p><img src="/2022/04/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E5%8F%8D%E8%B0%83%E8%AF%95%E6%8A%80%E6%9C%AF/image-20220412145402293.png" alt="image-20220412145402293"></p>
+<p><img src="/2022/04/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E5%8F%8D%E8%B0%83%E8%AF%95%E6%8A%80%E6%9C%AF/image-20220412145410760.png" alt="image-20220412145410760"></p>
+<h2 id="TF与单步"><a href="#TF与单步" class="headerlink" title="TF与单步"></a>TF与单步</h2><p><img src="/2022/04/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E5%8F%8D%E8%B0%83%E8%AF%95%E6%8A%80%E6%9C%AF/image-20220412145445431.png" alt="image-20220412145445431"></p>
+<p>前面的章节提到，Windows中存在单步异常。</p>
+<p>在单步执行模式中，该异常触发后，TF会自动清零</p>
+<p>需要注意TF的值无法修改</p>
+<p>大体流程如下</p>
+<p><img src="/2022/04/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E5%8F%8D%E8%B0%83%E8%AF%95%E6%8A%80%E6%9C%AF/image-20220412145859419.png" alt="image-20220412145859419"></p>
+<p>调试例子可以通过将-1修改为0x401036的值也可绕过反调试。</p>
+<p><img src="/2022/04/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E5%8F%8D%E8%B0%83%E8%AF%95%E6%8A%80%E6%9C%AF/image-20220412150430023.png" alt="image-20220412150430023"></p>
+<h2 id="INT-2D"><a href="#INT-2D" class="headerlink" title="INT 2D"></a>INT 2D</h2><p>该异常比较有意思，在调试状态时，解析了该指令后，系统会忽略下一条指令的第一个字节，导致之后指令解析错误。</p>
+<p>跟着例子调一下就明白了。</p>
+<h2 id="0xCC探测"><a href="#0xCC探测" class="headerlink" title="0xCC探测"></a>0xCC探测</h2><p>断点对应的x86指令为0xCC</p>
+<p>如果只是扫面0xCC就判断在调试状态，那大概率会“误伤”</p>
+<p>故一般会检测一些API函数的第一个字节是否0xCC，所以尽量别在API函数开头设置软件断点，往后一点，或者设置硬件断点即可规避该反调试手段。</p>
+<h2 id="比较校验和"><a href="#比较校验和" class="headerlink" title="比较校验和"></a>比较校验和</h2><p>程序中如若设置了断电会导致校验和的值不相同，具体可结合书中实例查看</p>
+<p>我们只需不在会被计算校验和的代码区设置断点即可规避</p>
+<h1 id="高级逆向分析技术"><a href="#高级逆向分析技术" class="headerlink" title="高级逆向分析技术"></a>高级逆向分析技术</h1><ol>
+<li>垃圾代码（花指令）</li>
+<li>扰乱代码对齐（向代码插入经过精巧设计的不必要的代码来降低反汇编代码可读性），该方法会使调试器生成错误的反汇编代码，具体请阅读书籍。</li>
+<li>对关键数据和代码加解密（此中可能会参杂花指令使可读性降低）</li>
+<li>Stolen Bytes（在转储进程内存时将EP代码的部分剪切到其他地方，从而使转储的文件无法正常运行反转储技术，被剪切的代码最后会添加jmp指令跳转到还存在的EP代码继续执行）</li>
+<li>API重定向；这跟上面那个差不多，API重定向是把所有EP代码都复制到其他区域，再将要保护的代码修改，从而使被复制的代码得以执行（该技术支持反转储）</li>
+</ol>
+<p>最后的</p>
+<p><img src="/2022/04/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E5%8F%8D%E8%B0%83%E8%AF%95%E6%8A%80%E6%9C%AF/image-20220412155347155.png" alt="image-20220412155347155"></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://2298233831.github.io/2022/04/11/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E9%AB%98%E7%BA%A7%E9%80%86%E5%90%91%E5%88%86%E6%9E%90%E6%8A%80%E6%9C%AF/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1504,147 +1621,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://2298233831.github.io/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC1-12%E7%AB%A0%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="O1d_Yu4n">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="The Blog of O1d_Yu4n">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC1-12%E7%AB%A0%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" class="post-title-link" itemprop="url">逆向工程核心原理第1-12章学习笔记</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-12-12 20:19:54" itemprop="dateCreated datePublished" datetime="2021-12-12T20:19:54+08:00">2021-12-12</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-12-22 21:19:39" itemprop="dateModified" datetime="2021-12-22T21:19:39+08:00">2021-12-22</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="逆向工程核心原理第一—-十二章笔记"><a href="#逆向工程核心原理第一—-十二章笔记" class="headerlink" title="逆向工程核心原理第一—-十二章笔记"></a>逆向工程核心原理第一—-十二章笔记</h1><blockquote>
-<p> 部分基础汇编指令的运用，以及寄存器类型；<br> 如：8086汇编段寄存器：</p>
-</blockquote>
-<blockquote>
-<p>CS:代码段寄存器(CPU执行命令仅从CS:IP指向的内容开始执行，到该内容截止。且CPU提供转义指令来修改CS、IP的内容)<br>SS:栈段寄存器<br>DS:数据段寄存器<br>ES:附加数据寄存器<br>FS:段寄存器<br>GS:段寄存器(FS,GS是80386起增加的两个辅助段寄存器,在这之前只有一个辅助段寄存器ES,增加这两个寄存器是为了减轻ES寄存器的负担,并能更好地配合适用于通用寄存器组的基址和变址寄存器.<br>这两个是通用的段寄存器，语法上同其它的段寄存器一样，不能直接用立即数给它赋值。)</p>
-<p>更详细的段寄存器知识取自以下网址 <a target="_blank" rel="noopener" href="https://www.cnblogs.com/xiangsikai/p/12461512.html#:~:text=ES%20%E9%99%84%E5%8A%A0%E6%AE%B5%E5%AF%84%E5%AD%98%E5%99%A8%E3%80%81%E4%B8%93%E9%97%A8%E9%85%8D%E5%90%88%E6%95%B0%E6%8D%AE%E5%86%85%E5%AD%98%E5%9C%B0%E5%9D%80%E7%9A%84%E5%AF%84%E5%AD%98%E5%99%A8%E3%80%81%E5%AE%83%E4%B8%8EDI%E5%8F%98%E6%8C%87%E5%AF%84%E5%AD%98%E5%99%A8%E9%85%8D%E5%90%88%E4%BD%BF%E7%94%A8%E3%80%82.,%E9%80%9A%E5%B8%B8DS%E4%B8%8ESI%E5%8F%96%E5%BE%97%E6%95%B0%E6%8D%AE%E7%9A%84%E6%BA%90%E5%9C%B0%E5%9D%80%E3%80%81ES%E4%B8%8EDI%E5%8F%96%E5%BE%97%E6%95%B0%E6%8D%AE%E7%9A%84%E7%9B%AE%E6%A0%87%E5%9C%B0%E5%9D%80.%20%E5%8A%9F%E8%83%BD%EF%BC%9AES%EF%BC%9A%E6%95%B0%E6%8D%AE%E6%AE%B5%E5%9C%B0%E5%9D%80%E5%AD%98%E5%82%A8.%20%E5%8A%9F%E8%83%BD%EF%BC%9ADI%EF%BC%9A%E6%95%B0%E6%8D%AE%E6%AE%B5%E5%81%8F%E7%A7%BB%E5%9C%B0%E5%9D%80%E5%AD%98%E5%82%A8.">段寄存器</a></p>
-<p><img src="/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC1-12%E7%AB%A0%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211207162249072.png" alt="image-20211207162249072"></p>
-<p>附上偏移地址的概念图</p>
-<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/wisehead/articles/3819233.html">各种寄存器的简略介绍</a></p>
-<p><img src="/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC1-12%E7%AB%A0%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211207184336279.png" alt="image-20211207184336279"></p>
-<p><strong>IP寄存器拓展：</strong></p>
-<p><strong>EIP指针指令寄存器：保存着CPU要执行的指令地址，由IP寄存器拓展的EIP是不能直接修改的程序运行时CPU读EIP中的一条指令的地址，EIP寄存器的值自己增加，CPU每次执行完一条指令，就会通过EIP寄存器读取并执行下一条指令。</strong></p>
-</blockquote>
-<blockquote>
-<ul>
-<li>Ollydbg的部分使用方法</li>
-</ul>
-</blockquote>
-<blockquote>
-<ul>
-<li>大&#x2F;小端序标记法。(字符串被保存在一个字符数组中时，无论采用哪种标记法，存储顺序都相同。)<br><img src="/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC1-12%E7%AB%A0%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211207170855768.png" alt="image-20211207170855768">数据的低位存储在低地址位，数据的高位存储在高地址位,小端字节序称为LSB</li>
-</ul>
-</blockquote>
-<blockquote>
-<p> 数据的低位存储在高地址位，数据的高位存储在低地址位,大端字节序称为MSB</p>
-</blockquote>
-<blockquote>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_45121946/article/details/105086756">判断大小端序的方法</a></p>
-</blockquote>
-<p> <img src="/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC1-12%E7%AB%A0%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211207183813150.png" alt="image-20211207183813150"></p>
-<pre><code> 反之则为大端序。
-</code></pre>
-<blockquote>
-<p> EFLAGS（32位）是由FLAGS（16位）扩展来的。</p>
-</blockquote>
-<blockquote>
-<p>每位值都有意义。</p>
-</blockquote>
-<blockquote>
-<p>​    初级阶段掌握 ZF（零标志）、OF（溢出标志）、CF（进位标志）即可。</p>
-</blockquote>
-<blockquote>
-<p>​    ZF 运算结果0或1，True或False</p>
-</blockquote>
-<blockquote>
-<p>​    OF 有符号整数溢出时，OF为1。MSB改变时，其值也为1。</p>
-</blockquote>
-<blockquote>
-<p>​    CF 无符号整数溢出时，CF为1。</p>
-</blockquote>
-<blockquote>
-<p>​    Tip</p>
-</blockquote>
-<blockquote>
-<p>​    Jcc(条件跳转)指令要检查这3个标志的值(只要是条件跳转指令，都要检查这个值，来决定如何跳转。)，并根据    其值决定是否执行某个动作。(以这点为核心的题目为攻防世界中RE的simple-check。)</p>
-</blockquote>
-<blockquote>
-<p><a target="_blank" rel="noopener" href="http://c.biancheng.net/view/3567.html">汇编语言条件跳转指令汇总 </a></p>
-</blockquote>
-<blockquote>
-<p> 栈–一种数据结构，其存储数据的规则为–先进(PUSH)后出(POP)</p>
-</blockquote>
-<p><img src="/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC1-12%E7%AB%A0%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211207185955041.png" alt="image-20211207185955041"></p>
-<p><img src="/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC1-12%E7%AB%A0%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211207192440502.png" alt="image-20211207192440502"></p>
-<blockquote>
-<p>具体理解参考如下文章<a target="_blank" rel="noopener" href="http://data.biancheng.net/view/170.html">顺序栈基本操作（入栈和出栈）C语言详解</a></p>
-</blockquote>
-<blockquote>
-<p> 栈帧：</p>
-</blockquote>
-<blockquote>
-<p> 首先，在程序运行时，ESP寄存器的值是随时变化的；所以，调用某函数时，先把用作基准点(函数起始地址)的ESP值保存到EBP(栈帧指针)，并维持在函数内部。这样，EBP的值能够安全访问到相关函数的局部变量、参数，返回地址，这就是EBP寄存器作为栈帧指针的作用。</p>
-</blockquote>
-<blockquote>
-<p>栈帧—是利用<u><strong>EBP</strong></u>寄存器访问栈内局部变量、参数、函数返回地址等的手段。</p>
-</blockquote>
-<p><img src="/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC1-12%E7%AB%A0%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211207192332394.png" alt="image-20211207192332394"></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1714,7 +1690,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">11</span>
+          <span class="site-state-item-count">12</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
