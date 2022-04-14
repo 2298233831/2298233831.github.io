@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.1.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"2298233831.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="PE文件解析器检测是否为PE文件首先先检测该文件是不是PE文件，根据PE文件特性 PE文件的第一个字节位于一个传统的MS-DOS头部，称作IMAGE_DOS_HEADER，该结构体第一个成员的值可用作判断文件是否为PE文件。其值应被设置为4D5A（但是实际存储在文件中，是以小端序形式存储的，如下所示），  这才是PE文件的标识。 在《逆向工程核心原理》中，我们可以知道PE文件类型大概有以下几种">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PE文件简要解析器">
+<meta property="og:url" content="http://2298233831.github.io/2022/04/14/PE%E6%96%87%E4%BB%B6%E7%AE%80%E8%A6%81%E8%A7%A3%E6%9E%90%E5%99%A8/index.html">
+<meta property="og:site_name" content="The Blog of O1d_Yu4n">
+<meta property="og:description" content="PE文件解析器检测是否为PE文件首先先检测该文件是不是PE文件，根据PE文件特性 PE文件的第一个字节位于一个传统的MS-DOS头部，称作IMAGE_DOS_HEADER，该结构体第一个成员的值可用作判断文件是否为PE文件。其值应被设置为4D5A（但是实际存储在文件中，是以小端序形式存储的，如下所示），  这才是PE文件的标识。 在《逆向工程核心原理》中，我们可以知道PE文件类型大概有以下几种">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://2298233831.github.io/2022/04/14/PE%E6%96%87%E4%BB%B6%E7%AE%80%E8%A6%81%E8%A7%A3%E6%9E%90%E5%99%A8/image-20220412211923140.png">
+<meta property="og:image" content="http://2298233831.github.io/2022/04/14/PE%E6%96%87%E4%BB%B6%E7%AE%80%E8%A6%81%E8%A7%A3%E6%9E%90%E5%99%A8/image-20220412211706773.png">
+<meta property="og:image" content="http://2298233831.github.io/2022/04/14/PE%E6%96%87%E4%BB%B6%E7%AE%80%E8%A6%81%E8%A7%A3%E6%9E%90%E5%99%A8/image-20220412231706106.png">
+<meta property="og:image" content="http://2298233831.github.io/2022/04/14/PE%E6%96%87%E4%BB%B6%E7%AE%80%E8%A6%81%E8%A7%A3%E6%9E%90%E5%99%A8/image-20220412234003731.png">
+<meta property="og:image" content="http://2298233831.github.io/2022/04/14/PE%E6%96%87%E4%BB%B6%E7%AE%80%E8%A6%81%E8%A7%A3%E6%9E%90%E5%99%A8/image-20220413073714649.png">
+<meta property="og:image" content="http://2298233831.github.io/2022/04/14/PE%E6%96%87%E4%BB%B6%E7%AE%80%E8%A6%81%E8%A7%A3%E6%9E%90%E5%99%A8/image-20220413073726016.png">
+<meta property="og:image" content="http://2298233831.github.io/2022/04/14/PE%E6%96%87%E4%BB%B6%E7%AE%80%E8%A6%81%E8%A7%A3%E6%9E%90%E5%99%A8/image-20220413102414066.png">
+<meta property="og:image" content="http://2298233831.github.io/2022/04/14/PE%E6%96%87%E4%BB%B6%E7%AE%80%E8%A6%81%E8%A7%A3%E6%9E%90%E5%99%A8/image-20220413111626984.png">
+<meta property="og:image" content="http://2298233831.github.io/2022/04/14/PE%E6%96%87%E4%BB%B6%E7%AE%80%E8%A6%81%E8%A7%A3%E6%9E%90%E5%99%A8/image-20220413115002184.png">
+<meta property="og:image" content="http://2298233831.github.io/2022/04/14/PE%E6%96%87%E4%BB%B6%E7%AE%80%E8%A6%81%E8%A7%A3%E6%9E%90%E5%99%A8/image-20220413185242749.png">
+<meta property="og:image" content="http://2298233831.github.io/2022/04/14/PE%E6%96%87%E4%BB%B6%E7%AE%80%E8%A6%81%E8%A7%A3%E6%9E%90%E5%99%A8/image-20220414191127255.png">
+<meta property="og:image" content="http://2298233831.github.io/2022/04/14/PE%E6%96%87%E4%BB%B6%E7%AE%80%E8%A6%81%E8%A7%A3%E6%9E%90%E5%99%A8/image-20220414191140997.png">
+<meta property="og:image" content="http://2298233831.github.io/2022/04/14/PE%E6%96%87%E4%BB%B6%E7%AE%80%E8%A6%81%E8%A7%A3%E6%9E%90%E5%99%A8/image-20220414130435339.png">
+<meta property="og:image" content="http://2298233831.github.io/2022/04/14/PE%E6%96%87%E4%BB%B6%E7%AE%80%E8%A6%81%E8%A7%A3%E6%9E%90%E5%99%A8/image-20220414131910912.png">
+<meta property="og:image" content="http://2298233831.github.io/2022/04/14/PE%E6%96%87%E4%BB%B6%E7%AE%80%E8%A6%81%E8%A7%A3%E6%9E%90%E5%99%A8/image-20220414132204351.png">
+<meta property="og:image" content="http://2298233831.github.io/2022/04/14/PE%E6%96%87%E4%BB%B6%E7%AE%80%E8%A6%81%E8%A7%A3%E6%9E%90%E5%99%A8/image-20220414191329512.png">
+<meta property="og:image" content="http://2298233831.github.io/2022/04/14/PE%E6%96%87%E4%BB%B6%E7%AE%80%E8%A6%81%E8%A7%A3%E6%9E%90%E5%99%A8/image-20220414190838236.png">
+<meta property="article:published_time" content="2022-04-14T11:17:00.000Z">
+<meta property="article:modified_time" content="2022-04-14T11:20:56.488Z">
+<meta property="article:author" content="O1d_Yu4n">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://2298233831.github.io/2022/04/14/PE%E6%96%87%E4%BB%B6%E7%AE%80%E8%A6%81%E8%A7%A3%E6%9E%90%E5%99%A8/image-20220412211923140.png">
+
+<link rel="canonical" href="http://2298233831.github.io/2022/04/14/PE%E6%96%87%E4%BB%B6%E7%AE%80%E8%A6%81%E8%A7%A3%E6%9E%90%E5%99%A8/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>PE文件简要解析器 | The Blog of O1d_Yu4n</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">The Blog of O1d_Yu4n</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://2298233831.github.io/2022/04/14/PE%E6%96%87%E4%BB%B6%E7%AE%80%E8%A6%81%E8%A7%A3%E6%9E%90%E5%99%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="O1d_Yu4n">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="The Blog of O1d_Yu4n">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          PE文件简要解析器
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-04-14 19:17:00 / 修改时间：19:20:56" itemprop="dateCreated datePublished" datetime="2022-04-14T19:17:00+08:00">2022-04-14</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="PE文件解析器"><a href="#PE文件解析器" class="headerlink" title="PE文件解析器"></a>PE文件解析器</h1><h1 id="检测是否为PE文件"><a href="#检测是否为PE文件" class="headerlink" title="检测是否为PE文件"></a>检测是否为PE文件</h1><p>首先先检测该文件是不是PE文件，根据PE文件特性</p>
+<p>PE文件的第一个字节位于一个传统的MS-DOS头部，称作IMAGE_DOS_HEADER，该结构体第一个成员的值可用作判断文件是否为PE文件。其值应被设置为4D5A（但是实际存储在文件中，是以小端序形式存储的，如下所示），</p>
+<p><img src="/2022/04/14/PE%E6%96%87%E4%BB%B6%E7%AE%80%E8%A6%81%E8%A7%A3%E6%9E%90%E5%99%A8/image-20220412211923140.png" alt="image-20220412211923140"></p>
+<p>这才是PE文件的标识。</p>
+<p>在《逆向工程核心原理》中，我们可以知道PE文件类型大概有以下几种</p>
+<p><img src="/2022/04/14/PE%E6%96%87%E4%BB%B6%E7%AE%80%E8%A6%81%E8%A7%A3%E6%9E%90%E5%99%A8/image-20220412211706773.png" alt="image-20220412211706773"></p>
+<p>那么，如何访问该成员呢？</p>
+<p>利用结构体访问成员的方式即可</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">PIMAGE_DOS_HEADER P_DosHeader;<span class="comment">////定义指向_IMAGE_DOS_HEADER结构体的指针</span></span><br><span class="line">P_DosHeader = (PIMAGE_DOS_HEADER)buffer;<span class="comment">//在编写这一步的时候，我忽视了buffer的字节大小和指针的字节大小不对等（因为我刚开始定义buffer疏忽了将其作为指针来定义），从而触发warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]，buffer改为指针类型即可解决该warning</span></span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;Info as follow:\n&quot;</span>);</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;The Flag bit of this file is %X\n&quot;</span>, P_DosHeader-&gt;e_magic);</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;The offset of the DOS header is:%X\n&quot;</span>, P_DosHeader-&gt;e_lfanew);</span><br></pre></td></tr></table></figure>
+
+<p>输出如下图所示</p>
+<p><img src="/2022/04/14/PE%E6%96%87%E4%BB%B6%E7%AE%80%E8%A6%81%E8%A7%A3%E6%9E%90%E5%99%A8/image-20220412231706106.png" alt="image-20220412231706106"></p>
+<p>可以看到，正确的。</p>
+<p>当然我们也可以为MZ加个判断</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(P_DosHeader-&gt;e_magic != IMAGE_DOS_SIGNATURE)<span class="comment">//5A4D</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;This file is not a PE file!\n&quot;</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>输入的路径格式可以是如下图所示的</p>
+<p><img src="/2022/04/14/PE%E6%96%87%E4%BB%B6%E7%AE%80%E8%A6%81%E8%A7%A3%E6%9E%90%E5%99%A8/image-20220412234003731.png" alt="image-20220412234003731"></p>
+<p>顺带一提上述被检测的文件就是记事本这个应用程序。</p>
+<p>NT头偏移量（上图的0x000000E0）根据程序不同，其值也不同</p>
+<p>接下来可以正式开始解析PE文件</p>
+<h1 id="NT-HEADER"><a href="#NT-HEADER" class="headerlink" title="NT_HEADER"></a>NT_HEADER</h1><p>首先是NT头包含哪些信息</p>
+<ol>
+<li>signature</li>
+<li>FILE_HEADER</li>
+<li>OPTIONAL_HEADER</li>
+</ol>
+<p>后面两个其实都包含大量数据。我们以PEview工具查看做示例，如下图所示</p>
+<p><img src="/2022/04/14/PE%E6%96%87%E4%BB%B6%E7%AE%80%E8%A6%81%E8%A7%A3%E6%9E%90%E5%99%A8/image-20220413073714649.png" alt="image-20220413073714649"></p>
+<p><img src="/2022/04/14/PE%E6%96%87%E4%BB%B6%E7%AE%80%E8%A6%81%E8%A7%A3%E6%9E%90%E5%99%A8/image-20220413073726016.png" alt="image-20220413073726016"></p>
+<p>东西很多，但写起来难度不是很大</p>
+<h2 id="FILE-HEADER"><a href="#FILE-HEADER" class="headerlink" title="FILE_HEADER"></a>FILE_HEADER</h2><p>在签名里，一个PE有效文件其字段应为0x00004550，ASCII码为PE00</p>
+<p><strong>访问PE文件头的方式为：</strong></p>
+<p><strong>P_NtHeader&#x3D;Imagebase+dosHeader-&gt;e_lfanew;</strong></p>
+<p>然后是机器码和节区数</p>
+<p><img src="/2022/04/14/PE%E6%96%87%E4%BB%B6%E7%AE%80%E8%A6%81%E8%A7%A3%E6%9E%90%E5%99%A8/image-20220413102414066.png" alt="image-20220413102414066"></p>
+<p>因为COFF符号表在PE文件中比较少见，所以这里有关COFF符号表的两个成员就不输出信息了</p>
+<p>Characteristics，普通的.exe文件这个字段的值一般是10F，DLL文件则一般是2102</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//解析PE文件头</span></span><br><span class="line">PIMAGE_NT_HEADERS32 P_NtHeader;	<span class="comment">//定义指向_IMAGE_NT_HEADERS32结构体的指针</span></span><br><span class="line">P_NtHeader = (PIMAGE_NT_HEADERS32)(buffer + P_DosHeader-&gt;e_lfanew);</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;The Flag bit of this file is %X\n&quot;</span>, P_NtHeader-&gt;Signature);</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;Machine: %X\n&quot;</span>, P_NtHeader-&gt;FileHeader.Machine);</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;Number of Sections: %d\n&quot;</span>, P_NtHeader-&gt;FileHeader.NumberOfSections);</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;Characteristics: %X\n&quot;</span>, P_NtHeader-&gt;FileHeader.Characteristics);</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="OPTIONAL-HEADER"><a href="#OPTIONAL-HEADER" class="headerlink" title="OPTIONAL_HEADER"></a>OPTIONAL_HEADER</h2><p>由于成员众多，我仅列出了在逆向分析时，我经常用到的一些成员</p>
+<p>printf即可，没什么技术含量</p>
+<p>稍微提一下Subsystem,它的值用来区分系统文件和普通的可执行文件。</p>
+<p><img src="/2022/04/14/PE%E6%96%87%E4%BB%B6%E7%AE%80%E8%A6%81%E8%A7%A3%E6%9E%90%E5%99%A8/image-20220413111626984.png" alt="image-20220413111626984"></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;The follow is the info of PE file optional header:\n&quot;</span>);</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;Magic: %X\n&quot;</span>, P_NtHeader-&gt;OptionalHeader.Magic); <span class="comment">//这个值是0x10B，表示PE32,0x20B表示PE32+(64位)</span></span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;AddressOfEntryPoint: %X\n&quot;</span>, P_NtHeader-&gt;OptionalHeader.AddressOfEntryPoint);<span class="comment">//这项可以告诉我们程序的入口地址</span></span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;ImageBase: %X\n&quot;</span>, P_NtHeader-&gt;OptionalHeader.ImageBase);<span class="comment">//这个值是文件的起始地址，也就是我们要解析的文件的起始地址</span></span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;SectionAlignment: %X\n&quot;</span>, P_NtHeader-&gt;OptionalHeader.SectionAlignment);<span class="comment">//节区对齐值</span></span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;FileAlignment: %X\n&quot;</span>, P_NtHeader-&gt;OptionalHeader.FileAlignment);<span class="comment">//文件对齐值</span></span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;SizeOfImage: %X\n&quot;</span>, P_NtHeader-&gt;OptionalHeader.SizeOfImage);<span class="comment">//文件大小</span></span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;SizeOfHeaders: %X\n&quot;</span>, P_NtHeader-&gt;OptionalHeader.SizeOfHeaders);<span class="comment">//头部大小</span></span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;CheckSum: %X\n&quot;</span>, P_NtHeader-&gt;OptionalHeader.CheckSum);<span class="comment">//映像校验和,用处就是用来检验文件是否被修改过。</span></span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;Subsystem: %X\n&quot;</span>, P_NtHeader-&gt;OptionalHeader.Subsystem);<span class="comment">//子系统</span></span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;NumberOfRvaAndSizes: %X\n&quot;</span>, P_NtHeader-&gt;OptionalHeader.NumberOfRvaAndSizes);<span class="comment">//RVA和Sizes的数量</span></span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;Number Of Data Directories: %X\n&quot;</span>, P_NtHeader-&gt;OptionalHeader.NumberOfRvaAndSizes);<span class="comment">//数据目录的数量</span></span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;------------------------Thats&#x27;s basic info of OPTIONAL_HEADER----------------------------\n&quot;</span>);</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;\n&quot;</span>);</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;------------------------Next are some tables----------------------------\n&quot;</span>);</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;\n&quot;</span>);</span><br><span class="line"><span class="comment">//解析DATA_DIRECTORY</span></span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;The follow is the info of PE file data directory:\n&quot;</span>);</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;Address of Export Table: %X\n&quot;</span>, P_NtHeader-&gt;OptionalHeader.DataDirectory[<span class="number">0</span>].VirtualAddress);</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;Size of Export Table: %X\n&quot;</span>, P_NtHeader-&gt;OptionalHeader.DataDirectory[<span class="number">0</span>].Size);</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;Address of Import Table: %X\n&quot;</span>, P_NtHeader-&gt;OptionalHeader.DataDirectory[<span class="number">1</span>].VirtualAddress);</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;Size of Import Table: %X\n&quot;</span>, P_NtHeader-&gt;OptionalHeader.DataDirectory[<span class="number">1</span>].Size);</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;Address of Resource Table: %X\n&quot;</span>, P_NtHeader-&gt;OptionalHeader.DataDirectory[<span class="number">2</span>].VirtualAddress);</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;Size of Resource Table: %X\n&quot;</span>, P_NtHeader-&gt;OptionalHeader.DataDirectory[<span class="number">2</span>].Size);</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;Address of TLS Table: %X\n&quot;</span>, P_NtHeader-&gt;OptionalHeader.DataDirectory[<span class="number">9</span>].VirtualAddress);</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;Size of TLS Table: %X\n&quot;</span>, P_NtHeader-&gt;OptionalHeader.DataDirectory[<span class="number">9</span>].Size);</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;Address of IAT: %X\n&quot;</span>, P_NtHeader-&gt;OptionalHeader.DataDirectory[<span class="number">12</span>].VirtualAddress);</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;Size of IAT: %X\n&quot;</span>, P_NtHeader-&gt;OptionalHeader.DataDirectory[<span class="number">12</span>].Size);</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;------------------------Thats&#x27;s basic info of DATA_DIRECTORY----------------------------\n&quot;</span>);</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;\n&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>在上面的各种表中，需要特别关注IMPORT和EXPORT这两个，反调试相关的话，TLS的地址其实是保存在FS寄存器的，实际访问也是通过FS寄存器。</p>
+<p>至此，NT头的解析算是完成了。</p>
+<h1 id="节区头"><a href="#节区头" class="headerlink" title="节区头"></a>节区头</h1><p>这个直接构造循环输出其相关信息即可</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;The follow is the info of PE file section header:\n&quot;</span>);</span><br><span class="line">PIMAGE_SECTION_HEADER P_SectionHeader;</span><br><span class="line">P_SectionHeader = (PIMAGE_SECTION_HEADER)(buffer + P_DosHeader-&gt;e_lfanew + <span class="keyword">sizeof</span>(IMAGE_NT_HEADERS32));</span><br><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>; i &lt; P_NtHeader-&gt;FileHeader.NumberOfSections; i++)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;Section Name: %s\n&quot;</span>, P_SectionHeader-&gt;Name);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;Virtual Address: %X\n&quot;</span>, P_SectionHeader-&gt;VirtualAddress);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;Size of Raw Data: %X\n&quot;</span>, P_SectionHeader-&gt;SizeOfRawData);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;Pointer to Raw Data: %X\n&quot;</span>, P_SectionHeader-&gt;PointerToRawData);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;Pointer to Relocations: %X\n&quot;</span>, P_SectionHeader-&gt;PointerToRelocations);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;Pointer to Linenumbers: %X\n&quot;</span>, P_SectionHeader-&gt;PointerToLinenumbers);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;Number of Relocations: %X\n&quot;</span>, P_SectionHeader-&gt;NumberOfRelocations);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;Number of Linenumbers: %X\n&quot;</span>, P_SectionHeader-&gt;NumberOfLinenumbers);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;Characteristics: %X\n&quot;</span>, P_SectionHeader-&gt;Characteristics);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;------------------------Thats&#x27;s basic info of SECTION----------------------------\n&quot;</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;\n&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<p><img src="/2022/04/14/PE%E6%96%87%E4%BB%B6%E7%AE%80%E8%A6%81%E8%A7%A3%E6%9E%90%E5%99%A8/image-20220413115002184.png" alt="image-20220413115002184"></p>
+<p>至此，一些基本的信息得以展现，现在main函数已经非常臃肿了，我们将还没实现的导入&#x2F;出表，重定位表，和TLS表分别用对应的函数来输出相关信息。</p>
+<h1 id="IMPORT-TABLE"><a href="#IMPORT-TABLE" class="headerlink" title="IMPORT_TABLE"></a>IMPORT_TABLE</h1><p>首先是导入表的一些基本信息</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> _<span class="title">IMAGE_IMPORT_DESCRIPTOR</span>&#123;</span></span><br><span class="line">    <span class="class"><span class="keyword">union</span>&#123;</span></span><br><span class="line">        DWORD Characteristics;</span><br><span class="line">        DWORD OriginalFirstThunk;<span class="comment">//导入名称表INT</span></span><br><span class="line">    &#125;;</span><br><span class="line">    DWORD TimeDateStamp;        <span class="comment">//时间戳</span></span><br><span class="line">    DWORD ForwarderChain;       </span><br><span class="line">    DWORD Name;                 <span class="comment">//dll名称</span></span><br><span class="line">    DWORD FirstThunk;           <span class="comment">//导入地址表IAT</span></span><br><span class="line">&#125;IMAGE_IMPORT_DESCRIPTOR;</span><br><span class="line"><span class="comment">//OriginalFirstThunk和FirstThunk都指向的是_IMAGE_THUNK_DATA32结构体 </span></span><br><span class="line"><span class="comment">//导入名称表最高位是0，就是名称导入</span></span><br><span class="line"><span class="comment">//最高位是1，就是序号导入</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> _<span class="title">IMAGE_THUNK_DATA32</span> &#123;</span></span><br><span class="line">    <span class="class"><span class="keyword">union</span> &#123;</span></span><br><span class="line">        DWORD ForwarderString;      <span class="comment">// PBYTE</span></span><br><span class="line">        DWORD Function;             <span class="comment">// PDWORD，导入函数的地址，在加载到内存后，这里才起作用</span></span><br><span class="line">        DWORD Ordinal;              <span class="comment">// 假如是序号导入的，会用到这里</span></span><br><span class="line">        DWORD AddressOfData;         <span class="comment">//PIMAGE_IMPORT_BY_NAME，假如是函数名导入的，用到这                   里 ，它指向另外一个结构体：PIMGE_IMPORT_BY_NAME</span></span><br><span class="line">        &#125; u1;</span><br><span class="line">&#125; IMAGE_THUNK_DATA32;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> _<span class="title">IMAGE_IMPORT_BY_NAME</span>&#123;</span></span><br><span class="line">    WORD Hint;      <span class="comment">//序号</span></span><br><span class="line">    BYTE NAME[<span class="number">1</span>];   <span class="comment">//函数名</span></span><br><span class="line">&#125;IMAGE_IMPORT_BY_NAME,*PIMAGE_IMPORT_BY_NAME；</span><br></pre></td></tr></table></figure>
+
+<p>如下是关于函数以何种方式输入的更详细的说明</p>
+<p><img src="/2022/04/14/PE%E6%96%87%E4%BB%B6%E7%AE%80%E8%A6%81%E8%A7%A3%E6%9E%90%E5%99%A8/image-20220413185242749.png" alt="image-20220413185242749"></p>
+<p>还要提一嘴，exe文件的默认加载及地址是0x004000000</p>
+<p>dll文件的则是0x10000000</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">ImportTable</span><span class="params">(<span class="type">char</span>* buffer)</span></span><br><span class="line">&#123;</span><br><span class="line">    PIMAGE_DOS_HEADER pDos = (PIMAGE_DOS_HEADER)buffer;</span><br><span class="line">	PIMAGE_NT_HEADERS pNt = (PIMAGE_NT_HEADERS)(pDos-&gt;e_lfanew + buffer);</span><br><span class="line">	PIMAGE_DATA_DIRECTORY pDataDirectory = (PIMAGE_DATA_DIRECTORY)(pNt-&gt;OptionalHeader.DataDirectory + IMAGE_DIRECTORY_ENTRY_IMPORT);<span class="comment">//</span></span><br><span class="line">	PIMAGE_IMPORT_DESCRIPTOR pImportDescriptor = (PIMAGE_IMPORT_DESCRIPTOR)(RvaToOffset(pDataDirectory-&gt;VirtualAddress, buffer) + buffer);<span class="comment">//指向导入表的第一个描述符</span></span><br><span class="line">	<span class="comment">//遍历导入表</span></span><br><span class="line">	<span class="keyword">while</span>(pImportDescriptor-&gt;Name)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">char</span> * szDllname = (<span class="type">char</span>*)(RvaToOffset(pImportDescriptor-&gt;Name, buffer) + buffer);<span class="comment">//指向DLL名字 </span></span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;DLL Name: %s\n&quot;</span>, szDllname);</span><br><span class="line">        PIMAGE_THUNK_DATA32 PIAT = (PIMAGE_THUNK_DATA32)(RvaToOffset(pImportDescriptor-&gt;FirstThunk, buffer) + buffer);<span class="comment">//指向IAT</span></span><br><span class="line">        PIMAGE_THUNK_DATA32 PINT = (PIMAGE_THUNK_DATA32)(RvaToOffset(pImportDescriptor-&gt;OriginalFirstThunk, buffer) + buffer);<span class="comment">//指向INT</span></span><br><span class="line">        <span class="comment">//解析IAT，IAT是一个结构体数组，其结尾为0</span></span><br><span class="line">        <span class="keyword">while</span>(PIAT-&gt;u1.Ordinal)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span>(PIAT-&gt;u1.Ordinal &amp; <span class="number">0x80000000</span>)<span class="comment">//如果是序号</span></span><br><span class="line">            &#123;</span><br><span class="line">                <span class="built_in">printf</span>(<span class="string">&quot;Ordinal: %2d\n&quot;</span>, PIAT-&gt;u1.Ordinal &amp; <span class="number">0xFFFF</span>);</span><br><span class="line">                <span class="built_in">printf</span>(<span class="string">&quot;\n&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span><span class="comment">//如果是函数名</span></span><br><span class="line">            &#123;</span><br><span class="line">                PIMAGE_IMPORT_BY_NAME szFuncName = (PIMAGE_IMPORT_BY_NAME)(RvaToOffset(PIAT-&gt;u1.AddressOfData, buffer) + buffer);</span><br><span class="line">                <span class="built_in">printf</span>(<span class="string">&quot;Function Name: %s\n&quot;</span>, szFuncName-&gt;Name);</span><br><span class="line">                <span class="built_in">printf</span>(<span class="string">&quot;Hint: %X\n&quot;</span>, szFuncName-&gt;Hint);</span><br><span class="line">                <span class="built_in">printf</span>(<span class="string">&quot;\n&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            PIAT++;</span><br><span class="line">        &#125;</span><br><span class="line">        pImportDescriptor++;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>效果图</p>
+<p><img src="/2022/04/14/PE%E6%96%87%E4%BB%B6%E7%AE%80%E8%A6%81%E8%A7%A3%E6%9E%90%E5%99%A8/image-20220414191127255.png" alt="image-20220414191127255"></p>
+<p><img src="/2022/04/14/PE%E6%96%87%E4%BB%B6%E7%AE%80%E8%A6%81%E8%A7%A3%E6%9E%90%E5%99%A8/image-20220414191140997.png" alt="image-20220414191140997"></p>
+<p>有些DLL函数名称会乱码，就很离谱</p>
+<h1 id="EXPORT-TABLE"><a href="#EXPORT-TABLE" class="headerlink" title="EXPORT_TABLE"></a>EXPORT_TABLE</h1><p><img src="/2022/04/14/PE%E6%96%87%E4%BB%B6%E7%AE%80%E8%A6%81%E8%A7%A3%E6%9E%90%E5%99%A8/image-20220414130435339.png" alt="image-20220414130435339"></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> _<span class="title">IMAGE_EXPORT_DIRECTORY</span> &#123;</span> </span><br><span class="line">    DWORD  Characteristics;         <span class="comment">// (1) 保留，恒为0x00000000    </span></span><br><span class="line">    DWORD  TimeDateStamp;           <span class="comment">// (2) 时间戳   </span></span><br><span class="line">    WORD   MajorVersion;            <span class="comment">// (3) 主版本号，一般不赋值   </span></span><br><span class="line">    WORD   MinorVersion;            <span class="comment">// (4) 子版本号，一般不赋值   </span></span><br><span class="line">    DWORD  Name;                    <span class="comment">// (5) 模块名称*   </span></span><br><span class="line">    DWORD  Base;                    <span class="comment">// (6) 索引基数*   </span></span><br><span class="line">    DWORD  NumberOfFunctions;       <span class="comment">// (7) 导出地址表中成员个数*   </span></span><br><span class="line">    DWORD  NumberOfNames;           <span class="comment">// (8) 导出名称表中成员个数*   </span></span><br><span class="line">    DWORD  AddressOfFunctions;      <span class="comment">// (9) 导出地址表（EAT）*   </span></span><br><span class="line">    DWORD  AddressOfNames;          <span class="comment">// (10) 导出名称表（ENT）*   </span></span><br><span class="line">    DWORD  AddressOfNameOrdinals;   <span class="comment">// (11) 指向导出序号数组* </span></span><br><span class="line">&#125;IMAGE_EXPORT_DIRECTORY,*PIMAGE_EXPORT_DIRECTORY;</span><br></pre></td></tr></table></figure>
+
+<p>其结构如上。</p>
+<p><img src="/2022/04/14/PE%E6%96%87%E4%BB%B6%E7%AE%80%E8%A6%81%E8%A7%A3%E6%9E%90%E5%99%A8/image-20220414131910912.png" alt="image-20220414131910912"></p>
+<p><img src="/2022/04/14/PE%E6%96%87%E4%BB%B6%E7%AE%80%E8%A6%81%E8%A7%A3%E6%9E%90%E5%99%A8/image-20220414132204351.png" alt="image-20220414132204351"></p>
+<p>EAT: 导出地址表 ENT: 导出名称表（与EOT一一对应）</p>
+<p>EOT:导出序号表</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">ExportTable</span><span class="params">(<span class="type">char</span>* buffer)</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="comment">//Dos头</span></span><br><span class="line">	PIMAGE_DOS_HEADER pDos = (PIMAGE_DOS_HEADER)buffer;</span><br><span class="line">	<span class="comment">//PE</span></span><br><span class="line">	PIMAGE_NT_HEADERS pNt = (PIMAGE_NT_HEADERS)(pDos-&gt;e_lfanew + buffer);</span><br><span class="line">	<span class="comment">//定位数据目录表中的导出表</span></span><br><span class="line">	PIMAGE_DATA_DIRECTORY pExportDir = pNt-&gt;OptionalHeader.DataDirectory + IMAGE_DIRECTORY_ENTRY_EXPORT;</span><br><span class="line">	<span class="comment">//填充导出表结构</span></span><br><span class="line">	PIMAGE_EXPORT_DIRECTORY pExport = (PIMAGE_EXPORT_DIRECTORY)(RvaToOffset(pExportDir-&gt;VirtualAddress, buffer) + buffer);</span><br><span class="line">	<span class="type">char</span>* szName = (<span class="type">char</span>*)(RvaToOffset(pExport-&gt;Name, buffer) + buffer);</span><br><span class="line">	<span class="keyword">if</span> (pExport-&gt;AddressOfFunctions == <span class="number">0</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;当前没有导出表!\n&quot;</span>);</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;Name:%s\n&quot;</span>, szName);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;Number of Functions:%08X\n&quot;</span>, pExport-&gt;NumberOfFunctions);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;Number of Names:%08X\n&quot;</span>, pExport-&gt;NumberOfNames);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;Func_addr:%08X\n&quot;</span>, pExport-&gt;AddressOfFunctions);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;\n&quot;</span>);</span><br><span class="line">	<span class="comment">//获取函数数量</span></span><br><span class="line">	DWORD dwNumOfFUN = pExport-&gt;NumberOfFunctions;</span><br><span class="line">	<span class="comment">//函数名数量</span></span><br><span class="line">	DWORD dwNumOfNames = pExport-&gt;NumberOfNames;</span><br><span class="line">	<span class="comment">//基</span></span><br><span class="line">	DWORD dwBase = pExport-&gt;Base;</span><br><span class="line">	<span class="comment">//导出地址表</span></span><br><span class="line">	PDWORD pEat32 = (PDWORD)(RvaToOffset(pExport-&gt;AddressOfFunctions, buffer) + buffer);</span><br><span class="line">	<span class="comment">//导出名称表</span></span><br><span class="line">	PDWORD pEnt32 = (PDWORD)(RvaToOffset(pExport-&gt;AddressOfNames, buffer) + buffer);</span><br><span class="line">	<span class="comment">//导出序号表</span></span><br><span class="line">	PWORD pId = (PWORD)(RvaToOffset(pExport-&gt;AddressOfNameOrdinals, buffer) + buffer);</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; dwNumOfFUN; i++)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span> (pEat32[i] == <span class="number">0</span>)</span><br><span class="line">			<span class="keyword">continue</span>;</span><br><span class="line">		DWORD Id = <span class="number">0</span>;</span><br><span class="line">		<span class="keyword">for</span> (; Id &lt; dwNumOfNames; Id++)</span><br><span class="line">		&#123; </span><br><span class="line">			<span class="keyword">if</span> (pId[Id] == i)</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span> (Id == dwNumOfNames)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">&quot;Name:%X Address:0x%08X Name[NuLL]\n&quot;</span>, i + dwBase, pEat32[i]);</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;\n&quot;</span>);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">		&#123;</span><br><span class="line">			<span class="type">char</span>* szFunName = (<span class="type">char</span>*)(RvaToOffset(pEnt32[Id], buffer) + buffer);</span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">&quot;Name:%X Address:0x%08X Name[%s]\n&quot;</span>, i + dwBase, pEat32[i],szFunName);</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;\n&quot;</span>);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;-------------------------------------\n&quot;</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;----------------------------------------------------------\n&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2022/04/14/PE%E6%96%87%E4%BB%B6%E7%AE%80%E8%A6%81%E8%A7%A3%E6%9E%90%E5%99%A8/image-20220414191329512.png" alt="image-20220414191329512"></p>
+<p>这个解析的其实是老头环的导出表  :)</p>
+<h1 id="TLS-TABLE"><a href="#TLS-TABLE" class="headerlink" title="TLS_TABLE"></a>TLS_TABLE</h1><p><img src="/2022/04/14/PE%E6%96%87%E4%BB%B6%E7%AE%80%E8%A6%81%E8%A7%A3%E6%9E%90%E5%99%A8/image-20220414190838236.png" alt="image-20220414190838236"></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">TlsTable</span><span class="params">(<span class="type">char</span>* buffer)</span></span><br><span class="line">&#123;</span><br><span class="line">    PIMAGE_DOS_HEADER pDos = (PIMAGE_DOS_HEADER)buffer;</span><br><span class="line">	PIMAGE_NT_HEADERS pNt = (PIMAGE_NT_HEADERS)(pDos-&gt;e_lfanew + buffer);</span><br><span class="line">	PIMAGE_DATA_DIRECTORY pTLSDir = (pNt-&gt;OptionalHeader.DataDirectory + IMAGE_DIRECTORY_ENTRY_TLS);<span class="comment">//定位数据目录表中的TLS表</span></span><br><span class="line">	PIMAGE_TLS_DIRECTORY pTLS = (PIMAGE_TLS_DIRECTORY)(RvaToOffset(pTLSDir-&gt;VirtualAddress, buffer) + buffer);<span class="comment">//填充TLS结构</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;StartAddressOfRawData: %08X\n&quot;</span>, pTLS-&gt;StartAddressOfRawData);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;EndAddressOfRawData: %08X\n&quot;</span>, pTLS-&gt;EndAddressOfRawData);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;TLS_Callback: %08X\n&quot;</span>, pTLS-&gt;AddressOfCallBacks);<span class="comment">//tls回调函数</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;TLS_Size: %08X\n&quot;</span>, pTLS-&gt;SizeOfZeroFill);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;TLS_Characteristics: %08X\n&quot;</span>, pTLS-&gt;Characteristics);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h1><p>写这玩意儿还是花费了很长时间的，当初学PE的时候对导入表和导出表没有仔细学习，写的时候还去补遗了，但其实对这些知识点熟悉，写起来还是很容易的，只要能正确访问目标就行了</p>
+<p>写完能对PE文件的结构有更深刻的了解和体会。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/04/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E5%8F%8D%E8%B0%83%E8%AF%95%E6%8A%80%E6%9C%AF/" rel="prev" title="逆向工程核心原理_反调试技术">
+      <i class="fa fa-chevron-left"></i> 逆向工程核心原理_反调试技术
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#PE%E6%96%87%E4%BB%B6%E8%A7%A3%E6%9E%90%E5%99%A8"><span class="nav-number">1.</span> <span class="nav-text">PE文件解析器</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%A3%80%E6%B5%8B%E6%98%AF%E5%90%A6%E4%B8%BAPE%E6%96%87%E4%BB%B6"><span class="nav-number">2.</span> <span class="nav-text">检测是否为PE文件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#NT-HEADER"><span class="nav-number">3.</span> <span class="nav-text">NT_HEADER</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#FILE-HEADER"><span class="nav-number">3.1.</span> <span class="nav-text">FILE_HEADER</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OPTIONAL-HEADER"><span class="nav-number">3.2.</span> <span class="nav-text">OPTIONAL_HEADER</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%8A%82%E5%8C%BA%E5%A4%B4"><span class="nav-number">4.</span> <span class="nav-text">节区头</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#IMPORT-TABLE"><span class="nav-number">5.</span> <span class="nav-text">IMPORT_TABLE</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#EXPORT-TABLE"><span class="nav-number">6.</span> <span class="nav-text">EXPORT_TABLE</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#TLS-TABLE"><span class="nav-number">7.</span> <span class="nav-text">TLS_TABLE</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%B0%8F%E7%BB%93"><span class="nav-number">8.</span> <span class="nav-text">小结</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">O1d_Yu4n</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">13</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">O1d_Yu4n</span>
+</div>
+<!--
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+-->
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
