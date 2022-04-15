@@ -145,6 +145,149 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://2298233831.github.io/2021/12/21/normal%E9%A2%98%E7%9A%84%E4%B8%A4%E4%B8%AA%E5%AE%89%E5%8D%93%E9%80%86%E5%90%91%E9%A2%98%E6%89%80%E5%AD%A6%E5%8F%8A%E5%85%B6%E6%8B%93%E5%B1%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="O1d_Yu4n">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="The Blog of O1d_Yu4n">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/12/21/normal%E9%A2%98%E7%9A%84%E4%B8%A4%E4%B8%AA%E5%AE%89%E5%8D%93%E9%80%86%E5%90%91%E9%A2%98%E6%89%80%E5%AD%A6%E5%8F%8A%E5%85%B6%E6%8B%93%E5%B1%95/" class="post-title-link" itemprop="url">normal题的两个安卓逆向题所学及其拓展</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-12-21 21:30:16" itemprop="dateCreated datePublished" datetime="2021-12-21T21:30:16+08:00">2021-12-21</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-12-25 17:30:04" itemprop="dateModified" datetime="2021-12-25T17:30:04+08:00">2021-12-25</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="C语言中函数调用约定"><a href="#C语言中函数调用约定" class="headerlink" title="C语言中函数调用约定"></a>C语言中函数调用约定</h1><p>首先定义如下函数 int function(int a, int,b)</p>
+<p>我们都知道，机器是无法识别代码的，它只认识0，1。我们只需要通过another_number &#x3D; function(a,b)就能够条用该函数。而在cpu中，计算机并不知道调用该函数需要传递几个、什么类型的参数。为了完成调用这一过程，计算机提供了“栈”这种数据结构来支持传递参数。</p>
+<p>（栈的结构等相关内容不再赘述）</p>
+<p>函数调用时，调用者依次把参数压栈，然后调用函数，函数被调用以后，在栈中取得数据，并进行计算。函数计算结束以后，或者调用者、或者函数本身修改栈，使栈恢复原装（初始状态）。</p>
+<p>此处面临两个问题：</p>
+<ul>
+<li><p>参数多于1个时，应该按什么顺序把参数压入栈？</p>
+</li>
+<li><p>函数调用后，由谁来把栈恢复原装？</p>
+</li>
+</ul>
+<p>在高级语言中，通过函数调用约定来说明这两个问题。常见的调用约定有：</p>
+<ul>
+<li>stdcall</li>
+<li>cdecl</li>
+<li>fastcall</li>
+<li>thiscall</li>
+<li>naked call</li>
+</ul>
+<h2 id="stdcall-很多时候被称为pascal调用约定"><a href="#stdcall-很多时候被称为pascal调用约定" class="headerlink" title="stdcall(很多时候被称为pascal调用约定)"></a>stdcall(很多时候被称为pascal调用约定)</h2><p>(Win32 <a target="_blank" rel="noopener" href="https://baike.baidu.com/item/API%E5%87%BD%E6%95%B0/9554990">API函数</a>绝大部分都是采用_stdcall调用约定的。<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/WINAPI/3256750">WINAPI</a>其实也只是_stdcall的一个别名而已。)</p>
+<p>stdcall的调用约定意味着：1. 参数从右向左压入栈；2. 函数自身修改栈；3. 函数名自动加”_”，后面紧跟一个”@”符号，其后紧跟着参数的尺寸（字节数）。</p>
+<p>在编译时，这个函数的名字按照如上所述，会被翻译成_function@8</p>
+<p>函数调用过程的汇编语言如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">push b      第二个参数入栈</span><br><span class="line">push a      第一个参数入栈</span><br><span class="line">call function  调用参数，注意此时自动把cs:eip入栈</span><br></pre></td></tr></table></figure>
+
+<p>而对于函数自身，则可以翻译为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">push ebp     保存ebp寄存器，该寄存器将用来保存栈的栈顶指针，可以在函数退出时恢复</span><br><span class="line">mov ebp,esp  保存栈指针</span><br><span class="line">mov  eax,[ebp + 8H]  栈中ebp指向位置之前依次保存有ebp,cs:eip,a,b,ebp +8指向a</span><br><span class="line">add eax,[ebp + 0CH]  栈中ebp + 12处保存了b</span><br><span class="line">mov  esp,ebp         恢复esp</span><br><span class="line">pop ebp</span><br><span class="line">ret 8</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2021/12/21/normal%E9%A2%98%E7%9A%84%E4%B8%A4%E4%B8%AA%E5%AE%89%E5%8D%93%E9%80%86%E5%90%91%E9%A2%98%E6%89%80%E5%AD%A6%E5%8F%8A%E5%85%B6%E6%8B%93%E5%B1%95/%E6%A0%88%E5%B8%A7.jpg" alt="栈帧"></p>
+<p>（贴一张栈帧帮助理解）</p>
+<p>函数结束后，ret 8表示清理8个字节的栈，函数自己恢复了栈。</p>
+<h2 id="cdecl调用约定-C调用约定"><a href="#cdecl调用约定-C调用约定" class="headerlink" title="cdecl调用约定(C调用约定)"></a>cdecl调用约定(C调用约定)</h2><p>该约定为C语言默认的调用约定：<u>所有参数<strong>从右到左</strong>依次入栈，这些参数由调用者清除，称为手动清栈。</u>命名规则为在函数名前自动加“_”.</p>
+<p>被调用函数不会要求调用者传递多少参数，调用者传递过多或者过少的参数，甚至完全不同的参数都不会产生编译阶段的错误。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">int (__cdecl)function(int a,int b)   //加不加_cdecl都一样，只是有没有明确指出的区别</span><br></pre></td></tr></table></figure>
+
+<p>因为是手动清栈，所以在最后的ret便不会清理，故无字节数。</p>
+<p>函数自身汇编语言如下,</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">push ebp     保存ebp寄存器，该寄存器将用来保存栈的栈顶指针，可以在函数退出时恢复</span><br><span class="line">mov ebp,esp  保存栈指针</span><br><span class="line">mov  eax,[ebp + 8H]  栈中ebp指向位置之前依次保存有ebp,cs:eip,a,b,ebp +8指向a</span><br><span class="line">add eax,[ebp + 0CH]  栈中ebp + 12处保存了b</span><br><span class="line">mov  esp,ebp         恢复esp</span><br><span class="line">pop ebp</span><br><span class="line">ret         注意，这里没有修改栈</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="fastcall"><a href="#fastcall" class="headerlink" title="fastcall"></a>fastcall</h2><p>改调用与stdcall类似：</p>
+<ul>
+<li>函数的第一个和第二个DWORD参数（或者尺寸更小的）通过ecx和edx传递，其他参数通过从右向左的顺序压栈</li>
+<li>被调用函数清理栈</li>
+<li>函数名修改规则同stdcall</li>
+</ul>
+<h2 id="thiscall"><a href="#thiscall" class="headerlink" title="thiscall"></a>thiscall</h2><p>thiscall是唯一一个不能明确指明的函数修饰，因为thiscall不是关键字。它是C++类成员函数缺省的调用约定。由于成员函数调用还有一个this指针，因此必须特殊处理，thiscall意味着：</p>
+<ul>
+<li>参数从右向左入栈</li>
+<li>如果参数个数确定，this指针通过ecx传递给被调用者；如果参数个数不确定，this指针在所有参数压栈后被压入栈。</li>
+<li>对参数个数不定的，调用者清理栈，否则函数自己清理栈</li>
+</ul>
+<p><strong>(由于此调用约定仅适用于 C++，因此它没有 C 名称修饰方案。)</strong></p>
+<h2 id="vectorcall"><a href="#vectorcall" class="headerlink" title="vectorcall"></a>vectorcall</h2><p>vectorcall 继承于fastcall 但对于fastcall中的整数仍然按照fastcall规则传递 而浮点以及向量将通过寄存器传递</p>
+<h2 id="nakedcall"><a href="#nakedcall" class="headerlink" title="nakedcall"></a>nakedcall</h2><p>编译器不会给这种函数增加初始化和清理代码，更特殊的是，你不能用return返回返回值，只能用插入汇编返回结果。这一般用于实模式驱动程序设计。</p>
+<h2 id="pascal"><a href="#pascal" class="headerlink" title="__pascal"></a>__pascal</h2><p>唯一一个从左到右入栈的约定</p>
+<h2 id="函数调用约定导致的常见问题"><a href="#函数调用约定导致的常见问题" class="headerlink" title="函数调用约定导致的常见问题"></a>函数调用约定导致的常见问题</h2><p>如果定义的约定和使用的约定不一致，则将导致栈被破坏，导致严重问题，下面是两种常见的问题：</p>
+<ol>
+<li>函数原型声明和函数体定义不一致</li>
+<li>DLL导入函数时声明了不同的函数约定（所以不能口是心非，会出大问题。）</li>
+</ol>
+<p>贴一个微软的对此的解释<a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/cpp/cpp/argument-passing-and-naming-conventions?view=msvc-170">函数调用约定</a>。</p>
+<p>再贴一篇关于从汇编语言角度对参数传递的理解的博客<a target="_blank" rel="noopener" href="https://blog.csdn.net/magic_world_wow/article/details/80582144"> 从汇编角度看函数参数传递—汇编函数参数</a></p>
+<h1 id="Java相关"><a href="#Java相关" class="headerlink" title="Java相关"></a>Java相关</h1><h2 id="native关键字"><a href="#native关键字" class="headerlink" title="native关键字"></a>native关键字</h2><p>native 用来修饰方法，用 native 声明的方法表示告知 JVM 调用，该方法在外部定义，我们可以用任何语言去实现它。 简单地讲，一个native方法就是一个 Java 调用非 Java 代码的接口。</p>
+<p>native 语法：</p>
+<p>　　①、修饰方法的位置必须在返回类型之前，和其余的方法控制符前后关系不受限制。</p>
+<p>　　②、不能用 abstract 修饰，也没有方法体，也没有左右大括号。</p>
+<p>　　③、返回值可以是任意类型</p>
+<h2 id="System-LoadLibrary-加载图书馆（bushi"><a href="#System-LoadLibrary-加载图书馆（bushi" class="headerlink" title="System.LoadLibrary(加载图书馆（bushi )"></a>System.LoadLibrary(加载图书馆（bushi )</h2><p>该函数的作用：将指定的模块加载到调用进程的地址空间中。指定的模块可能会导致其他模块被加载。对于其他加载选项，请使用 LoadLibraryEx函数。Ex(extra-额外的)—-总的来说，装载库文件。与之<strong>类似</strong>的还有System.load</p>
+<p>下面对这两个相似的函数做个解析：</p>
+<ol>
+<li>它们都可以用来装载库文件，不论是JNI库文件还是非JNI库文件。在任何本地方法被调用之前必须先用这个两个方法之一把相应的JNI库文件装载。</li>
+<li>System.load 参数为库文件的绝对路径，可以是任意路径。<br>例如你可以这样载入一个windows平台下JNI库文件：<br>System.load(“C:&#x2F;&#x2F;Documents and Settings&#x2F;&#x2F;TestJNI.dll”);。</li>
+<li>System.loadLibrary 参数为库文件名，不包含库文件的扩展名。<br>例如你可以这样载入一个windows平台下JNI库文件<br>System. loadLibrary (“TestJNI”);</li>
+</ol>
+<h2 id="Biginteger"><a href="#Biginteger" class="headerlink" title="Biginteger"></a>Biginteger</h2><p>在Java中，由CPU原生提供的整型最大范围是64位<code>long</code>型整数。使用<code>long</code>型整数可以直接通过CPU指令进行计算，速度非常快。</p>
+<p>如果我们使用的整数范围超过了<code>long</code>型怎么办？这个时候，就只能用软件来模拟一个大整数。<code>java.math.BigInteger</code>就是用来表示任意大小的整数。<code>BigInteger</code>内部用一个<code>int[]</code>数组来模拟一个非常大的整数</p>
+<p>此处仅作简单介绍，详细了解参考如下的教程网站<a target="_blank" rel="noopener" href="https://www.liaoxuefeng.com/wiki/1252599548343744/1279767986831393">Bitinteger</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://2298233831.github.io/2021/12/18/Weekly-Study1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -569,7 +712,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">13</span>
+          <span class="site-state-item-count">14</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
