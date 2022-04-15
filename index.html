@@ -170,7 +170,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2022-04-15 13:32:16 / 修改时间：22:50:22" itemprop="dateCreated datePublished" datetime="2022-04-15T13:32:16+08:00">2022-04-15</time>
+              <time title="创建时间：2022-04-15 13:32:16 / 修改时间：23:02:45" itemprop="dateCreated datePublished" datetime="2022-04-15T13:32:16+08:00">2022-04-15</time>
             </span>
 
           
@@ -226,7 +226,7 @@
 
 <p>显而易见，将变化后的输入的字符串的奇数位和偶数位分别加工。</p>
 <p>至此，整体流程分析完毕。</p>
-<p>在过反调试的时候，我们注意al寄存器的值，其中会有不同的字符赋值给它，正确过掉反调试后所赋的值才是我们需要的数据。中间比较麻烦的可能就是错误码的两处。耐心点多试试，就能过掉了，尤其注意跳转指令的条件（可以结合伪代码来看，更容易理解）。我也调了好几次才全部过掉:(</p>
+<p>在过反调试的时候，我们注意al寄存器的值，其中会有不同的字符赋值给它，正确过掉反调试后所赋的值才是我们需要的数据。中间比较麻烦的可能就是错误码的两处。耐心点多试试，就能过掉了，尤其注意跳转指令的条件（可以结合伪代码来看，更容易理解）。我也调了好几次才全部过掉:(原罪的菜</p>
 <p>在这之后，al所被赋值的字符串为2TVBnx0lnn</p>
 <p>那这题难点也就结束了，直接贴上解题脚本</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">str1 = <span class="string">&quot;LKd8gPYWS[&quot;</span></span><br><span class="line">str2 = <span class="string">&quot;2TVBnx0lnn&quot;</span></span><br><span class="line">arr = [<span class="number">0</span> <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">20</span>)]</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">10</span>):</span><br><span class="line">    arr[i*<span class="number">2</span>] = (<span class="built_in">ord</span>(str1[i])^<span class="number">3</span>)-<span class="number">2</span><span class="string">&#x27;&#x27;&#x27;偶数位变化&#x27;&#x27;&#x27;</span></span><br><span class="line">    arr[i*<span class="number">2</span>+<span class="number">1</span>] = <span class="built_in">ord</span>(str2[i])<span class="string">&#x27;&#x27;&#x27;奇数位变化&#x27;&#x27;&#x27;</span></span><br><span class="line"></span><br><span class="line">cipher = <span class="string">&#x27;&#x27;</span>.join(<span class="built_in">map</span>(<span class="built_in">chr</span>,arr))</span><br><span class="line"><span class="built_in">print</span> cipher.decode(<span class="string">&#x27;base64&#x27;</span>) <span class="string">&#x27;&#x27;&#x27;python2版本的脚本&#x27;&#x27;&#x27;</span></span><br></pre></td></tr></table></figure>
