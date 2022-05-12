@@ -24,7 +24,7 @@
 <meta property="og:type" content="article">
 <meta property="og:title" content="一道简单(bushi)的反调试题目">
 <meta property="og:url" content="http://2298233831.github.io/2022/04/15/%E4%B8%80%E9%81%93%E7%AE%80%E5%8D%95(bushi)%E7%9A%84%E5%8F%8D%E8%B0%83%E8%AF%95%E9%A2%98%E7%9B%AE/index.html">
-<meta property="og:site_name" content="The Blog of O1d_Yu4n">
+<meta property="og:site_name" content="The Blog of Yu4n">
 <meta property="og:description" content="拖进IDA打开，发现让程序运行起来就是一个问题。  查看汇编代码，发现0x4010DE处的代码有问题，需要nop掉才能顺利反汇编 但是直接用IDA的Patch program-Assemble不行，尝试用OD打开进行nop，但是发现OD现实的地址跟IDA不一样，这是由于IDA加载的是静态的文件，而OD加载的动态的内存里的（其实这也是为什么打开修改文件属性的软件时，IDA能够同时打开该文件，而OD">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://2298233831.github.io/2022/04/15/%E4%B8%80%E9%81%93%E7%AE%80%E5%8D%95(bushi)%E7%9A%84%E5%8F%8D%E8%B0%83%E8%AF%95%E9%A2%98%E7%9B%AE/image-20220415133333747.png">
@@ -41,7 +41,7 @@
 <meta property="og:image" content="http://2298233831.github.io/2022/04/15/%E4%B8%80%E9%81%93%E7%AE%80%E5%8D%95(bushi)%E7%9A%84%E5%8F%8D%E8%B0%83%E8%AF%95%E9%A2%98%E7%9B%AE/image-20220415175727744.png">
 <meta property="article:published_time" content="2022-04-15T05:32:16.000Z">
 <meta property="article:modified_time" content="2022-04-29T00:40:06.142Z">
-<meta property="article:author" content="O1d_Yu4n">
+<meta property="article:author" content="Yu4n">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://2298233831.github.io/2022/04/15/%E4%B8%80%E9%81%93%E7%AE%80%E5%8D%95(bushi)%E7%9A%84%E5%8F%8D%E8%B0%83%E8%AF%95%E9%A2%98%E7%9B%AE/image-20220415133333747.png">
 
@@ -58,7 +58,7 @@
   };
 </script>
 
-  <title>一道简单(bushi)的反调试题目 | The Blog of O1d_Yu4n</title>
+  <title>一道简单(bushi)的反调试题目 | The Blog of Yu4n</title>
   
 
 
@@ -109,7 +109,7 @@
 
     <a href="/" class="brand" rel="start">
       <span class="logo-line-before"><i></i></span>
-      <h1 class="site-title">The Blog of O1d_Yu4n</h1>
+      <h1 class="site-title">The Blog of Yu4n</h1>
       <span class="logo-line-after"><i></i></span>
     </a>
   </div>
@@ -167,12 +167,12 @@
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="O1d_Yu4n">
+      <meta itemprop="name" content="Yu4n">
       <meta itemprop="description" content="">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="The Blog of O1d_Yu4n">
+      <meta itemprop="name" content="The Blog of Yu4n">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
@@ -341,7 +341,7 @@
 
       <div class="site-overview-wrap sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-  <p class="site-author-name" itemprop="name">O1d_Yu4n</p>
+  <p class="site-author-name" itemprop="name">Yu4n</p>
   <div class="site-description" itemprop="description"></div>
 </div>
 <div class="site-state-wrap motion-element">
@@ -381,7 +381,7 @@
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
-  <span class="author" itemprop="copyrightHolder">O1d_Yu4n</span>
+  <span class="author" itemprop="copyrightHolder">Yu4n</span>
 </div>
 <!--
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动

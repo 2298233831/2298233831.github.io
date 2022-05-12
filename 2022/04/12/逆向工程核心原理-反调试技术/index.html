@@ -24,7 +24,7 @@
 <meta property="og:type" content="article">
 <meta property="og:title" content="逆向工程核心原理_反调试技术">
 <meta property="og:url" content="http://2298233831.github.io/2022/04/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E5%8F%8D%E8%B0%83%E8%AF%95%E6%8A%80%E6%9C%AF/index.html">
-<meta property="og:site_name" content="The Blog of O1d_Yu4n">
+<meta property="og:site_name" content="The Blog of Yu4n">
 <meta property="og:description" content="反调试技术在开始前，先用一张图简要说明反调试技术的种类  静态反调试承接之前学习的PEB结构体，该结构体的成员主要有以下四个更值得关注，且都与反调试有关。  首先复习下如何访问PEB结构体  利用上面的方式再加上上面四个成员的偏移量就可以访问对应的成员了。 BeingDebugged该成员在值为1是表示进程处在调试状态，为0则正常运行。 Ldr在进程处于调试状态的堆区中，未使用的内存区域全部由0x">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://2298233831.github.io/2022/04/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E5%8F%8D%E8%B0%83%E8%AF%95%E6%8A%80%E6%9C%AF/image-20220412122021162.png">
@@ -45,7 +45,7 @@
 <meta property="og:image" content="http://2298233831.github.io/2022/04/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E5%8F%8D%E8%B0%83%E8%AF%95%E6%8A%80%E6%9C%AF/image-20220412155347155.png">
 <meta property="article:published_time" content="2022-04-12T07:54:48.000Z">
 <meta property="article:modified_time" content="2022-04-12T10:11:23.573Z">
-<meta property="article:author" content="O1d_Yu4n">
+<meta property="article:author" content="Yu4n">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://2298233831.github.io/2022/04/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E5%8F%8D%E8%B0%83%E8%AF%95%E6%8A%80%E6%9C%AF/image-20220412122021162.png">
 
@@ -62,7 +62,7 @@
   };
 </script>
 
-  <title>逆向工程核心原理_反调试技术 | The Blog of O1d_Yu4n</title>
+  <title>逆向工程核心原理_反调试技术 | The Blog of Yu4n</title>
   
 
 
@@ -113,7 +113,7 @@
 
     <a href="/" class="brand" rel="start">
       <span class="logo-line-before"><i></i></span>
-      <h1 class="site-title">The Blog of O1d_Yu4n</h1>
+      <h1 class="site-title">The Blog of Yu4n</h1>
       <span class="logo-line-after"><i></i></span>
     </a>
   </div>
@@ -171,12 +171,12 @@
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="O1d_Yu4n">
+      <meta itemprop="name" content="Yu4n">
       <meta itemprop="description" content="">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="The Blog of O1d_Yu4n">
+      <meta itemprop="name" content="The Blog of Yu4n">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
@@ -351,7 +351,7 @@
 
       <div class="site-overview-wrap sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-  <p class="site-author-name" itemprop="name">O1d_Yu4n</p>
+  <p class="site-author-name" itemprop="name">Yu4n</p>
   <div class="site-description" itemprop="description"></div>
 </div>
 <div class="site-state-wrap motion-element">
@@ -391,7 +391,7 @@
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
-  <span class="author" itemprop="copyrightHolder">O1d_Yu4n</span>
+  <span class="author" itemprop="copyrightHolder">Yu4n</span>
 </div>
 <!--
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
