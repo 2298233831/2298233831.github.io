@@ -145,6 +145,111 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://2298233831.github.io/2021/12/26/DLL%E6%B3%A8%E5%85%A5/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Yu4n">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="The Blog of Yu4n">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/12/26/DLL%E6%B3%A8%E5%85%A5/" class="post-title-link" itemprop="url">DLL注入</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-12-26 18:47:54" itemprop="dateCreated datePublished" datetime="2021-12-26T18:47:54+08:00">2021-12-26</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-01-05 22:12:50" itemprop="dateModified" datetime="2022-01-05T22:12:50+08:00">2022-01-05</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Hook钩子"><a href="#Hook钩子" class="headerlink" title="Hook钩子"></a>Hook钩子</h1><p>首先是一个比较简单的DLL，可以钩取用户从键盘上输入的信息。</p>
+<p>这一节的主要目的应该还是后面调试应用程序那一部分。</p>
+<p>那着重说一下调试部分：</p>
+<p>​    本次调试重点在于，能够钩取键盘输入的DLL是如何载入到程序当中的。按书中操作，在调试设置中勾选当DLL载入时暂停的选项。通过主函数体可知，主函数体中存在LoadLibrary这一能将DLL文件导入到应用程序中的关键函数。（该函数的作用：将指定的模块加载到调用进程的地址空间中。指定的模块可能会导致其他模块被加载。）</p>
+<h1 id="DLL注入"><a href="#DLL注入" class="headerlink" title="DLL注入"></a>DLL注入</h1><p>首先是注入的三个方法：</p>
+<ol>
+<li>创建远程线程</li>
+<li>使用注册表</li>
+<li>消息钩取</li>
+</ol>
+<h2 id="创建远程线程注入"><a href="#创建远程线程注入" class="headerlink" title="创建远程线程注入"></a>创建远程线程注入</h2><p>涉及关键应用InjectDLL.exe,该应用程序的源码在书中已有详细的逐行介绍，此处不再赘述。（这几章的关键都在实现对应功能的程序的代码，理解其代码是重点和难点，实际操作反而容易。）</p>
+<p>说一下句柄的意义—-句柄实际是一个指针，他指向一块包含具体信息数据的内存，可以当做索引 ，所以进程句柄是当你要访问该进程时取得的，使用完毕必须释放。</p>
+<p>总的过程就是：</p>
+<p>先将要注入的DLL路径写入内存（在此之前会先调用函数分配缓冲区，大小为DLL文件路径字符串的长度）—然后获得加载DLL函数的地址—在要被注入DLL的进程中创建远程线程—调用加载DLL文件的函数来加载（注入）DLL</p>
+<p>有一处值得注意：</p>
+<p><img src="/2021/12/26/DLL%E6%B3%A8%E5%85%A5/image-20220105162354191.png" alt="image-20220105162354191"></p>
+<h2 id="使用注册表注入"><a href="#使用注册表注入" class="headerlink" title="使用注册表注入"></a>使用注册表注入</h2><p><img src="/2021/12/26/DLL%E6%B3%A8%E5%85%A5/image-20220105162917205.png" alt="image-20220105162917205"></p>
+<p>修改AppInit_DLLs表项的值，将其值改为待注入DLL文件的路径（最后以该文件命结尾的完整路径），再将LoadAppInit_DLLs的值改为1.最后重启系统，及完成该修改。</p>
+<p>消息钩取暂不做讨论。</p>
+<h1 id="DLL卸载"><a href="#DLL卸载" class="headerlink" title="DLL卸载"></a>DLL卸载</h1><p>还是一样，先读懂相应程序的源代码。其实跟注入差不多的，只是是卸载罢了。亲自看一遍会有更深的印象。</p>
+<p>另外，PE文件直接导入的DLL文件是无法被卸载的，该方法仅适用于自己强行注入的DLL文件。 </p>
+<h1 id="通过修改PE加载DLL"><a href="#通过修改PE加载DLL" class="headerlink" title="通过修改PE加载DLL"></a>通过修改PE加载DLL</h1><p>先贴一篇关于<a target="_blank" rel="noopener" href="https://blog.csdn.net/wangshubo1989/article/details/53203718">HWND,HANDLE,HMODLE,HINSTANCE的区别</a>的博客，有个基础了解即可。</p>
+<p>在这一章停了一段时间，说一下我遇到的问题。</p>
+<p>首先就是IID整体大小，14为IID结构体大小，5为IID结构体个数</p>
+<p><img src="/2021/12/26/DLL%E6%B3%A8%E5%85%A5/image-20220105182929724.png" alt="image-20220105182929724"><img src="/2021/12/26/DLL%E6%B3%A8%E5%85%A5/image-20220105183003195.png" alt="image-20220105183003195"></p>
+<p>此处因为union结构体的缘故，故只有5个IID结构体。</p>
+<p>简单说一下union结构体：(union)共用体占用的内存应足够存储共用体中最大的成员。</p>
+<p>然后注意在创建新IDT时是设计了RVA to RAW的转换的，此处也就就不再赘述了。</p>
+<p>另外，移动到可用的空白区域即可，不是非要移动到RVA为8C80处。</p>
+<p><img src="/2021/12/26/DLL%E6%B3%A8%E5%85%A5/image-20220105185215395.png" alt="image-20220105185215395"></p>
+<p>然后一个点，bit OR是位操作  (   |   这个符号)，虽然说结果跟异或(bit XOR)一样。4|8&#x3D;&#x3D;12&#x3D;&#x3D;4^8,4|0&#x3D;&#x3D;4&#x3D;&#x3D;4^0。</p>
+<h1 id="代码注入DLL"><a href="#代码注入DLL" class="headerlink" title="代码注入DLL"></a>代码注入DLL</h1><p>本章关键在于读懂InjectCode()函数的代码。<br>其实使用的关键API就那么几个</p>
+<p>OpenProcess()<br>VirtualAllocEx()相对的有VirtualFreeEx()<br>WriteProcessMemory()相对的有ReadProcessMemory()<br>CreateRemoteThread()</p>
+<p>多加理解，对着敲一遍也不错。</p>
+<h1 id="使用汇编语言编写注入代码"><a href="#使用汇编语言编写注入代码" class="headerlink" title="使用汇编语言编写注入代码"></a>使用汇编语言编写注入代码</h1><p>前面编写汇编语言部分可以看看，能大致理解就行（本章后面是由逐行解析的）</p>
+<p>关键在于后面的CodeInjection2.cpp的代码。</p>
+<p>其实看看代码内容，核心的API确实就上面那几个。不过是加入了要注入的代码的十六进制数据。</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>纸上得来终觉浅，绝知此事要躬行。还是要多动手实践，这部分很注重实操。如果看不太懂，不妨试着结合网络写笔记，写的过程中逐一突破。</p>
+<p><img src="/2021/12/26/DLL%E6%B3%A8%E5%85%A5/image-20220105220107191.png" alt="image-20220105220107191"></p>
+<p>最后再上一碗鸡汤，多是一件美事。</p>
+<p><img src="/2021/12/26/DLL%E6%B3%A8%E5%85%A5/image-20220105220319771.png" alt="image-20220105220319771"></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://2298233831.github.io/2021/12/24/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -856,7 +961,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">15</span>
+          <span class="site-state-item-count">16</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
