@@ -20,50 +20,28 @@
     var CONFIG = {"hostname":"2298233831.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="逆向工程核心原理第十三章PE文件格式准备知识 首先是类型   (除OBJ之外都是可执行的，DLL、SYS是用其他方法间接执行的。OBJ不能以任何形式执行，所以逆向分析中一般不管它。)  再贴一个易混淆的  （RVA+imageBase&#x3D;VA）  节区：Flash芯片的最小数据存储单位称为节区。节区通常情况包含节区头、节区数据、节区尾等3个部分 (节区头和节区尾用来存储该节区的一些管理字、">
-<meta property="og:type" content="article">
-<meta property="og:title" content="逆向工程核心原理第十三章PE文件">
-<meta property="og:url" content="http://2298233831.github.io/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0PE%E6%96%87%E4%BB%B6/index.html">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="The Blog of Yu4n">
+<meta property="og:url" content="http://2298233831.github.io/page/3/index.html">
 <meta property="og:site_name" content="The Blog of Yu4n">
-<meta property="og:description" content="逆向工程核心原理第十三章PE文件格式准备知识 首先是类型   (除OBJ之外都是可执行的，DLL、SYS是用其他方法间接执行的。OBJ不能以任何形式执行，所以逆向分析中一般不管它。)  再贴一个易混淆的  （RVA+imageBase&#x3D;VA）  节区：Flash芯片的最小数据存储单位称为节区。节区通常情况包含节区头、节区数据、节区尾等3个部分 (节区头和节区尾用来存储该节区的一些管理字、">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://2298233831.github.io/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0PE%E6%96%87%E4%BB%B6/image-20211208184817595.png">
-<meta property="og:image" content="http://2298233831.github.io/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0PE%E6%96%87%E4%BB%B6/image-20211208184932670.png">
-<meta property="og:image" content="http://2298233831.github.io/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0PE%E6%96%87%E4%BB%B6/image-20211208190541199.png">
-<meta property="og:image" content="http://2298233831.github.io/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0PE%E6%96%87%E4%BB%B6/image-20211211133948441.png">
-<meta property="og:image" content="http://2298233831.github.io/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0PE%E6%96%87%E4%BB%B6/image-20211211115319553.png">
-<meta property="og:image" content="http://2298233831.github.io/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0PE%E6%96%87%E4%BB%B6/image-20211211115418486.png">
-<meta property="og:image" content="http://2298233831.github.io/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0PE%E6%96%87%E4%BB%B6/image-20211211122015407.png">
-<meta property="og:image" content="http://2298233831.github.io/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0PE%E6%96%87%E4%BB%B6/image-20211211132147232.png">
-<meta property="og:image" content="http://2298233831.github.io/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0PE%E6%96%87%E4%BB%B6/image-20211211133010828.png">
-<meta property="og:image" content="http://2298233831.github.io/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0PE%E6%96%87%E4%BB%B6/image-20211211140607158.png">
-<meta property="og:image" content="http://2298233831.github.io/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0PE%E6%96%87%E4%BB%B6/image-20211211140348489.png">
-<meta property="og:image" content="http://2298233831.github.io/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0PE%E6%96%87%E4%BB%B6/image-20211211140800787.png">
-<meta property="og:image" content="http://2298233831.github.io/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0PE%E6%96%87%E4%BB%B6/image-20211211132631404.png">
-<meta property="og:image" content="http://2298233831.github.io/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0PE%E6%96%87%E4%BB%B6/image-20211211132812251.png">
-<meta property="og:image" content="http://2298233831.github.io/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0PE%E6%96%87%E4%BB%B6/image-20211211130223999.png">
-<meta property="og:image" content="http://2298233831.github.io/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0PE%E6%96%87%E4%BB%B6/image-20211211130953633.png">
-<meta property="og:image" content="http://2298233831.github.io/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0PE%E6%96%87%E4%BB%B6/image-20211211131019298.png">
-<meta property="article:published_time" content="2021-12-12T12:14:09.000Z">
-<meta property="article:modified_time" content="2021-12-22T13:17:00.044Z">
 <meta property="article:author" content="Yu4n">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://2298233831.github.io/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0PE%E6%96%87%E4%BB%B6/image-20211208184817595.png">
 
-<link rel="canonical" href="http://2298233831.github.io/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0PE%E6%96%87%E4%BB%B6/">
+<link rel="canonical" href="http://2298233831.github.io/page/3/">
 
 
 <script id="page-configurations">
   // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
-    isHome : false,
-    isPost : true,
+    isHome : true,
+    isPost : false,
     lang   : 'zh-CN'
   };
 </script>
 
-  <title>逆向工程核心原理第十三章PE文件 | The Blog of Yu4n</title>
+  <title>The Blog of Yu4n</title>
   
 
 
@@ -161,10 +139,238 @@
         <div class="content-wrap">
           
 
-          <div class="content post posts-expand">
+          <div class="content index posts-expand">
             
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://2298233831.github.io/2021/12/18/Weekly-Study1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Yu4n">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="The Blog of Yu4n">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/12/18/Weekly-Study1/" class="post-title-link" itemprop="url">Weekly Study</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-12-18 19:25:04" itemprop="dateCreated datePublished" datetime="2021-12-18T19:25:04+08:00">2021-12-18</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-01-05 22:11:45" itemprop="dateModified" datetime="2022-01-05T22:11:45+08:00">2022-01-05</time>
+              </span>
+
+          
+
+        </div>
+      </header>
 
     
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Weekly-Study"><a href="#Weekly-Study" class="headerlink" title="Weekly Study"></a>Weekly Study</h1><p>（本周由于“积极”备考，所以书看的比较少，稍微写写做题中遇到的一些问题吧。）</p>
+<ol>
+<li><p>迷宫题</p>
+<p>由于之前在攻防世界练过一道迷宫题，simple的8和14也没有停顿太久</p>
+<p>这类题的关键就在与搞清“怎么走”—迷宫图的正确画出是关键，其次是按钮控制的方向。这些都需要结合具体函数进行判断。</p>
+<p>以simple8为例</p>
+<p><img src="/2021/12/18/Weekly-Study1/image-20211219174148388.png" alt="image-20211219174148388"></p>
+</li>
+</ol>
+<p>可以猜测，本题迷宫又1152个字符构成，且可组成每行60字符，共19行的迷宫</p>
+<p>故先打印处整体的迷宫(实际是1140个字符)</p>
+<p><img src="/2021/12/18/Weekly-Study1/image-20211219180035314.png" alt="image-20211219180035314"></p>
+<p><img src="/2021/12/18/Weekly-Study1/image-20211219181223256.png" alt="image-20211219181223256"></p>
+<p>规则如上代码，s为起点，t为终点，移动方式为经典WASD，按图走出即可。</p>
+<p>总结：画图和移动规则是关键。</p>
+<ol start="2">
+<li><p>关于反调试</p>
+<p>对反调试稍微看了一下，主要参考以下文章<a target="_blank" rel="noopener" href="https://www.freebuf.com/articles/others-articles/181085.html">Windows下反反调试技术汇总 - FreeBuf网络安全行业门户</a>，此次不做总结（还没看完，暂时停留在静态反调试技术。）</p>
+</li>
+<li><p>然后就是simple7的爆破法，(头一次用，当时还没看明白学长们的range(33(31开始也可以),127)是啥意思，其实就是ASCII码表对应的可见字符。)</p>
+</li>
+<li><p>最后就是继续学了一点汇编，其余的时间都在复习四级了。</p>
+</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://2298233831.github.io/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC1-12%E7%AB%A0%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Yu4n">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="The Blog of Yu4n">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC1-12%E7%AB%A0%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" class="post-title-link" itemprop="url">逆向工程核心原理第1-12章学习笔记</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-12-12 20:19:54" itemprop="dateCreated datePublished" datetime="2021-12-12T20:19:54+08:00">2021-12-12</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-12-22 21:19:39" itemprop="dateModified" datetime="2021-12-22T21:19:39+08:00">2021-12-22</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="逆向工程核心原理第一—-十二章笔记"><a href="#逆向工程核心原理第一—-十二章笔记" class="headerlink" title="逆向工程核心原理第一—-十二章笔记"></a>逆向工程核心原理第一—-十二章笔记</h1><blockquote>
+<p> 部分基础汇编指令的运用，以及寄存器类型；<br> 如：8086汇编段寄存器：</p>
+</blockquote>
+<blockquote>
+<p>CS:代码段寄存器(CPU执行命令仅从CS:IP指向的内容开始执行，到该内容截止。且CPU提供转义指令来修改CS、IP的内容)<br>SS:栈段寄存器<br>DS:数据段寄存器<br>ES:附加数据寄存器<br>FS:段寄存器<br>GS:段寄存器(FS,GS是80386起增加的两个辅助段寄存器,在这之前只有一个辅助段寄存器ES,增加这两个寄存器是为了减轻ES寄存器的负担,并能更好地配合适用于通用寄存器组的基址和变址寄存器.<br>这两个是通用的段寄存器，语法上同其它的段寄存器一样，不能直接用立即数给它赋值。)</p>
+<p>更详细的段寄存器知识取自以下网址 <a target="_blank" rel="noopener" href="https://www.cnblogs.com/xiangsikai/p/12461512.html#:~:text=ES%20%E9%99%84%E5%8A%A0%E6%AE%B5%E5%AF%84%E5%AD%98%E5%99%A8%E3%80%81%E4%B8%93%E9%97%A8%E9%85%8D%E5%90%88%E6%95%B0%E6%8D%AE%E5%86%85%E5%AD%98%E5%9C%B0%E5%9D%80%E7%9A%84%E5%AF%84%E5%AD%98%E5%99%A8%E3%80%81%E5%AE%83%E4%B8%8EDI%E5%8F%98%E6%8C%87%E5%AF%84%E5%AD%98%E5%99%A8%E9%85%8D%E5%90%88%E4%BD%BF%E7%94%A8%E3%80%82.,%E9%80%9A%E5%B8%B8DS%E4%B8%8ESI%E5%8F%96%E5%BE%97%E6%95%B0%E6%8D%AE%E7%9A%84%E6%BA%90%E5%9C%B0%E5%9D%80%E3%80%81ES%E4%B8%8EDI%E5%8F%96%E5%BE%97%E6%95%B0%E6%8D%AE%E7%9A%84%E7%9B%AE%E6%A0%87%E5%9C%B0%E5%9D%80.%20%E5%8A%9F%E8%83%BD%EF%BC%9AES%EF%BC%9A%E6%95%B0%E6%8D%AE%E6%AE%B5%E5%9C%B0%E5%9D%80%E5%AD%98%E5%82%A8.%20%E5%8A%9F%E8%83%BD%EF%BC%9ADI%EF%BC%9A%E6%95%B0%E6%8D%AE%E6%AE%B5%E5%81%8F%E7%A7%BB%E5%9C%B0%E5%9D%80%E5%AD%98%E5%82%A8.">段寄存器</a></p>
+<p><img src="/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC1-12%E7%AB%A0%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211207162249072.png" alt="image-20211207162249072"></p>
+<p>附上偏移地址的概念图</p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/wisehead/articles/3819233.html">各种寄存器的简略介绍</a></p>
+<p><img src="/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC1-12%E7%AB%A0%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211207184336279.png" alt="image-20211207184336279"></p>
+<p><strong>IP寄存器拓展：</strong></p>
+<p><strong>EIP指针指令寄存器：保存着CPU要执行的指令地址，由IP寄存器拓展的EIP是不能直接修改的程序运行时CPU读EIP中的一条指令的地址，EIP寄存器的值自己增加，CPU每次执行完一条指令，就会通过EIP寄存器读取并执行下一条指令。</strong></p>
+</blockquote>
+<blockquote>
+<ul>
+<li>Ollydbg的部分使用方法</li>
+</ul>
+</blockquote>
+<blockquote>
+<ul>
+<li>大&#x2F;小端序标记法。(字符串被保存在一个字符数组中时，无论采用哪种标记法，存储顺序都相同。)<br><img src="/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC1-12%E7%AB%A0%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211207170855768.png" alt="image-20211207170855768">数据的低位存储在低地址位，数据的高位存储在高地址位,小端字节序称为LSB</li>
+</ul>
+</blockquote>
+<blockquote>
+<p> 数据的低位存储在高地址位，数据的高位存储在低地址位,大端字节序称为MSB</p>
+</blockquote>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_45121946/article/details/105086756">判断大小端序的方法</a></p>
+</blockquote>
+<p> <img src="/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC1-12%E7%AB%A0%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211207183813150.png" alt="image-20211207183813150"></p>
+<pre><code> 反之则为大端序。
+</code></pre>
+<blockquote>
+<p> EFLAGS（32位）是由FLAGS（16位）扩展来的。</p>
+</blockquote>
+<blockquote>
+<p>每位值都有意义。</p>
+</blockquote>
+<blockquote>
+<p>​    初级阶段掌握 ZF（零标志）、OF（溢出标志）、CF（进位标志）即可。</p>
+</blockquote>
+<blockquote>
+<p>​    ZF 运算结果0或1，True或False</p>
+</blockquote>
+<blockquote>
+<p>​    OF 有符号整数溢出时，OF为1。MSB改变时，其值也为1。</p>
+</blockquote>
+<blockquote>
+<p>​    CF 无符号整数溢出时，CF为1。</p>
+</blockquote>
+<blockquote>
+<p>​    Tip</p>
+</blockquote>
+<blockquote>
+<p>​    Jcc(条件跳转)指令要检查这3个标志的值(只要是条件跳转指令，都要检查这个值，来决定如何跳转。)，并根据    其值决定是否执行某个动作。(以这点为核心的题目为攻防世界中RE的simple-check。)</p>
+</blockquote>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="http://c.biancheng.net/view/3567.html">汇编语言条件跳转指令汇总 </a></p>
+</blockquote>
+<blockquote>
+<p> 栈–一种数据结构，其存储数据的规则为–先进(PUSH)后出(POP)</p>
+</blockquote>
+<p><img src="/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC1-12%E7%AB%A0%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211207185955041.png" alt="image-20211207185955041"></p>
+<p><img src="/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC1-12%E7%AB%A0%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211207192440502.png" alt="image-20211207192440502"></p>
+<blockquote>
+<p>具体理解参考如下文章<a target="_blank" rel="noopener" href="http://data.biancheng.net/view/170.html">顺序栈基本操作（入栈和出栈）C语言详解</a></p>
+</blockquote>
+<blockquote>
+<p> 栈帧：</p>
+</blockquote>
+<blockquote>
+<p> 首先，在程序运行时，ESP寄存器的值是随时变化的；所以，调用某函数时，先把用作基准点(函数起始地址)的ESP值保存到EBP(栈帧指针)，并维持在函数内部。这样，EBP的值能够安全访问到相关函数的局部变量、参数，返回地址，这就是EBP寄存器作为栈帧指针的作用。</p>
+</blockquote>
+<blockquote>
+<p>栈帧—是利用<u><strong>EBP</strong></u>寄存器访问栈内局部变量、参数、函数返回地址等的手段。</p>
+</blockquote>
+<p><img src="/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC1-12%E7%AB%A0%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211207192332394.png" alt="image-20211207192332394"></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
@@ -180,9 +386,10 @@
       <meta itemprop="name" content="The Blog of Yu4n">
     </span>
       <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          逆向工程核心原理第十三章PE文件
-        </h1>
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0PE%E6%96%87%E4%BB%B6/" class="post-title-link" itemprop="url">逆向工程核心原理第十三章PE文件</a>
+        </h2>
 
         <div class="post-meta">
             <span class="post-meta-item">
@@ -212,7 +419,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="逆向工程核心原理第十三章PE文件格式"><a href="#逆向工程核心原理第十三章PE文件格式" class="headerlink" title="逆向工程核心原理第十三章PE文件格式"></a>逆向工程核心原理第十三章PE文件格式</h1><h1 id="准备知识"><a href="#准备知识" class="headerlink" title="准备知识"></a>准备知识</h1><ul>
+          <h1 id="逆向工程核心原理第十三章PE文件格式"><a href="#逆向工程核心原理第十三章PE文件格式" class="headerlink" title="逆向工程核心原理第十三章PE文件格式"></a>逆向工程核心原理第十三章PE文件格式</h1><h1 id="准备知识"><a href="#准备知识" class="headerlink" title="准备知识"></a>准备知识</h1><ul>
 <li>首先是类型</li>
 </ul>
 <p><img src="/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0PE%E6%96%87%E4%BB%B6/image-20211208184817595.png" alt="image-20211208184817595"></p>
@@ -279,31 +486,25 @@
 <li>值得一提的是，只要符合了PE文件规范就是PE文件，故可以在规范之外作出改动，从而制作出一些奇异的PE文件，这一类统称为Patched PE文件。(还没学到，以后会写。)</li>
 </ul>
 
+      
     </div>
 
     
     
     
-
       <footer class="post-footer">
-
-        
-
-
-        
-    <div class="post-nav">
-      <div class="post-nav-item"></div>
-      <div class="post-nav-item">
-    <a href="/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC1-12%E7%AB%A0%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" rel="next" title="逆向工程核心原理第1-12章学习笔记">
-      逆向工程核心原理第1-12章学习笔记 <i class="fa fa-chevron-right"></i>
-    </a></div>
-    </div>
+        <div class="post-eof"></div>
       </footer>
-    
   </article>
   
   
   
+
+
+  
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span>
+  </nav>
 
 
 
@@ -355,7 +556,6 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F"><span class="nav-number">1.</span> <span class="nav-text">逆向工程核心原理第十三章PE文件格式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%87%86%E5%A4%87%E7%9F%A5%E8%AF%86"><span class="nav-number">2.</span> <span class="nav-text">准备知识</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%8E%A5%E4%B8%8B%E6%9D%A5%E6%AD%A3%E5%BC%8F%E5%BC%80%E5%A7%8B"><span class="nav-number">3.</span> <span class="nav-text">接下来正式开始</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 

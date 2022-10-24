@@ -20,15 +20,19 @@
     var CONFIG = {"hostname":"2298233831.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta property="og:type" content="website">
+  <meta name="description" content="Objection常用命令 12345678910111213android hooking search classes 关键字 #(关键字可选，最后的classes是可替换为其他东西的，如methods)android hooking list class_methods &lt;路径.类名&gt; #(同样可替换，例如activityandroid hooking list classes">
+<meta property="og:type" content="article">
 <meta property="og:title" content="The Blog of Yu4n">
-<meta property="og:url" content="http://2298233831.github.io/archives/2022/05/index.html">
+<meta property="og:url" content="http://2298233831.github.io/2022/10/24/Objection/index.html">
 <meta property="og:site_name" content="The Blog of Yu4n">
+<meta property="og:description" content="Objection常用命令 12345678910111213android hooking search classes 关键字 #(关键字可选，最后的classes是可替换为其他东西的，如methods)android hooking list class_methods &lt;路径.类名&gt; #(同样可替换，例如activityandroid hooking list classes">
 <meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-10-24T05:57:25.513Z">
+<meta property="article:modified_time" content="2022-10-24T05:53:32.899Z">
 <meta property="article:author" content="Yu4n">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://2298233831.github.io/archives/2022/05/">
+<link rel="canonical" href="http://2298233831.github.io/2022/10/24/Objection/">
 
 
 <script id="page-configurations">
@@ -36,12 +40,12 @@
   CONFIG.page = {
     sidebar: "",
     isHome : false,
-    isPost : false,
+    isPost : true,
     lang   : 'zh-CN'
   };
 </script>
 
-  <title>归档 | The Blog of Yu4n</title>
+  <title> | The Blog of Yu4n</title>
   
 
 
@@ -139,50 +143,80 @@
         <div class="content-wrap">
           
 
-          <div class="content archive">
+          <div class="content post posts-expand">
             
 
+    
   
   
-  
-  <div class="post-block">
-    <div class="posts-collapse">
-      <div class="collection-title">
-        <span class="collection-header">嗯..! 目前共计 23 篇日志。 继续努力。</span>
-      </div>
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://2298233831.github.io/2022/10/24/Objection/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Yu4n">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="The Blog of Yu4n">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-10-24 13:57:25 / 修改时间：13:53:32" itemprop="dateCreated datePublished" datetime="2022-10-24T13:57:25+08:00">2022-10-24</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-    <div class="collection-year">
-      <span class="collection-header">2022</span>
+        <h1 id="Objection"><a href="#Objection" class="headerlink" title="Objection"></a>Objection</h1><p>常用命令</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">android hooking search classes 关键字 <span class="comment">#(关键字可选，最后的classes是可替换为其他东西的，如methods)</span></span><br><span class="line">android hooking list class_methods &lt;路径.类名&gt; <span class="comment">#(同样可替换，例如activity</span></span><br><span class="line">android hooking list classes <span class="comment">#列出所有已加载的类</span></span><br><span class="line">对指定方法进行hook ： android hooking watch class_method &lt;路径.类名.方法名&gt; <span class="comment">#(这个命令可以在后面加参数)</span></span><br><span class="line">对指定类的所有函数hook ：android hooking watch class 类名</span><br><span class="line">Hook类的所有方法(不含构造方法)：android hooking watch class &lt;路径.类名&gt;</span><br><span class="line">Hook类的所有构造方法： android hooking watch class_method &lt;路径.类名.<span class="variable">$init</span>&gt;</span><br><span class="line">Hook方法的所有重载: android hooking watch class_method &lt;路径.类名.方法名&gt;</span><br><span class="line">Hook方法的参数，返回值和调用栈: android hooking watch class_method &lt;路径.类名.方法名&gt; --dump-args --dump-return --dump-backtrace</span><br><span class="line">查看Hook了多少个类:<span class="built_in">jobs</span> list</span><br><span class="line">取消Hook:<span class="built_in">jobs</span> <span class="built_in">kill</span> &lt;taskID&gt;</span><br><span class="line">搜索堆中的实例: android heap search instances &lt;类名&gt;</span><br><span class="line">在应用启动之前就Hook: objection -g &lt;进程名&gt; explore --startup-command <span class="string">&quot;android hooking watch class &#x27;&lt;路径.类名&gt;&#x27; &quot;</span></span><br></pre></td></tr></table></figure>
     </div>
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+    
+    
+    
 
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2022-05-20T09:43:45+08:00"
-              content="2022-05-20">
-          05-20
-        </time>
-      </div>
+      <footer class="post-footer">
 
-      <div class="post-title">
-          <a class="post-title-link" href="/2022/05/20/socket%E7%BC%96%E7%A8%8B%E5%B0%9D%E8%AF%95%EF%BC%88Windows%EF%BC%89/" itemprop="url">
-            <span itemprop="name">socket编程尝试（Windows）</span>
-          </a>
-      </div>
+        
 
-    </header>
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/10/24/JNI%E5%87%BD%E6%95%B0%E7%9A%84Hook%E4%B8%8E%E5%BF%AB%E9%80%9F%E5%AE%9A%E4%BD%8D/" rel="prev" title="">
+      <i class="fa fa-chevron-left"></i> 
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/10/24/So%E5%B1%82Hook/" rel="next" title="">
+       <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
   </article>
-
-
-    </div>
-  </div>
   
   
-  
-
   
 
 
@@ -235,6 +269,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Objection"><span class="nav-number">1.</span> <span class="nav-text">Objection</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
