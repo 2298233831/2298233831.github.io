@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
@@ -20,13 +20,13 @@
     var CONFIG = {"hostname":"2298233831.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="反调试技术在开始前，先用一张图简要说明反调试技术的种类  静态反调试承接之前学习的PEB结构体，该结构体的成员主要有以下四个更值得关注，且都与反调试有关。  首先复习下如何访问PEB结构体  利用上面的方式再加上上面四个成员的偏移量就可以访问对应的成员了。 BeingDebugged该成员在值为1是表示进程处在调试状态，为0则正常运行。 Ldr在进程处于调试状态的堆区中，未使用的内存区域全部由0x">
+  <meta name="description" content="反调试技术在开始前，先用一张图简要说明反调试技术的种类   静态反调试承接之前学习的PEB结构体，该结构体的成员主要有以下四个更值得关注，且都与反调试有关。   首先复习下如何访问PEB结构体   利用上面的方式再加上上面四个成员的偏移量就可以访问对应的成员了。 BeingDebugged该成员在值为1是表示进程处在调试状态，为0则正常运行。 Ldr在进程处于调试状态的堆区中，未使用的内存区域全部">
 <meta property="og:type" content="article">
 <meta property="og:title" content="逆向工程核心原理_反调试技术">
 <meta property="og:url" content="http://2298233831.github.io/2022/04/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E5%8F%8D%E8%B0%83%E8%AF%95%E6%8A%80%E6%9C%AF/index.html">
 <meta property="og:site_name" content="The Blog of Yu4n">
-<meta property="og:description" content="反调试技术在开始前，先用一张图简要说明反调试技术的种类  静态反调试承接之前学习的PEB结构体，该结构体的成员主要有以下四个更值得关注，且都与反调试有关。  首先复习下如何访问PEB结构体  利用上面的方式再加上上面四个成员的偏移量就可以访问对应的成员了。 BeingDebugged该成员在值为1是表示进程处在调试状态，为0则正常运行。 Ldr在进程处于调试状态的堆区中，未使用的内存区域全部由0x">
-<meta property="og:locale" content="zh_CN">
+<meta property="og:description" content="反调试技术在开始前，先用一张图简要说明反调试技术的种类   静态反调试承接之前学习的PEB结构体，该结构体的成员主要有以下四个更值得关注，且都与反调试有关。   首先复习下如何访问PEB结构体   利用上面的方式再加上上面四个成员的偏移量就可以访问对应的成员了。 BeingDebugged该成员在值为1是表示进程处在调试状态，为0则正常运行。 Ldr在进程处于调试状态的堆区中，未使用的内存区域全部">
+<meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://2298233831.github.io/2022/04/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E5%8F%8D%E8%B0%83%E8%AF%95%E6%8A%80%E6%9C%AF/image-20220412122021162.png">
 <meta property="og:image" content="http://2298233831.github.io/2022/04/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E5%8F%8D%E8%B0%83%E8%AF%95%E6%8A%80%E6%9C%AF/image-20220412122133677.png">
 <meta property="og:image" content="http://2298233831.github.io/2022/04/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E5%8F%8D%E8%B0%83%E8%AF%95%E6%8A%80%E6%9C%AF/image-20220412122227236.png">
@@ -44,7 +44,7 @@
 <meta property="og:image" content="http://2298233831.github.io/2022/04/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E5%8F%8D%E8%B0%83%E8%AF%95%E6%8A%80%E6%9C%AF/image-20220412150430023.png">
 <meta property="og:image" content="http://2298233831.github.io/2022/04/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E5%8F%8D%E8%B0%83%E8%AF%95%E6%8A%80%E6%9C%AF/image-20220412155347155.png">
 <meta property="article:published_time" content="2022-04-12T07:54:48.000Z">
-<meta property="article:modified_time" content="2022-04-12T10:11:23.573Z">
+<meta property="article:modified_time" content="2025-10-14T15:23:22.394Z">
 <meta property="article:author" content="Yu4n">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://2298233831.github.io/2022/04/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E5%8F%8D%E8%B0%83%E8%AF%95%E6%8A%80%E6%9C%AF/image-20220412122021162.png">
@@ -58,7 +58,7 @@
     sidebar: "",
     isHome : false,
     isPost : true,
-    lang   : 'zh-CN'
+    lang   : 'en'
   };
 </script>
 
@@ -102,7 +102,7 @@
     <header class="header" itemscope itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-container">
   <div class="site-nav-toggle">
-    <div class="toggle" aria-label="切换导航栏">
+    <div class="toggle" aria-label="Toggle navigation bar">
       <span class="toggle-line toggle-line-first"></span>
       <span class="toggle-line toggle-line-middle"></span>
       <span class="toggle-line toggle-line-last"></span>
@@ -131,12 +131,17 @@
   <ul id="menu" class="main-menu menu">
         <li class="menu-item menu-item-home">
 
-    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
 
   </li>
-        <li class="menu-item menu-item-archives">
+        <li class="menu-item menu-item-reverse">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+    <a href="/categories/Reverse/" rel="section"><i class="fa fa-archive fa-fw"></i>Reverse</a>
+
+  </li>
+        <li class="menu-item menu-item-web3-security">
+
+    <a href="/categories/Web3-Security/" rel="section"><i class="fa fa-shield-alt fa-fw"></i>Web3 Security</a>
 
   </li>
   </ul>
@@ -166,7 +171,7 @@
     
   
   
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://2298233831.github.io/2022/04/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E5%8F%8D%E8%B0%83%E8%AF%95%E6%8A%80%E6%9C%AF/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -188,13 +193,35 @@
               <span class="post-meta-item-icon">
                 <i class="far fa-calendar"></i>
               </span>
-              <span class="post-meta-item-text">发表于</span>
-              
+              <span class="post-meta-item-text">Posted on</span>
 
-              <time title="创建时间：2022-04-12 15:54:48 / 修改时间：18:11:23" itemprop="dateCreated datePublished" datetime="2022-04-12T15:54:48+08:00">2022-04-12</time>
+              <time title="Created: 2022-04-12 15:54:48" itemprop="dateCreated datePublished" datetime="2022-04-12T15:54:48+08:00">2022-04-12</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2025-10-14 23:23:22" itemprop="dateModified" datetime="2025-10-14T23:23:22+08:00">2025-10-14</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Reverse/" itemprop="url" rel="index"><span itemprop="name">Reverse</span></a>
+                </span>
             </span>
 
           
+            <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
 
         </div>
       </header>
@@ -206,48 +233,71 @@
 
       
         <h1 id="反调试技术"><a href="#反调试技术" class="headerlink" title="反调试技术"></a>反调试技术</h1><p>在开始前，先用一张图简要说明反调试技术的种类</p>
-<p><img src="/2022/04/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E5%8F%8D%E8%B0%83%E8%AF%95%E6%8A%80%E6%9C%AF/image-20220412122021162.png" alt="image-20220412122021162"></p>
+<img src="/2022/04/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E5%8F%8D%E8%B0%83%E8%AF%95%E6%8A%80%E6%9C%AF/image-20220412122021162.png" class="" title="image-20220412122021162">
+
 <h1 id="静态反调试"><a href="#静态反调试" class="headerlink" title="静态反调试"></a>静态反调试</h1><p>承接之前学习的PEB结构体，该结构体的成员主要有以下四个更值得关注，且都与反调试有关。</p>
-<p><img src="/2022/04/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E5%8F%8D%E8%B0%83%E8%AF%95%E6%8A%80%E6%9C%AF/image-20220412122133677.png" alt="image-20220412122133677"></p>
+<img src="/2022/04/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E5%8F%8D%E8%B0%83%E8%AF%95%E6%8A%80%E6%9C%AF/image-20220412122133677.png" class="" title="image-20220412122133677">
+
 <p>首先复习下如何访问PEB结构体</p>
-<p><img src="/2022/04/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E5%8F%8D%E8%B0%83%E8%AF%95%E6%8A%80%E6%9C%AF/image-20220412122227236.png" alt="image-20220412122227236"></p>
+<img src="/2022/04/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E5%8F%8D%E8%B0%83%E8%AF%95%E6%8A%80%E6%9C%AF/image-20220412122227236.png" class="" title="image-20220412122227236">
+
 <p>利用上面的方式再加上上面四个成员的偏移量就可以访问对应的成员了。</p>
 <h2 id="BeingDebugged"><a href="#BeingDebugged" class="headerlink" title="BeingDebugged"></a>BeingDebugged</h2><p>该成员在值为1是表示进程处在调试状态，为0则正常运行。</p>
 <h2 id="Ldr"><a href="#Ldr" class="headerlink" title="Ldr"></a>Ldr</h2><p>在进程处于调试状态的堆区中，未使用的内存区域全部由0xFEEEFEEE填充，若将其用NULL覆盖即表明程序处于正常运行状态。</p>
 <h2 id="Process-Heap"><a href="#Process-Heap" class="headerlink" title="Process Heap"></a>Process Heap</h2><p>该成员是指向Heap结构体的指针</p>
-<p><img src="/2022/04/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E5%8F%8D%E8%B0%83%E8%AF%95%E6%8A%80%E6%9C%AF/image-20220412122817083.png" alt="image-20220412122817083"></p>
+<img src="/2022/04/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E5%8F%8D%E8%B0%83%E8%AF%95%E6%8A%80%E6%9C%AF/image-20220412122817083.png" class="" title="image-20220412122817083">
+
 <p>其中，在正常运行时，Flags和Force Flags成员会被设置为特定的值，分别为0x2,0x0</p>
 <h2 id="NtGlobalFlag"><a href="#NtGlobalFlag" class="headerlink" title="NtGlobalFlag"></a>NtGlobalFlag</h2><p>调试状态时该成员的值会被设置为0x70，正常运行状态则值为0.</p>
-<h2 id="NtQueryInformationProcess"><a href="#NtQueryInformationProcess" class="headerlink" title="NtQueryInformationProcess"></a>NtQueryInformationProcess</h2><p><img src="/2022/04/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E5%8F%8D%E8%B0%83%E8%AF%95%E6%8A%80%E6%9C%AF/image-20220412141513488.png" alt="image-20220412141513488"></p>
-<p><img src="/2022/04/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E5%8F%8D%E8%B0%83%E8%AF%95%E6%8A%80%E6%9C%AF/image-20220412141652792.png" alt="image-20220412141652792"></p>
+<h2 id="NtQueryInformationProcess"><a href="#NtQueryInformationProcess" class="headerlink" title="NtQueryInformationProcess"></a>NtQueryInformationProcess</h2><img src="/2022/04/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E5%8F%8D%E8%B0%83%E8%AF%95%E6%8A%80%E6%9C%AF/image-20220412141513488.png" class="" title="image-20220412141513488">
+
+<img src="/2022/04/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E5%8F%8D%E8%B0%83%E8%AF%95%E6%8A%80%E6%9C%AF/image-20220412141652792.png" class="" title="image-20220412141652792">
+
 <p>此处的例子出于将会多次涉及参数数值的更改，会很麻烦，所以涉及api hook，</p>
 <h2 id="NtQureyObject"><a href="#NtQureyObject" class="headerlink" title="NtQureyObject"></a>NtQureyObject</h2><p>首先，当进程处于调试状态时，系统会分配一个调试对象类型的内核对象，通过检测该对象是否存在，即可判断是否处于调试状态。</p>
 <p>简要说明检测过程：</p>
 <p>通过NtQureyObject()api获取系统各种内核对象的信息。定义如下</p>
-<p><img src="/2022/04/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E5%8F%8D%E8%B0%83%E8%AF%95%E6%8A%80%E6%9C%AF/image-20220412143047207.png" alt="image-20220412143047207"></p>
+<img src="/2022/04/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E5%8F%8D%E8%B0%83%E8%AF%95%E6%8A%80%E6%9C%AF/image-20220412143047207.png" class="" title="image-20220412143047207">
+
 <p>通过书中的调试案例可更快理解该反调试的具体过程</p>
 <h2 id="ZwSetInformationThread"><a href="#ZwSetInformationThread" class="headerlink" title="ZwSetInformationThread"></a>ZwSetInformationThread</h2><p>该api会将线程隐藏，调试器无法接受信息，从而无法调试。</p>
 <p>可以让该api不调用，可以解决问题，或者在调用该api之前，将存储在栈中的的第二个参数ThreadInformationClass的值设置为0即可。</p>
 <h2 id="and-so-on"><a href="#and-so-on" class="headerlink" title="and so on"></a>and so on</h2><p>再者就是之前介绍过的TLS回调函数实现反调试了，很经典。</p>
 <p>书中最后还介绍了一种通过检测程序运行所处的系统是否为你想专用的系统来决定是否实现反调试。</p>
-<p><img src="/2022/04/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E5%8F%8D%E8%B0%83%E8%AF%95%E6%8A%80%E6%9C%AF/image-20220412144545994.png" alt="image-20220412144545994"></p>
+<img src="/2022/04/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E5%8F%8D%E8%B0%83%E8%AF%95%E6%8A%80%E6%9C%AF/image-20220412144545994.png" class="" title="image-20220412144545994">
+
+
+
 <h1 id="动态反调试技术"><a href="#动态反调试技术" class="headerlink" title="动态反调试技术"></a>动态反调试技术</h1><p>异常是常被用来实现动态反调试的手段之一。本章前面所描述的部分内容可在SEH那章找到。</p>
 <p>而当进程中未注册SEH或SEH未处理异常时</p>
-<p><img src="/2022/04/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E5%8F%8D%E8%B0%83%E8%AF%95%E6%8A%80%E6%9C%AF/image-20220412144910002.png" alt="image-20220412144910002"></p>
+<img src="/2022/04/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E5%8F%8D%E8%B0%83%E8%AF%95%E6%8A%80%E6%9C%AF/image-20220412144910002.png" class="" title="image-20220412144910002">
+
+
+
 <h2 id="Timing-Check"><a href="#Timing-Check" class="headerlink" title="Timing Check"></a>Timing Check</h2><p>原理为当程序在正常运行时和调试时所耗费的时间不同来检测进程是否处于调试状态。</p>
 <p>如下是检测方法</p>
-<p><img src="/2022/04/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E5%8F%8D%E8%B0%83%E8%AF%95%E6%8A%80%E6%9C%AF/image-20220412145143458.png" alt="image-20220412145143458"></p>
+<img src="/2022/04/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E5%8F%8D%E8%B0%83%E8%AF%95%E6%8A%80%E6%9C%AF/image-20220412145143458.png" class="" title="image-20220412145143458">
+
+
+
 <p>RDTSC反调试的破解方式如图</p>
-<p><img src="/2022/04/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E5%8F%8D%E8%B0%83%E8%AF%95%E6%8A%80%E6%9C%AF/image-20220412145402293.png" alt="image-20220412145402293"></p>
-<p><img src="/2022/04/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E5%8F%8D%E8%B0%83%E8%AF%95%E6%8A%80%E6%9C%AF/image-20220412145410760.png" alt="image-20220412145410760"></p>
-<h2 id="TF与单步"><a href="#TF与单步" class="headerlink" title="TF与单步"></a>TF与单步</h2><p><img src="/2022/04/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E5%8F%8D%E8%B0%83%E8%AF%95%E6%8A%80%E6%9C%AF/image-20220412145445431.png" alt="image-20220412145445431"></p>
+<img src="/2022/04/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E5%8F%8D%E8%B0%83%E8%AF%95%E6%8A%80%E6%9C%AF/image-20220412145402293.png" class="" title="image-20220412145402293">
+
+<img src="/2022/04/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E5%8F%8D%E8%B0%83%E8%AF%95%E6%8A%80%E6%9C%AF/image-20220412145410760.png" class="" title="image-20220412145410760">
+
+
+
+<h2 id="TF与单步"><a href="#TF与单步" class="headerlink" title="TF与单步"></a>TF与单步</h2><img src="/2022/04/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E5%8F%8D%E8%B0%83%E8%AF%95%E6%8A%80%E6%9C%AF/image-20220412145445431.png" class="" title="image-20220412145445431">
+
 <p>前面的章节提到，Windows中存在单步异常。</p>
 <p>在单步执行模式中，该异常触发后，TF会自动清零</p>
 <p>需要注意TF的值无法修改</p>
 <p>大体流程如下</p>
-<p><img src="/2022/04/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E5%8F%8D%E8%B0%83%E8%AF%95%E6%8A%80%E6%9C%AF/image-20220412145859419.png" alt="image-20220412145859419"></p>
+<img src="/2022/04/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E5%8F%8D%E8%B0%83%E8%AF%95%E6%8A%80%E6%9C%AF/image-20220412145859419.png" class="" title="image-20220412145859419">
+
 <p>调试例子可以通过将-1修改为0x401036的值也可绕过反调试。</p>
-<p><img src="/2022/04/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E5%8F%8D%E8%B0%83%E8%AF%95%E6%8A%80%E6%9C%AF/image-20220412150430023.png" alt="image-20220412150430023"></p>
+<img src="/2022/04/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E5%8F%8D%E8%B0%83%E8%AF%95%E6%8A%80%E6%9C%AF/image-20220412150430023.png" class="" title="image-20220412150430023">
+
 <h2 id="INT-2D"><a href="#INT-2D" class="headerlink" title="INT 2D"></a>INT 2D</h2><p>该异常比较有意思，在调试状态时，解析了该指令后，系统会忽略下一条指令的第一个字节，导致之后指令解析错误。</p>
 <p>跟着例子调一下就明白了。</p>
 <h2 id="0xCC探测"><a href="#0xCC探测" class="headerlink" title="0xCC探测"></a>0xCC探测</h2><p>断点对应的x86指令为0xCC</p>
@@ -263,7 +313,12 @@
 <li>API重定向；这跟上面那个差不多，API重定向是把所有EP代码都复制到其他区域，再将要保护的代码修改，从而使被复制的代码得以执行（该技术支持反转储）</li>
 </ol>
 <p>最后的</p>
-<p><img src="/2022/04/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E5%8F%8D%E8%B0%83%E8%AF%95%E6%8A%80%E6%9C%AF/image-20220412155347155.png" alt="image-20220412155347155"></p>
+<img src="/2022/04/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-%E5%8F%8D%E8%B0%83%E8%AF%95%E6%8A%80%E6%9C%AF/image-20220412155347155.png" class="" title="image-20220412155347155">
+
+
+
+
+
 <h1 id="Last"><a href="#Last" class="headerlink" title="Last"></a>Last</h1><p>这几章的内容都很注重实操，不应该停留在阅读理解。</p>
 
     </div>
@@ -336,10 +391,10 @@
 
       <ul class="sidebar-nav motion-element">
         <li class="sidebar-nav-toc">
-          文章目录
+          Table of Contents
         </li>
         <li class="sidebar-nav-overview">
-          站点概览
+          Overview
         </li>
       </ul>
 
@@ -357,11 +412,14 @@
 <div class="site-state-wrap motion-element">
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
-          <a href="/archives/">
-        
-          <span class="site-state-item-count">22</span>
-          <span class="site-state-item-name">日志</span>
+          <a href="/archives">
+          <span class="site-state-item-count">23</span>
+          <span class="site-state-item-name">posts</span>
         </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">categories</span>
       </div>
   </nav>
 </div>
@@ -387,30 +445,24 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2024</span>
+  <span itemprop="copyrightYear">2025</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">Yu4n</span>
 </div>
 <!--
-  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
   </div>
 -->
 
 
-<% if (theme.busuanzi && theme.busuanzi.enable){ %>
-       <span id="busuanzi_container_site_pv">
-               ��վ�ܷ�����<span id="busuanzi_value_site_pv"></span>��
-       </span>
-       <span class="post-meta-divider">|</span>
-       <span id="busuanzi_container_site_uv" style='display:none'>
-               ��վ�ÿ���<span id="busuanzi_value_site_uv"></span>��
-       </span>
-       <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
- <% } %>
+ 
 
         
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</div>
 
 
 

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
@@ -22,13 +22,13 @@
 
   <meta property="og:type" content="website">
 <meta property="og:title" content="The Blog of Yu4n">
-<meta property="og:url" content="http://2298233831.github.io/page/3/index.html">
+<meta property="og:url" content="http://2298233831.github.io/posts/page/3/index.html">
 <meta property="og:site_name" content="The Blog of Yu4n">
-<meta property="og:locale" content="zh_CN">
+<meta property="og:locale" content="en_US">
 <meta property="article:author" content="Yu4n">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://2298233831.github.io/page/3/">
+<link rel="canonical" href="http://2298233831.github.io/posts/page/3/">
 
 
 <script id="page-configurations">
@@ -37,7 +37,7 @@
     sidebar: "",
     isHome : true,
     isPost : false,
-    lang   : 'zh-CN'
+    lang   : 'en'
   };
 </script>
 
@@ -81,7 +81,7 @@
     <header class="header" itemscope itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-container">
   <div class="site-nav-toggle">
-    <div class="toggle" aria-label="切换导航栏">
+    <div class="toggle" aria-label="Toggle navigation bar">
       <span class="toggle-line toggle-line-first"></span>
       <span class="toggle-line toggle-line-middle"></span>
       <span class="toggle-line toggle-line-last"></span>
@@ -110,12 +110,17 @@
   <ul id="menu" class="main-menu menu">
         <li class="menu-item menu-item-home">
 
-    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
 
   </li>
-        <li class="menu-item menu-item-archives">
+        <li class="menu-item menu-item-reverse">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+    <a href="/categories/Reverse/" rel="section"><i class="fa fa-archive fa-fw"></i>Reverse</a>
+
+  </li>
+        <li class="menu-item menu-item-web3-security">
+
+    <a href="/categories/Web3-Security/" rel="section"><i class="fa fa-shield-alt fa-fw"></i>Web3 Security</a>
 
   </li>
   </ul>
@@ -144,7 +149,107 @@
       
   
   
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://2298233831.github.io/2021/12/18/Weekly-Study1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Yu4n">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="The Blog of Yu4n">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/12/18/Weekly-Study1/" class="post-title-link" itemprop="url">Weekly Study</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2021-12-18 19:25:04" itemprop="dateCreated datePublished" datetime="2021-12-18T19:25:04+08:00">2021-12-18</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2025-10-14 23:23:22" itemprop="dateModified" datetime="2025-10-14T23:23:22+08:00">2025-10-14</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Reverse/" itemprop="url" rel="index"><span itemprop="name">Reverse</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Weekly-Study"><a href="#Weekly-Study" class="headerlink" title="Weekly Study"></a>Weekly Study</h1><p>（本周由于“积极”备考，所以书看的比较少，稍微写写做题中遇到的一些问题吧。）</p>
+<ol>
+<li><p>迷宫题</p>
+<p>由于之前在攻防世界练过一道迷宫题，simple的8和14也没有停顿太久</p>
+<p>这类题的关键就在与搞清“怎么走”—迷宫图的正确画出是关键，其次是按钮控制的方向。这些都需要结合具体函数进行判断。</p>
+<p>以simple8为例</p>
+<img src="/2021/12/18/Weekly-Study1/image-20211219174148388.png" class="" title="image-20211219174148388"></li>
+</ol>
+<p>可以猜测，本题迷宫又1152个字符构成，且可组成每行60字符，共19行的迷宫</p>
+<p>故先打印处整体的迷宫(实际是1140个字符)</p>
+<img src="/2021/12/18/Weekly-Study1/image-20211219180035314.png" class="" title="image-20211219180035314">
+
+
+
+<img src="/2021/12/18/Weekly-Study1/image-20211219181223256.png" class="" title="image-20211219181223256">
+
+<p>规则如上代码，s为起点，t为终点，移动方式为经典WASD，按图走出即可。</p>
+<p>总结：画图和移动规则是关键。</p>
+<ol start="2">
+<li><p>关于反调试</p>
+<p>对反调试稍微看了一下，主要参考以下文章<a target="_blank" rel="noopener" href="https://www.freebuf.com/articles/others-articles/181085.html">Windows下反反调试技术汇总 - FreeBuf网络安全行业门户</a>，此次不做总结（还没看完，暂时停留在静态反调试技术。）</p>
+</li>
+<li><p>然后就是simple7的爆破法，(头一次用，当时还没看明白学长们的range(33(31开始也可以),127)是啥意思，其实就是ASCII码表对应的可见字符。)</p>
+</li>
+<li><p>最后就是继续学了一点汇编，其余的时间都在复习四级了。</p>
+</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://2298233831.github.io/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC1-12%E7%AB%A0%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -167,17 +272,26 @@
               <span class="post-meta-item-icon">
                 <i class="far fa-calendar"></i>
               </span>
-              <span class="post-meta-item-text">发表于</span>
+              <span class="post-meta-item-text">Posted on</span>
 
-              <time title="创建时间：2021-12-12 20:19:54" itemprop="dateCreated datePublished" datetime="2021-12-12T20:19:54+08:00">2021-12-12</time>
+              <time title="Created: 2021-12-12 20:19:54" itemprop="dateCreated datePublished" datetime="2021-12-12T20:19:54+08:00">2021-12-12</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-12-22 21:19:39" itemprop="dateModified" datetime="2021-12-22T21:19:39+08:00">2021-12-22</time>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2025-10-14 23:23:22" itemprop="dateModified" datetime="2025-10-14T23:23:22+08:00">2025-10-14</time>
               </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Reverse/" itemprop="url" rel="index"><span itemprop="name">Reverse</span></a>
+                </span>
+            </span>
 
           
 
@@ -196,10 +310,12 @@
 <blockquote>
 <p>CS:代码段寄存器(CPU执行命令仅从CS:IP指向的内容开始执行，到该内容截止。且CPU提供转义指令来修改CS、IP的内容)<br>SS:栈段寄存器<br>DS:数据段寄存器<br>ES:附加数据寄存器<br>FS:段寄存器<br>GS:段寄存器(FS,GS是80386起增加的两个辅助段寄存器,在这之前只有一个辅助段寄存器ES,增加这两个寄存器是为了减轻ES寄存器的负担,并能更好地配合适用于通用寄存器组的基址和变址寄存器.<br>这两个是通用的段寄存器，语法上同其它的段寄存器一样，不能直接用立即数给它赋值。)</p>
 <p>更详细的段寄存器知识取自以下网址 <a target="_blank" rel="noopener" href="https://www.cnblogs.com/xiangsikai/p/12461512.html#:~:text=ES%20%E9%99%84%E5%8A%A0%E6%AE%B5%E5%AF%84%E5%AD%98%E5%99%A8%E3%80%81%E4%B8%93%E9%97%A8%E9%85%8D%E5%90%88%E6%95%B0%E6%8D%AE%E5%86%85%E5%AD%98%E5%9C%B0%E5%9D%80%E7%9A%84%E5%AF%84%E5%AD%98%E5%99%A8%E3%80%81%E5%AE%83%E4%B8%8EDI%E5%8F%98%E6%8C%87%E5%AF%84%E5%AD%98%E5%99%A8%E9%85%8D%E5%90%88%E4%BD%BF%E7%94%A8%E3%80%82.,%E9%80%9A%E5%B8%B8DS%E4%B8%8ESI%E5%8F%96%E5%BE%97%E6%95%B0%E6%8D%AE%E7%9A%84%E6%BA%90%E5%9C%B0%E5%9D%80%E3%80%81ES%E4%B8%8EDI%E5%8F%96%E5%BE%97%E6%95%B0%E6%8D%AE%E7%9A%84%E7%9B%AE%E6%A0%87%E5%9C%B0%E5%9D%80.%20%E5%8A%9F%E8%83%BD%EF%BC%9AES%EF%BC%9A%E6%95%B0%E6%8D%AE%E6%AE%B5%E5%9C%B0%E5%9D%80%E5%AD%98%E5%82%A8.%20%E5%8A%9F%E8%83%BD%EF%BC%9ADI%EF%BC%9A%E6%95%B0%E6%8D%AE%E6%AE%B5%E5%81%8F%E7%A7%BB%E5%9C%B0%E5%9D%80%E5%AD%98%E5%82%A8.">段寄存器</a></p>
-<p><img src="/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC1-12%E7%AB%A0%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211207162249072.png" alt="image-20211207162249072"></p>
+<img src="/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC1-12%E7%AB%A0%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211207162249072.png" class="" title="image-20211207162249072">
+
 <p>附上偏移地址的概念图</p>
 <p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/wisehead/articles/3819233.html">各种寄存器的简略介绍</a></p>
-<p><img src="/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC1-12%E7%AB%A0%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211207184336279.png" alt="image-20211207184336279"></p>
+<img src="/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC1-12%E7%AB%A0%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211207184336279.png" class="" title="image-20211207184336279">
+
 <p><strong>IP寄存器拓展：</strong></p>
 <p><strong>EIP指针指令寄存器：保存着CPU要执行的指令地址，由IP寄存器拓展的EIP是不能直接修改的程序运行时CPU读EIP中的一条指令的地址，EIP寄存器的值自己增加，CPU每次执行完一条指令，就会通过EIP寄存器读取并执行下一条指令。</strong></p>
 </blockquote>
@@ -210,7 +326,7 @@
 </blockquote>
 <blockquote>
 <ul>
-<li>大&#x2F;小端序标记法。(字符串被保存在一个字符数组中时，无论采用哪种标记法，存储顺序都相同。)<br><img src="/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC1-12%E7%AB%A0%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211207170855768.png" alt="image-20211207170855768">数据的低位存储在低地址位，数据的高位存储在高地址位,小端字节序称为LSB</li>
+<li>大&#x2F;小端序标记法。(字符串被保存在一个字符数组中时，无论采用哪种标记法，存储顺序都相同。)<img src="/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC1-12%E7%AB%A0%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211207170855768.png" class="" title="image-20211207170855768">数据的低位存储在低地址位，数据的高位存储在高地址位,小端字节序称为LSB</li>
 </ul>
 </blockquote>
 <blockquote>
@@ -219,7 +335,8 @@
 <blockquote>
 <p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_45121946/article/details/105086756">判断大小端序的方法</a></p>
 </blockquote>
-<p> <img src="/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC1-12%E7%AB%A0%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211207183813150.png" alt="image-20211207183813150"></p>
+ <img src="/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC1-12%E7%AB%A0%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211207183813150.png" class="" title="image-20211207183813150">
+
 <pre><code> 反之则为大端序。
 </code></pre>
 <blockquote>
@@ -252,8 +369,10 @@
 <blockquote>
 <p> 栈–一种数据结构，其存储数据的规则为–先进(PUSH)后出(POP)</p>
 </blockquote>
-<p><img src="/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC1-12%E7%AB%A0%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211207185955041.png" alt="image-20211207185955041"></p>
-<p><img src="/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC1-12%E7%AB%A0%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211207192440502.png" alt="image-20211207192440502"></p>
+<img src="/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC1-12%E7%AB%A0%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211207185955041.png" class="" title="image-20211207185955041">
+
+<img src="/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC1-12%E7%AB%A0%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211207192440502.png" class="" title="image-20211207192440502">
+
 <blockquote>
 <p>具体理解参考如下文章<a target="_blank" rel="noopener" href="http://data.biancheng.net/view/170.html">顺序栈基本操作（入栈和出栈）C语言详解</a></p>
 </blockquote>
@@ -266,7 +385,12 @@
 <blockquote>
 <p>栈帧—是利用<u><strong>EBP</strong></u>寄存器访问栈内局部变量、参数、函数返回地址等的手段。</p>
 </blockquote>
-<p><img src="/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC1-12%E7%AB%A0%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211207192332394.png" alt="image-20211207192332394"></p>
+<img src="/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC1-12%E7%AB%A0%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20211207192332394.png" class="" title="image-20211207192332394">
+
+
+
+
+
 
       
     </div>
@@ -285,7 +409,7 @@
       
   
   
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://2298233831.github.io/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0PE%E6%96%87%E4%BB%B6/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -308,17 +432,26 @@
               <span class="post-meta-item-icon">
                 <i class="far fa-calendar"></i>
               </span>
-              <span class="post-meta-item-text">发表于</span>
+              <span class="post-meta-item-text">Posted on</span>
 
-              <time title="创建时间：2021-12-12 20:14:09" itemprop="dateCreated datePublished" datetime="2021-12-12T20:14:09+08:00">2021-12-12</time>
+              <time title="Created: 2021-12-12 20:14:09" itemprop="dateCreated datePublished" datetime="2021-12-12T20:14:09+08:00">2021-12-12</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-12-22 21:17:00" itemprop="dateModified" datetime="2021-12-22T21:17:00+08:00">2021-12-22</time>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2025-10-14 23:23:22" itemprop="dateModified" datetime="2025-10-14T23:23:22+08:00">2025-10-14</time>
               </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Reverse/" itemprop="url" rel="index"><span itemprop="name">Reverse</span></a>
+                </span>
+            </span>
 
           
 
@@ -334,11 +467,13 @@
           <h1 id="逆向工程核心原理第十三章PE文件格式"><a href="#逆向工程核心原理第十三章PE文件格式" class="headerlink" title="逆向工程核心原理第十三章PE文件格式"></a>逆向工程核心原理第十三章PE文件格式</h1><h1 id="准备知识"><a href="#准备知识" class="headerlink" title="准备知识"></a>准备知识</h1><ul>
 <li>首先是类型</li>
 </ul>
-<p><img src="/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0PE%E6%96%87%E4%BB%B6/image-20211208184817595.png" alt="image-20211208184817595"></p>
+<img src="/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0PE%E6%96%87%E4%BB%B6/image-20211208184817595.png" class="" title="image-20211208184817595">
+
 <p>(除OBJ之外都是可执行的，DLL、SYS是用其他方法间接执行的。OBJ不能以任何形式执行，所以逆向分析中一般不管它。)</p>
 <ul>
-<li><p>再贴一个易混淆的<img src="/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0PE%E6%96%87%E4%BB%B6/image-20211208184932670.png" alt="image-20211208184932670"></p>
-<p><img src="/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0PE%E6%96%87%E4%BB%B6/image-20211208190541199.png" alt="image-20211208190541199"></p>
+<li><p>再贴一个易混淆的<img src="/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0PE%E6%96%87%E4%BB%B6/image-20211208184932670.png" class="" title="image-20211208184932670"></p>
+<img src="/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0PE%E6%96%87%E4%BB%B6/image-20211208190541199.png" class="" title="image-20211208190541199">
+
 <p>（RVA+imageBase&#x3D;VA）</p>
 </li>
 <li><p><strong>节区</strong>：Flash芯片的最小<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8%E5%8D%95%E4%BD%8D">数据存储单位</a>称为节区。节区通常情况包含节区头、节区数据、节区尾等3个部分</p>
@@ -346,7 +481,7 @@
 </li>
 </ul>
 <p>在生成进程时（加载到内存中），操作系统(OS)会为程序单独分配4G大小的虚拟内存，每个程序所分配的空间<em><strong>互不影响</strong></em><u>(即使运行同一程序)</u>。)</p>
-<p>​    <img src="/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0PE%E6%96%87%E4%BB%B6/image-20211211133948441.png" alt="image-20211211133948441">                                                                                                                                                                                                    </p>
+<p>​    <img src="/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0PE%E6%96%87%E4%BB%B6/image-20211211133948441.png" class="" title="image-20211211133948441">                                                                                                                                                                                                    </p>
 <h1 id="接下来正式开始"><a href="#接下来正式开始" class="headerlink" title="接下来正式开始"></a>接下来正式开始</h1><ul>
 <li><p>在Windows下所谓PE文件即Portable Executable，意为可移植的可执行的文件。常见的.EXE、.DLL、.OCX、.SYS、.COM都是PE文件。PE文件有一个共同特点：前两个字节为4D 5A（MZ）。如果一个文件前两个字节不是4D 5A则其肯定不是可执行文件。比如用16进制文本编辑器打开一个“.xls”文件其前两个字节为：0XD0 0XCF；打开一个“.pdf”其前两个字节为：0X25 0X50。</p>
 <p>PE文件结构：DOS头+PE头+节表+.data&#x2F;.rdata&#x2F;.text。<br><strong>注意：</strong>一个exe文件本身是一个PE文件，但是由于包含dll库，所以一个exe文件也是许多PE文件组成的(包含多个dll)一个PE文件。</p>
@@ -359,40 +494,58 @@
 </li>
 <li><p>NT头：由签名结构体（值为50450000h–”PE“00）,文件头和可选头组成。NT头的结构体大小为F8(十进制为248). </p>
 <p>文件头中，值得注意的是machine码，每个CPU都有唯一的machine码</p>
-<p><img src="/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0PE%E6%96%87%E4%BB%B6/image-20211211115319553.png" alt="image-20211211115319553"></p>
-</li>
+<img src="/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0PE%E6%96%87%E4%BB%B6/image-20211211115319553.png" class="" title="image-20211211115319553"></li>
 </ul>
-<p><img src="/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0PE%E6%96%87%E4%BB%B6/image-20211211115418486.png" alt="image-20211211115418486"></p>
+<img src="/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0PE%E6%96%87%E4%BB%B6/image-20211211115418486.png" class="" title="image-20211211115418486">
+
+
+
 <p>RVA to RAW</p>
-<p><img src="/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0PE%E6%96%87%E4%BB%B6/image-20211211122015407.png" alt="image-20211211122015407"></p>
+<img src="/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0PE%E6%96%87%E4%BB%B6/image-20211211122015407.png" class="" title="image-20211211122015407">
+
 <p>（注：每个PE文件中的RVA和Pointer等值是不一样的，需根据具体情况来进行计算。上述VietualAddres是指的SizeofRawData）</p>
 <ul>
 <li><p>IAT（导入地址表）—一种记录程序正在使用哪些库中的哪些函数的表格。（相对的为EAT—导出地址表。）</p>
-<p><img src="/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0PE%E6%96%87%E4%BB%B6/image-20211211132147232.png" alt="image-20211211132147232"></p>
-<p><img src="/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0PE%E6%96%87%E4%BB%B6/image-20211211133010828.png" alt="image-20211211133010828"></p>
+<img src="/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0PE%E6%96%87%E4%BB%B6/image-20211211132147232.png" class="" title="image-20211211132147232">
+
+<img src="/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0PE%E6%96%87%E4%BB%B6/image-20211211133010828.png" class="" title="image-20211211133010828">
+
 <p>INT是一个包含导入函数的信息的结构体指针数组。</p>
-<p><img src="/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0PE%E6%96%87%E4%BB%B6/image-20211211140607158.png" alt="image-20211211140607158"></p>
+<img src="/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0PE%E6%96%87%E4%BB%B6/image-20211211140607158.png" class="" title="image-20211211140607158">
+
 <p>重要成员</p>
-<p><img src="/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0PE%E6%96%87%E4%BB%B6/image-20211211140348489.png" alt="image-20211211140348489"></p>
+<img src="/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0PE%E6%96%87%E4%BB%B6/image-20211211140348489.png" class="" title="image-20211211140348489">
+
 <p>IAT的导入顺序如下</p>
-<p><img src="/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0PE%E6%96%87%E4%BB%B6/image-20211211140800787.png" alt="image-20211211140800787"></p>
+<img src="/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0PE%E6%96%87%E4%BB%B6/image-20211211140800787.png" class="" title="image-20211211140800787">
+
+
+
 <ul>
 <li>EAT(导出地址表)—它是不同的应用程序可以调用库文件中欧共提供的函数，只有通过EAT才能准确求得相应库中导出函数的起始地址。(在PE文件中仅有一个用来说明库EAT的结构体。)</li>
 </ul>
-<p><img src="/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0PE%E6%96%87%E4%BB%B6/image-20211211132631404.png" alt="image-20211211132631404"></p>
+<img src="/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0PE%E6%96%87%E4%BB%B6/image-20211211132631404.png" class="" title="image-20211211132631404">
+
+
+
+
+
 <ul>
 <li>IMAGE_EXPORT_DIRECTORY的重要成员如下图</li>
 </ul>
-<p><img src="/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0PE%E6%96%87%E4%BB%B6/image-20211211132812251.png" alt="image-20211211132812251"></p>
+<img src="/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0PE%E6%96%87%E4%BB%B6/image-20211211132812251.png" class="" title="image-20211211132812251">
 </li>
 <li><p>DLL—一种动态链接库（附上DLL概念的描述和加载方式。）</p>
-<p><img src="/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0PE%E6%96%87%E4%BB%B6/image-20211211130223999.png" alt="image-20211211130223999"></p>
-</li>
+<img src="/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0PE%E6%96%87%E4%BB%B6/image-20211211130223999.png" class="" title="image-20211211130223999"></li>
 </ul>
 <p>DLL的存在使得内存和磁盘空间的浪费得以减小。</p>
 <p><strong>重定位</strong>：PE装载器先把一个DLL文件装载到内存为10000000(Imagebase处)，然后尝试把另一个DLL文件也装载到该处，可该处已经装载了一个，故需要将其装载到其他内存地址(空白的)。</p>
-<p><img src="/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0PE%E6%96%87%E4%BB%B6/image-20211211130953633.png" alt="image-20211211130953633"></p>
-<p><img src="/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0PE%E6%96%87%E4%BB%B6/image-20211211131019298.png" alt="image-20211211131019298"></p>
+<img src="/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0PE%E6%96%87%E4%BB%B6/image-20211211130953633.png" class="" title="image-20211211130953633">
+
+<img src="/2021/12/12/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0PE%E6%96%87%E4%BB%B6/image-20211211131019298.png" class="" title="image-20211211131019298">
+
+
+
 <p>​        (注：ordinal为函数的固有编号。)</p>
 <ul>
 <li>值得一提的是，只要符合了PE文件规范就是PE文件，故可以在规范之外作出改动，从而制作出一些奇异的PE文件，这一类统称为Patched PE文件。(还没学到，以后会写。)</li>
@@ -415,7 +568,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span>
+    <a class="extend prev" rel="prev" href="/posts/page/2/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/posts/">1</a><a class="page-number" href="/posts/page/2/">2</a><span class="page-number current">3</span>
   </nav>
 
 
@@ -459,10 +612,10 @@
 
       <ul class="sidebar-nav motion-element">
         <li class="sidebar-nav-toc">
-          文章目录
+          Table of Contents
         </li>
         <li class="sidebar-nav-overview">
-          站点概览
+          Overview
         </li>
       </ul>
 
@@ -479,11 +632,14 @@
 <div class="site-state-wrap motion-element">
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
-          <a href="/archives/">
-        
-          <span class="site-state-item-count">22</span>
-          <span class="site-state-item-name">日志</span>
+          <a href="/archives">
+          <span class="site-state-item-count">23</span>
+          <span class="site-state-item-name">posts</span>
         </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">categories</span>
       </div>
   </nav>
 </div>
@@ -509,30 +665,24 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2024</span>
+  <span itemprop="copyrightYear">2025</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">Yu4n</span>
 </div>
 <!--
-  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
   </div>
 -->
 
 
-<% if (theme.busuanzi && theme.busuanzi.enable){ %>
-       <span id="busuanzi_container_site_pv">
-               ��վ�ܷ�����<span id="busuanzi_value_site_pv"></span>��
-       </span>
-       <span class="post-meta-divider">|</span>
-       <span id="busuanzi_container_site_uv" style='display:none'>
-               ��վ�ÿ���<span id="busuanzi_value_site_uv"></span>��
-       </span>
-       <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
- <% } %>
+ 
 
         
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</div>
 
 
 

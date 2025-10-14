@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
@@ -26,14 +26,14 @@
 <meta property="og:url" content="http://2298233831.github.io/2022/06/30/Dalvik-smali%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html">
 <meta property="og:site_name" content="The Blog of Yu4n">
 <meta property="og:description" content="Dalvik,smali学习笔记基础了解说到smali(对Dalvik虚拟机字节码的一种解释)，首先应该提一下Google专门为Android平台涉及的用于运行Android程序的虚拟机–Dalvik虚拟机 Dalvik与Jvm主要在字节码是有差别。 在程序运行时，Jvm会频繁对栈进行操作，而Dalvik则是对寄存器 用一组各自的字节码做对比 这是原程序（通过异或交换两个数的值） 12345678">
-<meta property="og:locale" content="zh_CN">
+<meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://2298233831.github.io/2022/06/30/Dalvik-smali%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20220629214610348.png">
 <meta property="og:image" content="http://2298233831.github.io/2022/06/30/Dalvik-smali%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/QQ%E5%9B%BE%E7%89%8720220630093607.png">
 <meta property="og:image" content="http://2298233831.github.io/2022/06/30/Dalvik-smali%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20220629211611482.png">
 <meta property="og:image" content="http://2298233831.github.io/2022/06/30/Dalvik-smali%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20220630095915424.png">
 <meta property="og:image" content="http://2298233831.github.io/2022/06/30/Dalvik-smali%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20220701100839722.png">
 <meta property="article:published_time" content="2022-06-30T09:11:18.000Z">
-<meta property="article:modified_time" content="2022-07-01T02:15:27.365Z">
+<meta property="article:modified_time" content="2025-10-14T15:23:22.390Z">
 <meta property="article:author" content="Yu4n">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://2298233831.github.io/2022/06/30/Dalvik-smali%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20220629214610348.png">
@@ -47,7 +47,7 @@
     sidebar: "",
     isHome : false,
     isPost : true,
-    lang   : 'zh-CN'
+    lang   : 'en'
   };
 </script>
 
@@ -91,7 +91,7 @@
     <header class="header" itemscope itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-container">
   <div class="site-nav-toggle">
-    <div class="toggle" aria-label="切换导航栏">
+    <div class="toggle" aria-label="Toggle navigation bar">
       <span class="toggle-line toggle-line-first"></span>
       <span class="toggle-line toggle-line-middle"></span>
       <span class="toggle-line toggle-line-last"></span>
@@ -120,12 +120,17 @@
   <ul id="menu" class="main-menu menu">
         <li class="menu-item menu-item-home">
 
-    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
 
   </li>
-        <li class="menu-item menu-item-archives">
+        <li class="menu-item menu-item-reverse">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+    <a href="/categories/Reverse/" rel="section"><i class="fa fa-archive fa-fw"></i>Reverse</a>
+
+  </li>
+        <li class="menu-item menu-item-web3-security">
+
+    <a href="/categories/Web3-Security/" rel="section"><i class="fa fa-shield-alt fa-fw"></i>Web3 Security</a>
 
   </li>
   </ul>
@@ -155,7 +160,7 @@
     
   
   
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://2298233831.github.io/2022/06/30/Dalvik-smali%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -177,19 +182,35 @@
               <span class="post-meta-item-icon">
                 <i class="far fa-calendar"></i>
               </span>
-              <span class="post-meta-item-text">发表于</span>
+              <span class="post-meta-item-text">Posted on</span>
 
-              <time title="创建时间：2022-06-30 17:11:18" itemprop="dateCreated datePublished" datetime="2022-06-30T17:11:18+08:00">2022-06-30</time>
+              <time title="Created: 2022-06-30 17:11:18" itemprop="dateCreated datePublished" datetime="2022-06-30T17:11:18+08:00">2022-06-30</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-07-01 10:15:27" itemprop="dateModified" datetime="2022-07-01T10:15:27+08:00">2022-07-01</time>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2025-10-14 23:23:22" itemprop="dateModified" datetime="2025-10-14T23:23:22+08:00">2025-10-14</time>
               </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Reverse/" itemprop="url" rel="index"><span itemprop="name">Reverse</span></a>
+                </span>
+            </span>
 
           
+            <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
 
         </div>
       </header>
@@ -210,14 +231,16 @@
 <p>Jvm下的字节码</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">javap -c -classpath . math.class</span><br></pre></td></tr></table></figure>
 
-<p><img src="/2022/06/30/Dalvik-smali%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20220629214610348.png" alt="image-20220629214610348"></p>
+<img src="/2022/06/30/Dalvik-smali%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20220629214610348.png" class="" title="image-20220629214610348">
+
 <p>重点看main函数的代码：</p>
 <p>可以看到，Jvm的字节码明显要比Dalvik的字节码复杂iconst_5表示申明一个整型常量5，istore_0表示栈顶int数值存入第1局部变量，等…</p>
 <p>Dalvik下的字节码（此图不准确，请看下面的smali）</p>
 <p>(该工具通常在Android SDK的build-tools目录下，使用的时候需要注意jdk版本问题，写这文章的时候用的jdk18，不能成功执行下面的命令，换成jdk8或者其他版本就行)</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">dx --dex --output=math.dex math.class</span><br><span class="line">如果用的是d8.bat则用d8 --ouput 指定文件夹名称 math.class</span><br><span class="line">dexdump -d math.dex</span><br></pre></td></tr></table></figure>
 
-<p><img src="/2022/06/30/Dalvik-smali%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/QQ%E5%9B%BE%E7%89%8720220630093607.png"></p>
+<img src="/2022/06/30/Dalvik-smali%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/QQ%E5%9B%BE%E7%89%8720220630093607.png" class="">
+
 <p>smali一般的指令格式为： [op]-[type] (可选) &#x2F; [位宽，默认4位] [目标寄存器], [源寄存器] (可选)</p>
 <p>诸多命令可以到这篇文章查找</p>
 <p><a target="_blank" rel="noopener" href="https://blog.csdn.net/jiayanhui2877/article/details/41008985">(41条消息) 【Android安全】Dalvik字节码含义查询表_Walter_Jia的博客-CSDN博客</a></p>
@@ -234,9 +257,13 @@
 
 <p>上面 Ljava&#x2F;lang&#x2F;System;-&gt;out:Ljava&#x2F;io&#x2F;PrintStream 表示Java中的System类的out字段的PrintStream字段类型</p>
 <p>这里因为我baksmali和smali版本(都是2.5.2)的原因，指令会跟老版本不一样，老版本可能是这样的</p>
-<p><img src="/2022/06/30/Dalvik-smali%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20220629211611482.png" alt="image-20220629211611482"></p>
+<img src="/2022/06/30/Dalvik-smali%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20220629211611482.png" class="" title="image-20220629211611482">
+
+
+
 <p>再贴一张Dalvik的两种寄存器命名法</p>
-<p><img src="/2022/06/30/Dalvik-smali%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20220630095915424.png" alt="image-20220630095915424"></p>
+<img src="/2022/06/30/Dalvik-smali%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20220630095915424.png" class="" title="image-20220630095915424">
+
 <p>对于有M个寄存器，N个参数的函数来说</p>
 <p>在P命名法中p0是参数寄存器，v0是变量寄存器</p>
 <p>在V命名法中，局部变量寄存器是v0–vn 参数寄存器则为vn–v(n+m)</p>
@@ -249,7 +276,8 @@
 <figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">d2j-dex2jar math2.dex</span><br></pre></td></tr></table></figure>
 
 <p>然后用jd-gui打开生成的jar包，查看代码</p>
-<p><img src="/2022/06/30/Dalvik-smali%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20220701100839722.png" alt="image-20220701100839722"></p>
+<img src="/2022/06/30/Dalvik-smali%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20220701100839722.png" class="" title="image-20220701100839722">
+
 <p>可以看到虽然长相不同，但其实现的功能与原来的math还是差不多的。(雾)</p>
 
     </div>
@@ -322,10 +350,10 @@
 
       <ul class="sidebar-nav motion-element">
         <li class="sidebar-nav-toc">
-          文章目录
+          Table of Contents
         </li>
         <li class="sidebar-nav-overview">
-          站点概览
+          Overview
         </li>
       </ul>
 
@@ -343,11 +371,14 @@
 <div class="site-state-wrap motion-element">
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
-          <a href="/archives/">
-        
-          <span class="site-state-item-count">22</span>
-          <span class="site-state-item-name">日志</span>
+          <a href="/archives">
+          <span class="site-state-item-count">23</span>
+          <span class="site-state-item-name">posts</span>
         </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">categories</span>
       </div>
   </nav>
 </div>
@@ -373,30 +404,24 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2024</span>
+  <span itemprop="copyrightYear">2025</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">Yu4n</span>
 </div>
 <!--
-  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
   </div>
 -->
 
 
-<% if (theme.busuanzi && theme.busuanzi.enable){ %>
-       <span id="busuanzi_container_site_pv">
-               ��վ�ܷ�����<span id="busuanzi_value_site_pv"></span>��
-       </span>
-       <span class="post-meta-divider">|</span>
-       <span id="busuanzi_container_site_uv" style='display:none'>
-               ��վ�ÿ���<span id="busuanzi_value_site_uv"></span>��
-       </span>
-       <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
- <% } %>
+ 
 
         
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</div>
 
 
 

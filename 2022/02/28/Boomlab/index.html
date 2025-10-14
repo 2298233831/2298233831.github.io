@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
@@ -20,13 +20,13 @@
     var CONFIG = {"hostname":"2298233831.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="Boomlab（感觉这个实验也可以直接丢进IDA当逆向做，相对简单；本次以汇编语言下手；所用工具为VS2022社区版） 先在Linux里用如下命令把文件反汇编出来。 1objdump -d bomb &gt; bomb.asm  查找到main函数方式多样,此处直接搜索main即可找到位置。  大致浏览一遍main函数，有几个phase，就是需要拆除的炸弹了。 本文着重描述过程，运算只涉及最后的结">
+  <meta name="description" content="Boomlab（感觉这个实验也可以直接丢进IDA当逆向做，相对简单；本次以汇编语言下手；所用工具为VS2022社区版） 先在Linux里用如下命令把文件反汇编出来。 1objdump -d bomb &gt; bomb.asm  查找到main函数方式多样,此处直接搜索main即可找到位置。   大致浏览一遍main函数，有几个phase，就是需要拆除的炸弹了。 本文着重描述过程，运算只涉及最后的">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Boomlab">
 <meta property="og:url" content="http://2298233831.github.io/2022/02/28/Boomlab/index.html">
 <meta property="og:site_name" content="The Blog of Yu4n">
-<meta property="og:description" content="Boomlab（感觉这个实验也可以直接丢进IDA当逆向做，相对简单；本次以汇编语言下手；所用工具为VS2022社区版） 先在Linux里用如下命令把文件反汇编出来。 1objdump -d bomb &gt; bomb.asm  查找到main函数方式多样,此处直接搜索main即可找到位置。  大致浏览一遍main函数，有几个phase，就是需要拆除的炸弹了。 本文着重描述过程，运算只涉及最后的结">
-<meta property="og:locale" content="zh_CN">
+<meta property="og:description" content="Boomlab（感觉这个实验也可以直接丢进IDA当逆向做，相对简单；本次以汇编语言下手；所用工具为VS2022社区版） 先在Linux里用如下命令把文件反汇编出来。 1objdump -d bomb &gt; bomb.asm  查找到main函数方式多样,此处直接搜索main即可找到位置。   大致浏览一遍main函数，有几个phase，就是需要拆除的炸弹了。 本文着重描述过程，运算只涉及最后的">
+<meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://2298233831.github.io/2022/02/28/Boomlab/image-20220228164722822.png">
 <meta property="og:image" content="http://2298233831.github.io/2022/02/28/Boomlab/image-20220228165317069.png">
 <meta property="og:image" content="http://2298233831.github.io/2022/02/28/Boomlab/image-20220228170012668.png">
@@ -63,7 +63,7 @@
 <meta property="og:image" content="http://2298233831.github.io/2022/02/28/Boomlab/image-20220301125942372.png">
 <meta property="og:image" content="http://2298233831.github.io/2022/02/28/Boomlab/image-20220301130237470.png">
 <meta property="article:published_time" content="2022-02-28T07:56:07.000Z">
-<meta property="article:modified_time" content="2022-03-01T05:13:22.481Z">
+<meta property="article:modified_time" content="2025-10-14T15:23:22.389Z">
 <meta property="article:author" content="Yu4n">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://2298233831.github.io/2022/02/28/Boomlab/image-20220228164722822.png">
@@ -77,7 +77,7 @@
     sidebar: "",
     isHome : false,
     isPost : true,
-    lang   : 'zh-CN'
+    lang   : 'en'
   };
 </script>
 
@@ -121,7 +121,7 @@
     <header class="header" itemscope itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-container">
   <div class="site-nav-toggle">
-    <div class="toggle" aria-label="切换导航栏">
+    <div class="toggle" aria-label="Toggle navigation bar">
       <span class="toggle-line toggle-line-first"></span>
       <span class="toggle-line toggle-line-middle"></span>
       <span class="toggle-line toggle-line-last"></span>
@@ -150,12 +150,17 @@
   <ul id="menu" class="main-menu menu">
         <li class="menu-item menu-item-home">
 
-    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
 
   </li>
-        <li class="menu-item menu-item-archives">
+        <li class="menu-item menu-item-reverse">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+    <a href="/categories/Reverse/" rel="section"><i class="fa fa-archive fa-fw"></i>Reverse</a>
+
+  </li>
+        <li class="menu-item menu-item-web3-security">
+
+    <a href="/categories/Web3-Security/" rel="section"><i class="fa fa-shield-alt fa-fw"></i>Web3 Security</a>
 
   </li>
   </ul>
@@ -185,7 +190,7 @@
     
   
   
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://2298233831.github.io/2022/02/28/Boomlab/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -207,19 +212,35 @@
               <span class="post-meta-item-icon">
                 <i class="far fa-calendar"></i>
               </span>
-              <span class="post-meta-item-text">发表于</span>
+              <span class="post-meta-item-text">Posted on</span>
 
-              <time title="创建时间：2022-02-28 15:56:07" itemprop="dateCreated datePublished" datetime="2022-02-28T15:56:07+08:00">2022-02-28</time>
+              <time title="Created: 2022-02-28 15:56:07" itemprop="dateCreated datePublished" datetime="2022-02-28T15:56:07+08:00">2022-02-28</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-03-01 13:13:22" itemprop="dateModified" datetime="2022-03-01T13:13:22+08:00">2022-03-01</time>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2025-10-14 23:23:22" itemprop="dateModified" datetime="2025-10-14T23:23:22+08:00">2025-10-14</time>
               </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Reverse/" itemprop="url" rel="index"><span itemprop="name">Reverse</span></a>
+                </span>
+            </span>
 
           
+            <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
 
         </div>
       </header>
@@ -235,45 +256,57 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">objdump -d bomb &gt; bomb.asm</span><br></pre></td></tr></table></figure>
 
 <p>查找到main函数方式多样,此处直接搜索main即可找到位置。</p>
-<p><img src="/2022/02/28/Boomlab/image-20220228164722822.png" alt="image-20220228164722822"></p>
+<img src="/2022/02/28/Boomlab/image-20220228164722822.png" class="" title="image-20220228164722822">
+
 <p>大致浏览一遍main函数，有几个phase，就是需要拆除的炸弹了。</p>
 <p>本文着重描述过程，运算只涉及最后的结果。</p>
 <p>本文着重描述过程，运算只涉及最后的结果。</p>
 <p>本文着重描述过程，运算只涉及最后的结果。（水平有限）</p>
 <h2 id="Phase-1"><a href="#Phase-1" class="headerlink" title="Phase_1"></a>Phase_1</h2><p>根据函数对应的地址跳转</p>
-<p><img src="/2022/02/28/Boomlab/image-20220228165317069.png" alt="image-20220228165317069"></p>
+<img src="/2022/02/28/Boomlab/image-20220228165317069.png" class="" title="image-20220228165317069">
+
 <p>可以看到该函数中，先将一段地址赋给esi，然后调用strings_not_equal；然后测试eax值，为0就跳过了引爆炸弹的一步。由此可见关键在于strings_not_equal这个函数。</p>
-<p><img src="/2022/02/28/Boomlab/image-20220228170012668.png" alt="image-20220228170012668"></p>
+<img src="/2022/02/28/Boomlab/image-20220228170012668.png" class="" title="image-20220228170012668">
+
 <p>可以看到还是比较长的，不过容易读懂。首先是传参，将rbx，rbp作为string_length的参数，然后调用。可以根据最开始的两个mov猜测，rdi，rsi就是string_not_equal的两个参数。</p>
 <p>再看本函数结尾，会有一个给eax赋值的操作，然后返回。这时候就需要知道edx被赋了什么值。</p>
 <p>浏览代码可以看出大致逻辑（也可以根据函数名直接猜）两参数的字符串相等则返回0，不相等则返回1</p>
 <p>查看esi里的地址所对应的字符串如下：（用gdb调起来才能看到，不熟悉gdb也可以拖进IDA，看汇编还是伪代码就自己选择了）</p>
-<p><img src="/2022/02/28/Boomlab/image-20220228174801745.png" alt="image-20220228174801745"></p>
+<img src="/2022/02/28/Boomlab/image-20220228174801745.png" class="" title="image-20220228174801745">
+
 <p>“Border relations with Canada have never been better.”</p>
 <h2 id="Phase-2"><a href="#Phase-2" class="headerlink" title="Phase_2"></a>Phase_2</h2><p>首先是代码</p>
-<p><img src="/2022/02/28/Boomlab/image-20220228171547222.png" alt="image-20220228171547222"></p>
+<img src="/2022/02/28/Boomlab/image-20220228171547222.png" class="" title="image-20220228171547222">
+
 <p>可以看到调用read_six_numbers函数</p>
-<p><img src="/2022/02/28/Boomlab/image-20220228172152067.png" alt="image-20220228172152067"></p>
+<img src="/2022/02/28/Boomlab/image-20220228172152067.png" class="" title="image-20220228172152067">
+
 <p>代码大致逻辑为读取6个数，没有六个就引爆炸弹。</p>
 <p>接着看phase_2代码，将rsp的值与1作比较，不相等就爆；然后将rsp+0x4和rsp+0x18的值给了rbx，rbp然后是把rbx-0x4地址处的内容给了eax，然后eax+eax，再做比较，相等就不爆；再继续，将rbx值加4字节（一个int的大小），到了下一个数，再进行比较。依照逻辑，输入的六个数分别为：1 2 4 8 16 32.即可拆弹</p>
 <h2 id="Phase-3"><a href="#Phase-3" class="headerlink" title="Phase_3"></a>Phase_3</h2><p>代码</p>
-<p><img src="/2022/02/28/Boomlab/image-20220228173849867.png" alt="image-20220228173849867"></p>
+<img src="/2022/02/28/Boomlab/image-20220228173849867.png" class="" title="image-20220228173849867">
+
 <p>先查看一下0x4025cf处是啥，结合下面的输入函数，这是两个输入的参数。这里可以假设一下rcx和rdx就是这两个参数。</p>
-<p><img src="/2022/02/28/Boomlab/image-20220228181405909.png" alt="image-20220228181405909"></p>
+<img src="/2022/02/28/Boomlab/image-20220228181405909.png" class="" title="image-20220228181405909">
+
 <p>将0给eax，然后调用参数后将eax的值与1作比较，大于就不爆。然后将rsp+0x8的值，也就是rdx的值与7作比较，大于就跳转，小于就爆，回到上一步向下看，会将rdx的值给eax，然后跳到402470这个地址</p>
-<p><img src="/2022/02/28/Boomlab/image-20220228182641784.png" alt="image-20220228182641784"></p>
+<img src="/2022/02/28/Boomlab/image-20220228182641784.png" class="" title="image-20220228182641784">
+
 <p>不知道这是个啥</p>
-<p><img src="/2022/02/28/Boomlab/image-20220228182734910.png" alt="image-20220228182734910"></p>
+<img src="/2022/02/28/Boomlab/image-20220228182734910.png" class="" title="image-20220228182734910">
+
 <p>用IDA发现是到了switch语句。（其实是汇编语言的switch实现）</p>
 <p>看后面的代码，都会跳到400fbe的位置，将eax的值与rsp+0xc的值作比较，相等则不爆。</p>
 <p>这题答案不固定，根据第一个数不同，第二个数也会不同随机选取一组符合条件的即可。</p>
 <h2 id="Phase-4"><a href="#Phase-4" class="headerlink" title="Phase_4"></a>Phase_4</h2><p>代码</p>
-<p><img src="/2022/02/28/Boomlab/image-20220228183854762.png" alt="image-20220228183854762"></p>
+<img src="/2022/02/28/Boomlab/image-20220228183854762.png" class="" title="image-20220228183854762">
+
 <p>前面几行跟上一个阶段一样，就是输入两个值作为参数。</p>
 <p>再将eax的值与2作比较，不相等就爆。然后将0xe和rsp+0x8的值作比较，大于0xe就不跳，故此处需小于。</p>
 <p>然后是三个赋值操作，再接着调用func4函数，然后验证eax的值，不为0就爆，接着rsp+0xc的值等于0，炸弹拆除。</p>
 <p>func4:</p>
-<p><img src="/2022/02/28/Boomlab/image-20220228200230163.png" alt="image-20220228200230163"></p>
+<img src="/2022/02/28/Boomlab/image-20220228200230163.png" class="" title="image-20220228200230163">
+
 <p>由上面的分析可知，此处要让eax的值为0。这玩意儿还挺复杂，自己调用自己，递归了。</p>
 <p>大致逻辑：上面phase_4的edx，esi，edi作为func4的三个参数。将edx的值给eax，用eax的值减esi，然后保存在ecx，再将ecx的值逻辑右移31位（0x1f），再将eax的值与ecx的值相加，保存在eax，然后算数右移1位（需要注意与逻辑右移的区别。）然后是ecx&#x3D;rax+rsi*1，然后是ecx和edi比较，ecx较大就跳。400ff2处，edi的值小于ecx则跳转并结束该函数调用，否则将rcx+0x1的值给esi。从400fe6继续看，将rcx-0x1的值给edx，然后调用func4，然后eax+eax，然后结束调用。</p>
 <p>上代码，帮助理解：</p>
@@ -285,16 +318,19 @@
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">void</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>; i &lt;= <span class="number">0xe</span>; i++)&#123;</span><br><span class="line">        <span class="keyword">if</span>(fun(<span class="number">0xe</span>,<span class="number">0</span>,i) == <span class="number">0</span>)&#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>,i) ;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>允许的答案由0 1 3 7，只需要简单调用一下函数就行，没想到。</p>
-<h2 id="Phase-5"><a href="#Phase-5" class="headerlink" title="Phase_5"></a>Phase_5</h2><p><img src="/2022/02/28/Boomlab/image-20220228210929709.png" alt="image-20220228210929709"></p>
+<h2 id="Phase-5"><a href="#Phase-5" class="headerlink" title="Phase_5"></a>Phase_5</h2><img src="/2022/02/28/Boomlab/image-20220228210929709.png" class="" title="image-20220228210929709">
+
 <p>这1-7行刚开始是没看懂，后来看伪代码是v4 &#x3D; __readfsqword(0x28u)，这玩意儿。</p>
 <p>eax存储了字符串长度，必须为6，否则就炸。然后再把0给eax，将输入保存在ecx，因为rax刚开始为0.</p>
 <p>将cl的值（ecx的一个子寄存器）给rdx，然后获取edx的低四位。然后所得到的edx的值作为指针访问0x4024b0地址下的某一位（有点绕），一直到4010ac处的指令，可用代码表示为：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> ( i = <span class="number">0LL</span>; i != <span class="number">6</span>; ++i )</span><br><span class="line">    arry[i] = array_0x4024b0[*(a1 + i) &amp; <span class="number">0xF</span>];<span class="comment">//a1是eax的值，即字符串长度，6</span></span><br></pre></td></tr></table></figure>
 
 <p>0x4024b0处</p>
-<p><img src="/2022/02/28/Boomlab/image-20220228220413822.png" alt="image-20220228220413822"></p>
+<img src="/2022/02/28/Boomlab/image-20220228220413822.png" class="" title="image-20220228220413822">
+
 <p>将rsp+0x16的值化为0，也就是代表该字符串的末尾；0x40245e处：</p>
-<p><img src="/2022/02/28/Boomlab/image-20220228215537273.png" alt="image-20220228215537273"></p>
+<img src="/2022/02/28/Boomlab/image-20220228215537273.png" class="" title="image-20220228215537273">
+
 <p>然后传入两个参数esi，rdi到strings_not_equal函数不相等就炸。</p>
 <p>所以根据后续代码逻辑，我们需要在0x4024b0处的字符串中找到0x40245e处的下标。</p>
 <p>分别是9 15 14 5 6 7，但是，这些都是答案的低四位</p>
@@ -302,47 +338,79 @@
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">array</span>[arry_4024b0[i]&amp;<span class="number">0xf</span>] = arry_0x40245e[i];</span><br></pre></td></tr></table></figure>
 
 <p>借用一张图片，可以对着查询，任意选一组即可。</p>
-<p><img src="/2022/02/28/Boomlab/63d9f2d3572c11dff05943a1652762d0f603c2ac.png" alt="63d9f2d3572c11dff05943a1652762d0f603c2ac"></p>
+<img src="/2022/02/28/Boomlab/63d9f2d3572c11dff05943a1652762d0f603c2ac.png" class="" title="63d9f2d3572c11dff05943a1652762d0f603c2ac">
+
+
+
 <h2 id="Phase-6"><a href="#Phase-6" class="headerlink" title="Phase_6"></a>Phase_6</h2><p>代码有点长，我们分部来看。</p>
 <p>首先是将rsi作为参数传入read_six_numbers函数，然后又赋值，将eax的值减1后，与5作比较，小于等于5则不爆。然后将r12d的值加一（刚开始为0），与6比较，等于才跳，接着又有赋值操作，然后将eax与rbp+0作比较，相等就炸。</p>
-<p><img src="/2022/02/28/Boomlab/image-20220301113532571.png" alt="image-20220301113532571"></p>
+<img src="/2022/02/28/Boomlab/image-20220301113532571.png" class="" title="image-20220301113532571">
+
 <p>接着来到401145处，ebx加一，再与5作比较，大于5就不跳。很明显一个循环。我们向下继续。</p>
 <p>将r13的值加4，跳到刚刚的401114处，如此看来，r12d是循环次数，6次。从开始截至401151，是一个二重循环。</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">for (int i=0; i&lt;6; i++)&#123;</span><br><span class="line">	if (arr[i] - 1 &gt; 5) bomb()</span><br><span class="line">		for (int j=i+1; j&lt;=5; j++) &#123;</span><br><span class="line">			if(arr[j] == arr[i]) bomb()</span><br><span class="line">			 &#125;</span><br><span class="line"> 		&#125;</span><br></pre></td></tr></table></figure>
 
 <p>我们从401153处继续，向下还是一堆赋值操作，然后比较，rax和rsi不等就跳，向下看，0x0给esi，然后跳到401197.</p>
-<p><img src="/2022/02/28/Boomlab/image-20220301120225795.png" alt="image-20220301120225795"></p>
+<img src="/2022/02/28/Boomlab/image-20220301120225795.png" class="" title="image-20220301120225795">
+
+
+
 <p>来到401197处</p>
-<p><img src="/2022/02/28/Boomlab/image-20220301120702509.png" alt="image-20220301120702509"></p>
+<img src="/2022/02/28/Boomlab/image-20220301120702509.png" class="" title="image-20220301120702509">
+
 <p>首先是赋值，然后与1作比较，小于等于跳到401183否则跳到401176进行循环，然后通过401176的循环再步入401188的循环。</p>
 <p>我们从4011ab向下看</p>
-<p><img src="/2022/02/28/Boomlab/image-20220301121122327.png" alt="image-20220301121122327"></p>
+<img src="/2022/02/28/Boomlab/image-20220301121122327.png" class="" title="image-20220301121122327">
+
 <p>依然是一堆赋值，然后接上比较，相等就跳转。将rbx给rcx后，跳到4011bd处，进行循环，要循环8次，然后到4011d2处，接着又是一堆赋值，需要eax小于rbx的值，才跳转，否则炸。最后还有一个从4011df开始的循环（ebp-1不为0则跳转。）。其实是一个值的置换操作，不过是执行6次，按降序排列</p>
 <p>需要注意一下4011a4处的命令</p>
-<p><img src="/2022/02/28/Boomlab/image-20220301125119167.png" alt="image-20220301125119167"></p>
+<img src="/2022/02/28/Boomlab/image-20220301125119167.png" class="" title="image-20220301125119167">
+
 <p>看样子是个结构体（用IDA看就很明确）</p>
-<p><img src="/2022/02/28/Boomlab/image-20220301124131818.png" alt="image-20220301124131818"></p>
-<p><img src="/2022/02/28/Boomlab/image-20220301124149305.png" alt="image-20220301124149305"></p>
-<p><img src="/2022/02/28/Boomlab/image-20220301124211115.png" alt="image-20220301124211115"></p>
-<p><img src="/2022/02/28/Boomlab/image-20220301124227196.png" alt="image-20220301124227196"></p>
-<p><img src="/2022/02/28/Boomlab/image-20220301124245570.png" alt="image-20220301124245570"></p>
-<p><img src="/2022/02/28/Boomlab/image-20220301124303447.png" alt="image-20220301124303447"></p>
+<img src="/2022/02/28/Boomlab/image-20220301124131818.png" class="" title="image-20220301124131818">
+
+
+
+
+
+<img src="/2022/02/28/Boomlab/image-20220301124149305.png" class="" title="image-20220301124149305">
+
+<img src="/2022/02/28/Boomlab/image-20220301124211115.png" class="" title="image-20220301124211115">
+
+<img src="/2022/02/28/Boomlab/image-20220301124227196.png" class="" title="image-20220301124227196">
+
+<img src="/2022/02/28/Boomlab/image-20220301124245570.png" class="" title="image-20220301124245570">
+
+<img src="/2022/02/28/Boomlab/image-20220301124303447.png" class="" title="image-20220301124303447">
+
+
+
 <p>所以以上逻辑大致为我们输入的序列被7减去后得到的序列，是一个向量，向量每个数字是node的序号，向量的顺序是node的链接顺序，也就是说向量的第一个序号对应的node会变成头节点</p>
 <p>最后放上IDA的代码</p>
-<p><img src="/2022/02/28/Boomlab/image-20220301122304972.png" alt="image-20220301122304972"></p>
-<p><img src="/2022/02/28/Boomlab/image-20220301122335913.png" alt="image-20220301122335913"></p>
-<p><img src="/2022/02/28/Boomlab/image-20220301122359866.png" alt="image-20220301122359866"></p>
+<img src="/2022/02/28/Boomlab/image-20220301122304972.png" class="" title="image-20220301122304972">
+
+<img src="/2022/02/28/Boomlab/image-20220301122335913.png" class="" title="image-20220301122335913">
+
+<img src="/2022/02/28/Boomlab/image-20220301122359866.png" class="" title="image-20220301122359866">
+
+
+
 <p>故，依照上述代码逻辑将6个node的值按降序排列，所得序号为3 4 5 6 1 2，但因为在这之前涉及x&#x3D;7-x这一操作</p>
 <p>故正确答案应为4 3 2 1 6 5，至此扫雷。</p>
-<h2 id="secret-phase"><a href="#secret-phase" class="headerlink" title="secret_phase"></a>secret_phase</h2><p><img src="/2022/02/28/Boomlab/image-20220301125404871.png" alt="image-20220301125404871"></p>
-<p><img src="/2022/02/28/Boomlab/image-20220301130109136.png" alt="image-20220301130109136"></p>
+<h2 id="secret-phase"><a href="#secret-phase" class="headerlink" title="secret_phase"></a>secret_phase</h2><img src="/2022/02/28/Boomlab/image-20220301125404871.png" class="" title="image-20220301125404871">
+
+<img src="/2022/02/28/Boomlab/image-20220301130109136.png" class="" title="image-20220301130109136">
+
 <p>wairi,受不了了，直接放反编译出的代码</p>
-<p><img src="/2022/02/28/Boomlab/image-20220301125918989.png" alt="image-20220301125918989"></p>
+<img src="/2022/02/28/Boomlab/image-20220301125918989.png" class="" title="image-20220301125918989">
+
 <p>func7</p>
-<p><img src="/2022/02/28/Boomlab/image-20220301125942372.png" alt="image-20220301125942372"></p>
+<img src="/2022/02/28/Boomlab/image-20220301125942372.png" class="" title="image-20220301125942372">
+
 <p>和汇编代码对照看，第二个if是右移，第三个是左移</p>
 <p>发现0x6030f0处的往后是个二叉树，</p>
-<p><img src="/2022/02/28/Boomlab/image-20220301130237470.png" alt="image-20220301130237470"></p>
+<img src="/2022/02/28/Boomlab/image-20220301130237470.png" class="" title="image-20220301130237470">
+
 <p>再往后就是node了。</p>
 <p>└─ 36<br>   ├─ 8<br>   │  ├─ 6<br>   │  │  ├─ left: 1<br>   │  │  └─ right: 7<br>   │  └─ 22<br>   │     ├─ left: 20<br>   │     └─ right: 35<br>   └─ 50<br>      ├─ 45<br>      │  ├─ left: 40<br>      │  └─ right: 47<br>      └─ 107<br>         ├─ left: 99<br>         └─ right: 1001</p>
 <p>我们需要找的数，是最后返回2的，那么，最后一次就返回0，再上一次返回2 * rax + 1，第一次返回2 * rax </p>
@@ -421,10 +489,10 @@
 
       <ul class="sidebar-nav motion-element">
         <li class="sidebar-nav-toc">
-          文章目录
+          Table of Contents
         </li>
         <li class="sidebar-nav-overview">
-          站点概览
+          Overview
         </li>
       </ul>
 
@@ -442,11 +510,14 @@
 <div class="site-state-wrap motion-element">
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
-          <a href="/archives/">
-        
-          <span class="site-state-item-count">22</span>
-          <span class="site-state-item-name">日志</span>
+          <a href="/archives">
+          <span class="site-state-item-count">23</span>
+          <span class="site-state-item-name">posts</span>
         </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">categories</span>
       </div>
   </nav>
 </div>
@@ -472,30 +543,24 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2024</span>
+  <span itemprop="copyrightYear">2025</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">Yu4n</span>
 </div>
 <!--
-  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
   </div>
 -->
 
 
-<% if (theme.busuanzi && theme.busuanzi.enable){ %>
-       <span id="busuanzi_container_site_pv">
-               ��վ�ܷ�����<span id="busuanzi_value_site_pv"></span>��
-       </span>
-       <span class="post-meta-divider">|</span>
-       <span id="busuanzi_container_site_uv" style='display:none'>
-               ��վ�ÿ���<span id="busuanzi_value_site_uv"></span>��
-       </span>
-       <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
- <% } %>
+ 
 
         
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</div>
 
 
 
