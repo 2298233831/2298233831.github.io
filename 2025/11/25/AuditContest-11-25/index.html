@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.1.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"2298233831.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="AuditContest-11-25Alchemix V3Silent Failure for Non-standard ERC20 Transfers in deposit()&#x2F;withdraw()Severity: Insight Context: AlchemistTokenVault.sol#L28 &amp;&amp; L41 Summary: AlchemistTokenVa">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AuditContest-11-25">
+<meta property="og:url" content="http://2298233831.github.io/2025/11/25/AuditContest-11-25/index.html">
+<meta property="og:site_name" content="The Blog of Yu4n">
+<meta property="og:description" content="AuditContest-11-25Alchemix V3Silent Failure for Non-standard ERC20 Transfers in deposit()&#x2F;withdraw()Severity: Insight Context: AlchemistTokenVault.sol#L28 &amp;&amp; L41 Summary: AlchemistTokenVa">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2025-11-24T16:00:00.000Z">
+<meta property="article:modified_time" content="2025-12-06T14:35:46.129Z">
+<meta property="article:author" content="Yu4n">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://2298233831.github.io/2025/11/25/AuditContest-11-25/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>AuditContest-11-25 | The Blog of Yu4n</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">The Blog of Yu4n</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-reverse">
+
+    <a href="/categories/Reverse/" rel="section"><i class="fa fa-archive fa-fw"></i>Reverse</a>
+
+  </li>
+        <li class="menu-item menu-item-web3-security">
+
+    <a href="/categories/Web3-Security/" rel="section"><i class="fa fa-shield-alt fa-fw"></i>Web3 Security</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://2298233831.github.io/2025/11/25/AuditContest-11-25/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Yu4n">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="The Blog of Yu4n">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          AuditContest-11-25
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2025-11-25 00:00:00" itemprop="dateCreated datePublished" datetime="2025-11-25T00:00:00+08:00">2025-11-25</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2025-12-06 22:35:46" itemprop="dateModified" datetime="2025-12-06T22:35:46+08:00">2025-12-06</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Web3-Security/" itemprop="url" rel="index"><span itemprop="name">Web3 Security</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="AuditContest-11-25"><a href="#AuditContest-11-25" class="headerlink" title="AuditContest-11-25"></a>AuditContest-11-25</h1><h2 id="Alchemix-V3"><a href="#Alchemix-V3" class="headerlink" title="Alchemix V3"></a>Alchemix V3</h2><h3 id="Silent-Failure-for-Non-standard-ERC20-Transfers-in-deposit-x2F-withdraw"><a href="#Silent-Failure-for-Non-standard-ERC20-Transfers-in-deposit-x2F-withdraw" class="headerlink" title="Silent Failure for Non-standard ERC20 Transfers in deposit()&#x2F;withdraw()"></a>Silent Failure for Non-standard ERC20 Transfers in deposit()&#x2F;withdraw()</h3><p><strong>Severity</strong>: Insight</p>
+<p><strong>Context</strong>: AlchemistTokenVault.sol#L28 &amp;&amp; L41</p>
+<p><strong>Summary:</strong></p>
+<p>AlchemistTokenVault.deposit() and withdraw() call the raw ERC‑20 transferFrom&#x2F;transfer and drop the boolean return value. For tokens that signal failure by returning false (USDT-style implementations), the functions still emit Deposited&#x2F;Withdrawn even though no funds move, so the vault state diverges from reality.</p>
+<p><strong>Vulnerability Detail</strong>: </p>
+<p>For some old token like USDT, transfer&#x2F;transferFrom return a <code>bool</code> to express success&#x2F;fail. </p>
+<p>If the balance is insufficient, the credit limit is insufficient, the address is on the blacklist, etc.</p>
+<p>in deposit&#x2F;withdraw:</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// deposit</span></span><br><span class="line"><span class="title class_">IERC20</span>(token).<span class="title function_">transferFrom</span>(msg.<span class="property">sender</span>, <span class="title function_">address</span>(<span class="variable language_">this</span>), amount);</span><br><span class="line">emit <span class="title class_">Deposited</span>(msg.<span class="property">sender</span>, amount);</span><br><span class="line"></span><br><span class="line"><span class="comment">// withdraw</span></span><br><span class="line"><span class="title class_">IERC20</span>(token).<span class="title function_">transfer</span>(recipient, amount);</span><br><span class="line">emit <span class="title class_">Withdrawn</span>(recipient, amount);</span><br></pre></td></tr></table></figure>
+
+<p>This is safe only for tokens that revert on failure. Many legacy or heavily permissioned tokens (e.g., USDT) follow the original ERC‑20 convention: they return false when a transfer fails—due to insufficient balance, allowance, a freeze&#x2F;blacklist flag, etc.—and do <strong>not</strong> revert. In those cases the vault still emits Deposited&#x2F;Withdrawn, updates whatever internal bookkeeping comes afterward, but no funds actually move. As a result:</p>
+<ul>
+<li>Deposits that should fail appear to succeed, leaving the vault with less collateral than it believes.</li>
+<li>Withdrawals silently fail, so fee recipients or liquidators never receive the tokens they are owed, yet the system records the payout.</li>
+</ul>
+<p><strong>Imapct</strong>: Because the protocol continues operating on bogus accounting and cannot deliver funds to participants, this constitutes a high‑severity silent failure.</p>
+<p><strong>Proof of Concept:</strong> </p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line">contract <span class="title class_">MockNonCompliantToken</span> is <span class="title class_">ERC20</span> &#123;</span><br><span class="line">    bool public failTransfers;</span><br><span class="line"></span><br><span class="line">    <span class="title function_">constructor</span>(<span class="params"></span>) <span class="title class_">ERC20</span>(<span class="string">&quot;Mock Non Compliant&quot;</span>, <span class="string">&quot;MNCT&quot;</span>) &#123;</span><br><span class="line">        <span class="title function_">_mint</span>(msg.<span class="property">sender</span>, <span class="number">1_000_000</span> * <span class="number">10</span> ** <span class="number">18</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">function</span> <span class="title function_">setFailTransfers</span>(<span class="params">bool status</span>) external &#123;</span><br><span class="line">        failTransfers = status;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">function</span> <span class="title function_">transfer</span>(<span class="params">address to, uint256 amount</span>) public override returns (bool) &#123;</span><br><span class="line">        <span class="keyword">if</span> (failTransfers) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="variable language_">super</span>.<span class="title function_">transfer</span>(to, amount);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">function</span> <span class="title function_">transferFrom</span>(<span class="params">address <span class="keyword">from</span>, address to, uint256 amount</span>) public override returns (bool) &#123;</span><br><span class="line">        <span class="keyword">if</span> (failTransfers) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="variable language_">super</span>.<span class="title function_">transferFrom</span>(<span class="keyword">from</span>, to, amount);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">testNonStandardTokenCausesSilentDepositFailure</span>(<span class="params"></span>) public &#123;</span><br><span class="line">        <span class="title class_">MockNonCompliantToken</span> faultyToken = <span class="keyword">new</span> <span class="title class_">MockNonCompliantToken</span>();</span><br><span class="line">        address depositor = <span class="title function_">address</span>(<span class="number">42</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Move funds to depositor while transfers work</span></span><br><span class="line">        faultyToken.<span class="title function_">transfer</span>(depositor, <span class="variable constant_">AMOUNT</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Deploy a fresh vault that manages the faulty token</span></span><br><span class="line">        vm.<span class="title function_">prank</span>(owner);</span><br><span class="line">        <span class="title class_">AlchemistTokenVault</span> faultyVault = <span class="keyword">new</span> <span class="title class_">AlchemistTokenVault</span>(<span class="title function_">address</span>(faultyToken), alchemist, owner);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Allow the vault to pull funds from depositor</span></span><br><span class="line">        vm.<span class="title function_">prank</span>(depositor);</span><br><span class="line">        faultyToken.<span class="title function_">approve</span>(<span class="title function_">address</span>(faultyVault), <span class="variable constant_">AMOUNT</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Flip the token into &quot;non-standard&quot; mode (returns false on transfer)</span></span><br><span class="line">        faultyToken.<span class="title function_">setFailTransfers</span>(<span class="literal">true</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Deposit proceeds without reverting, but funds never move (silent failure)</span></span><br><span class="line">        vm.<span class="title function_">prank</span>(depositor);</span><br><span class="line">        faultyVault.<span class="title function_">deposit</span>(<span class="variable constant_">AMOUNT</span>);</span><br><span class="line"></span><br><span class="line">        <span class="title function_">assertEq</span>(faultyToken.<span class="title function_">balanceOf</span>(<span class="title function_">address</span>(faultyVault)), <span class="number">0</span>, <span class="string">&quot;Vault should still be empty&quot;</span>);</span><br><span class="line">        <span class="title function_">assertEq</span>(faultyToken.<span class="title function_">balanceOf</span>(depositor), <span class="variable constant_">AMOUNT</span>, <span class="string">&quot;Depositor should retain tokens&quot;</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Downstream withdraw also appears successful while transferring nothing.</span></span><br><span class="line">        address recipient = <span class="title function_">address</span>(<span class="number">99</span>);</span><br><span class="line">        uint256 preRecipient = faultyToken.<span class="title function_">balanceOf</span>(recipient);</span><br><span class="line"></span><br><span class="line">        vm.<span class="title function_">prank</span>(alchemist);</span><br><span class="line">        faultyVault.<span class="title function_">withdraw</span>(recipient, <span class="variable constant_">AMOUNT</span>);</span><br><span class="line"></span><br><span class="line">        <span class="title function_">assertEq</span>(faultyToken.<span class="title function_">balanceOf</span>(<span class="title function_">address</span>(faultyVault)), <span class="number">0</span>, <span class="string">&quot;Vault stays empty after withdraw&quot;</span>);</span><br><span class="line">        <span class="title function_">assertEq</span>(faultyToken.<span class="title function_">balanceOf</span>(recipient), preRecipient, <span class="string">&quot;Recipient receives nothing despite success&quot;</span>);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>Recommendation</strong>: </p>
+<p>Use the safe wrappers from OpenZeppelin so that any ERC‑20 returning false triggers an immediate revert. In practice:</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123;<span class="title class_">SafeERC20</span>&#125; <span class="keyword">from</span> <span class="string">&quot;@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol&quot;</span>;</span><br><span class="line"></span><br><span class="line">using <span class="title class_">SafeERC20</span> <span class="keyword">for</span> <span class="title class_">IERC20</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">deposit</span>(<span class="params">uint256 amount</span>) external &#123;</span><br><span class="line">    <span class="title function_">_checkNonZeroAmount</span>(amount);</span><br><span class="line">    <span class="title class_">IERC20</span>(token).<span class="title function_">safeTransferFrom</span>(msg.<span class="property">sender</span>, <span class="title function_">address</span>(<span class="variable language_">this</span>), amount);</span><br><span class="line">    emit <span class="title class_">Deposited</span>(msg.<span class="property">sender</span>, amount);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">withdraw</span>(<span class="params">address recipient, uint256 amount</span>) external override onlyAuthorized &#123;</span><br><span class="line">    <span class="title function_">_checkNonZeroAddress</span>(recipient);</span><br><span class="line">    <span class="title function_">_checkNonZeroAmount</span>(amount);</span><br><span class="line">    <span class="title class_">IERC20</span>(token).<span class="title function_">safeTransfer</span>(recipient, amount);</span><br><span class="line">    emit <span class="title class_">Withdrawn</span>(recipient, amount);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="mytSharesDeposited-didn’t-get-updated-after-forceRepay-amp-amp-doLiquidation-called"><a href="#mytSharesDeposited-didn’t-get-updated-after-forceRepay-amp-amp-doLiquidation-called" class="headerlink" title="_mytSharesDeposited didn’t get updated after _forceRepay &amp;&amp; _doLiquidation called"></a>_mytSharesDeposited didn’t get updated after _forceRepay &amp;&amp; _doLiquidation called</h3><p><strong>Severity</strong>: High</p>
+<p><strong>Context</strong>: AlchemistV3.sol#L738 &amp;&amp; L791</p>
+<p><strong>Summary:</strong></p>
+<p>In AlchemistV3.sol, the <code>_forceRepay</code> and <code>_doLiquidation</code> transfer MYT shares out of the contract (to the transmuter, liquidator, or protocol fee vault) but never decrement <code>_mytSharesDeposited</code>. Consequently, the internal ledger continues to assume those shares are still held. This drifts collateral accounting—global collateralization metrics are overstated, so liquidations can under-react—and deposit-cap enforcement rejects new deposits even after MYT has actually left the vault.</p>
+<p><strong>Vulnerability Detail</strong>: </p>
+<p>Within <code>_forceRepay</code> and <code>_doLiquidation</code>, the contract transfers MYT shares to external recipients(typically the transmuter, liquidator, or protocol fee vault), but <code>_mytSharesDeposited</code> is never reduced by the amount that actually left the contract. Subsequent logic such as <code>_getTotalUnderlyingValue()</code>, <code>calculateLiquidation</code>, and <code>depositCap</code> checks rely on <code>_mytSharesDeposited</code> as the canonical measure of MYT held by AlchemistV3. </p>
+<p>Because the counter is not updated after these transfers, every invocation of <code>_forceRepay</code> or <code>_doLiquidation</code> causes the internal ledger to drift further from the real balance. This bug triggers on every liquidation or forced repayment, independent of the caller, so it is both easy to reach and repeatedly exploitable.</p>
+<p><strong>Impact</strong>:</p>
+<ol>
+<li><strong>Collateral accounting drift</strong> – Global metrics (e.g., collateralization ratios) are overstated, enabling inaccurate positions to avoid or delay liquidation, thereby increasing insolvency risk.</li>
+<li><strong>DepositCap blockage</strong> – The contract continues to believe the cap is saturated even after MYT shares have been removed, so new deposits are rejected, blocking legitimate users and impairing protocol operations.</li>
+</ol>
+<p><strong>Proof of Concept</strong>:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line">function testLiquidationReleasesDepositCapHeadroom() external &#123;</span><br><span class="line">        uint256 amount = 100e18;</span><br><span class="line">        address user = address(0xbeef);</span><br><span class="line">        address liquidator = address(0xface);</span><br><span class="line">        address newDepositor = anotherExternalUser;</span><br><span class="line"></span><br><span class="line">        uint256 baselineDeposits = alchemist.getTotalDeposited();</span><br><span class="line">        vm.prank(alOwner);</span><br><span class="line">        alchemist.setDepositCap(baselineDeposits + amount);</span><br><span class="line"></span><br><span class="line">        vm.startPrank(user);</span><br><span class="line">        SafeERC20.safeApprove(address(vault), address(alchemist), amount);</span><br><span class="line">        uint256 headroom = alchemist.depositCap() - baselineDeposits;</span><br><span class="line">        alchemist.deposit(headroom, user, 0);</span><br><span class="line">        uint256 tokenId = AlchemistNFTHelper.getFirstTokenId(user, address(alchemistNFT));</span><br><span class="line">        uint256 maxBorrowable = alchemist.getMaxBorrowable(tokenId);</span><br><span class="line">        alchemist.mint(tokenId, maxBorrowable, user);</span><br><span class="line">        vm.stopPrank();</span><br><span class="line"></span><br><span class="line">        // Lower the MYT share value sharply so the position falls below the liquidation threshold.</span><br><span class="line">        uint256 initialSupply = IERC20(address(mockStrategyYieldToken)).totalSupply();</span><br><span class="line">        IMockYieldToken(mockStrategyYieldToken).updateMockTokenSupply(initialSupply * 2);</span><br><span class="line"></span><br><span class="line">        uint256 totalDepositedBefore = alchemist.getTotalDeposited();</span><br><span class="line">        (, uint256 debt,) = alchemist.getCDP(tokenId);</span><br><span class="line">        uint256 collateralValue = alchemist.totalValue(tokenId);</span><br><span class="line">        uint256 currentRatio = collateralValue * alchemist.FIXED_POINT_SCALAR() / debt;</span><br><span class="line">        assertLt(currentRatio, alchemist.collateralizationLowerBound(), &quot;position undercollateralized&quot;);</span><br><span class="line"></span><br><span class="line">        vm.startPrank(liquidator);</span><br><span class="line">        (uint256 yieldAmount,,) = alchemist.liquidate(tokenId);// here have call to _forcepay &amp;&amp; _doLiquidation</span><br><span class="line">        vm.stopPrank();</span><br><span class="line"></span><br><span class="line">        assertGt(yieldAmount, 0, &quot;liquidation executed&quot;);</span><br><span class="line">        uint256 totalDepositedAfter = alchemist.getTotalDeposited();</span><br><span class="line">        assertLt(totalDepositedAfter, totalDepositedBefore, &quot;collateral moved out&quot;);</span><br><span class="line"></span><br><span class="line">        uint256 available = alchemist.depositCap() - totalDepositedAfter;</span><br><span class="line">        assertGt(available, 0, &quot;deposit cap headroom available&quot;);</span><br><span class="line"></span><br><span class="line">        vm.startPrank(newDepositor);</span><br><span class="line">        SafeERC20.safeApprove(address(vault), address(alchemist), available);</span><br><span class="line">        bool depositReverted;</span><br><span class="line">        uint256 totalDepositedBeforeRetry = alchemist.getTotalDeposited();</span><br><span class="line">        try alchemist.deposit(available, newDepositor, 0) returns (uint256 debtValue) &#123;</span><br><span class="line">            depositReverted = false;</span><br><span class="line">            assertGt(debtValue, 0, &quot;deposit should mint debt value after fix&quot;);</span><br><span class="line">        &#125; catch (bytes memory revertData) &#123;</span><br><span class="line">            depositReverted = true;</span><br><span class="line">            bytes4 selector = revertData.length &gt;= 4 ? bytes4(revertData) : bytes4(0);</span><br><span class="line">            assertEq(selector, IllegalState.selector, &quot;unexpected revert reason&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">        vm.stopPrank();</span><br><span class="line"></span><br><span class="line">        if (depositReverted) &#123;</span><br><span class="line">            assertLt(alchemist.getTotalDeposited(), alchemist.depositCap(), &quot;deposit still blocked pre-fix&quot;);</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            assertEq(alchemist.getTotalDeposited(), totalDepositedBeforeRetry + available, &quot;deposit should increase balance after fix&quot;);</span><br><span class="line">            assertLe(alchemist.getTotalDeposited(), alchemist.depositCap(), &quot;deposit cap exceeded after fix&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>Recommendation</strong>: </p>
+<p>In both _forceRepay and _doLiquidation, subtract the exact MYT amount that leaves the contract (principal and any fees) from _mytSharesDeposited, so the internal ledger stays aligned with the actual balance.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line">function _forceRepay(uint256 accountId, uint256 amount) internal returns (uint256) &#123;</span><br><span class="line">        ......</span><br><span class="line">        ......</span><br><span class="line"></span><br><span class="line">        emit ForceRepay(accountId, amount, creditToYield, protocolFeeTotal);</span><br><span class="line"></span><br><span class="line">        uint256 protocolFeePaid = 0;</span><br><span class="line">        if (account.collateralBalance &gt; protocolFeeTotal) &#123;</span><br><span class="line">            account.collateralBalance -= protocolFeeTotal;</span><br><span class="line">            // Transfer the protocol fee to the protocol fee receiver</span><br><span class="line">            TokenUtils.safeTransfer(myt, protocolFeeReceiver, protocolFeeTotal);</span><br><span class="line">            protocolFeePaid = protocolFeeTotal;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        uint256 mytOut = protocolFeePaid;</span><br><span class="line">        if (creditToYield &gt; 0) &#123;</span><br><span class="line">            // Transfer the repaid tokens from the account to the transmuter.</span><br><span class="line">            TokenUtils.safeTransfer(myt, address(transmuter), creditToYield);</span><br><span class="line">            mytOut += creditToYield;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        if (mytOut != 0) &#123;</span><br><span class="line">            _mytSharesDeposited -= mytOut;</span><br><span class="line">        &#125;</span><br><span class="line">        return creditToYield;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">function _doLiquidation(uint256 accountId, uint256 collateralInUnderlying, uint256 repaidAmountInYield)</span><br><span class="line">        internal</span><br><span class="line">        returns (uint256 amountLiquidated, uint256 feeInYield, uint256 feeInUnderlying)</span><br><span class="line">    &#123;</span><br><span class="line">        ......</span><br><span class="line">        ......</span><br><span class="line">        // update user balance and debt</span><br><span class="line">        account.collateralBalance = account.collateralBalance &gt; amountLiquidated ? account.collateralBalance - amountLiquidated : 0;</span><br><span class="line">        _subDebt(accountId, debtToBurn);</span><br><span class="line"></span><br><span class="line">        // send base fee to liquidator if available</span><br><span class="line">        uint256 feePaidInYield = 0;</span><br><span class="line">        if (feeInYield &gt; 0 &amp;&amp; account.collateralBalance &gt;= feeInYield) &#123;</span><br><span class="line">            TokenUtils.safeTransfer(myt, msg.sender, feeInYield);</span><br><span class="line">            feePaidInYield = feeInYield;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        // send liquidation amount minus paid fee to transmuter</span><br><span class="line">        uint256 transmuterPayout = amountLiquidated - feePaidInYield;</span><br><span class="line">        if (transmuterPayout &gt; 0) &#123;</span><br><span class="line">            TokenUtils.safeTransfer(myt, transmuter, transmuterPayout);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        uint256 mytOut = transmuterPayout + feePaidInYield;</span><br><span class="line">        if (mytOut != 0) &#123;</span><br><span class="line">            _mytSharesDeposited -= mytOut;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        // Handle outsourced fee from vault</span><br><span class="line">        if (outsourcedFee &gt; 0) </span><br><span class="line">        .......</span><br><span class="line">        .......</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Vechain"><a href="#Vechain" class="headerlink" title="Vechain"></a>Vechain</h2><h3 id="Double-effective-stake-decrement-freezes-unstake-permanently-after-validator-exit"><a href="#Double-effective-stake-decrement-freezes-unstake-permanently-after-validator-exit" class="headerlink" title="Double effective-stake decrement freezes unstake permanently after validator exit"></a>Double effective-stake decrement freezes unstake permanently after validator exit</h3><p><strong>Severity</strong>: Critical</p>
+<p><strong>Context</strong>: Stargate.sol#L266-#L283, #L568</p>
+<p><strong>Summary:</strong></p>
+<p>Calling <code>requestDelegationExit</code> records a first effective-stake decrement, util validator status changed to EXITED, USER try to call <code>unstake</code> , and enters the EXITED&#x2F;PENDING branch and applies a second decrement for the same period, causing an underflow (panic 0x11) before any transfers.</p>
+<p><strong>Vulnerability Detail</strong>: </p>
+<ul>
+<li>First decrement: <code>requestDelegationExit</code> calls <code>_updatePeriodEffectiveStake</code>for the next period (Stargate.sol #L568).</li>
+<li>Second decrement: <code>unstake</code> in the <code>currentValidatorStatus == EXITED || status == PENDING</code> branch calls <code>_updatePeriodEffectiveStake</code> again Stargate.sol (#L266-#L283), leading to underflow when the checkpointed value is already zero.</li>
+</ul>
+<p><strong>Impact:</strong></p>
+<p>Once triggered, every <code>unstake</code> attempt reverts; delegations cannot be changed, so the user’s staked VET remains locked in the staking contract. Funds are not stolen but are permanently frozen.</p>
+<p>Affected flow: stake + delegate → requestDelegationExit (first decrement) → validator becomes EXITED → any unstake reverts on second decrement.</p>
+<p><strong>Proof of Concept:</strong></p>
+<figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// PoC: double effective-stake decrement on exit path makes unstake revert (logged flow, no asserts)</span></span><br><span class="line">    <span class="title function_">it</span>(<span class="string">&quot;poc: double decrement keeps reverting unstake even on repeated attempts&quot;</span>, <span class="keyword">async</span> () =&gt; &#123;</span><br><span class="line">        <span class="keyword">const</span> userAddress = user.<span class="property">address</span>;</span><br><span class="line">        <span class="keyword">const</span> <span class="title function_">fmt</span> = (<span class="params">wei: <span class="built_in">bigint</span></span>) =&gt; ethers.<span class="title function_">formatEther</span>(wei);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">const</span> balUserStart = <span class="keyword">await</span> ethers.<span class="property">provider</span>.<span class="title function_">getBalance</span>(userAddress);</span><br><span class="line">        <span class="keyword">const</span> balContractStart = <span class="keyword">await</span> ethers.<span class="property">provider</span>.<span class="title function_">getBalance</span>(stargateContract);</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(</span><br><span class="line">            <span class="string">`start balances =&gt; user: <span class="subst">$&#123;fmt(balUserStart)&#125;</span> VET, contract: <span class="subst">$&#123;fmt(balContractStart)&#125;</span> VET`</span></span><br><span class="line">        );</span><br><span class="line"></span><br><span class="line">        <span class="keyword">const</span> levelSpec = <span class="keyword">await</span> stargateNFTMock.<span class="title function_">getLevel</span>(<span class="variable constant_">LEVEL_ID</span>);</span><br><span class="line">        tx = <span class="keyword">await</span> stargateContract.<span class="title function_">connect</span>(user).<span class="title function_">stake</span>(<span class="variable constant_">LEVEL_ID</span>, &#123;</span><br><span class="line">            <span class="attr">value</span>: levelSpec.<span class="property">vetAmountRequiredToStake</span>,</span><br><span class="line">        &#125;);</span><br><span class="line">        <span class="keyword">await</span> tx.<span class="title function_">wait</span>();</span><br><span class="line">        <span class="keyword">const</span> tokenId = <span class="keyword">await</span> stargateNFTMock.<span class="title function_">getCurrentTokenId</span>();</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`tokenId minted: <span class="subst">$&#123;tokenId.toString()&#125;</span>`</span>);</span><br><span class="line"></span><br><span class="line">        tx = <span class="keyword">await</span> stargateContract.<span class="title function_">connect</span>(user).<span class="title function_">delegate</span>(tokenId, validator.<span class="property">address</span>);</span><br><span class="line">        <span class="keyword">await</span> tx.<span class="title function_">wait</span>();</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;delegated to validator&quot;</span>);</span><br><span class="line"></span><br><span class="line">        tx = <span class="keyword">await</span> protocolStakerMock.<span class="title function_">helper__setValidationCompletedPeriods</span>(validator.<span class="property">address</span>, <span class="number">2</span>);</span><br><span class="line">        <span class="keyword">await</span> tx.<span class="title function_">wait</span>();</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;validator completedPeriods set to 2 (delegation ACTIVE)&quot;</span>);</span><br><span class="line"></span><br><span class="line">        tx = <span class="keyword">await</span> stargateContract.<span class="title function_">connect</span>(user).<span class="title function_">requestDelegationExit</span>(tokenId);</span><br><span class="line">        <span class="keyword">await</span> tx.<span class="title function_">wait</span>();</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;requested exit (first decrement applied)&quot;</span>);</span><br><span class="line"></span><br><span class="line">        tx = <span class="keyword">await</span> protocolStakerMock.<span class="title function_">helper__setValidatorStatus</span>(</span><br><span class="line">            validator.<span class="property">address</span>,</span><br><span class="line">            <span class="variable constant_">VALIDATOR_STATUS_EXITED</span></span><br><span class="line">        );</span><br><span class="line">        <span class="keyword">await</span> tx.<span class="title function_">wait</span>();</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;validator forced to EXITED before unstake&quot;</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">const</span> balUserPreUnstake = <span class="keyword">await</span> ethers.<span class="property">provider</span>.<span class="title function_">getBalance</span>(userAddress);</span><br><span class="line">        <span class="keyword">const</span> balContractPreUnstake = <span class="keyword">await</span> ethers.<span class="property">provider</span>.<span class="title function_">getBalance</span>(stargateContract);</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(</span><br><span class="line">            <span class="string">`before unstake =&gt; user: <span class="subst">$&#123;fmt(balUserPreUnstake)&#125;</span> VET, contract: <span class="subst">$&#123;fmt(balContractPreUnstake)&#125;</span> VET`</span></span><br><span class="line">        );</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">1</span>; i &lt;= <span class="number">3</span>; i++) &#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`unstake attempt <span class="subst">$&#123;i&#125;</span>`</span>);</span><br><span class="line">                <span class="keyword">await</span> stargateContract.<span class="title function_">connect</span>(user).<span class="title function_">unstake</span>(tokenId);</span><br><span class="line">                <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;unexpectedly succeeded&quot;</span>);</span><br><span class="line">            &#125; <span class="keyword">catch</span> (<span class="attr">error</span>: <span class="built_in">any</span>) &#123;</span><br><span class="line">                <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`unstake attempt <span class="subst">$&#123;i&#125;</span> reverted: <span class="subst">$&#123;error.shortMessage || error.message&#125;</span>`</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">const</span> balUserAfter = <span class="keyword">await</span> ethers.<span class="property">provider</span>.<span class="title function_">getBalance</span>(userAddress);</span><br><span class="line">        <span class="keyword">const</span> balContractAfter = <span class="keyword">await</span> ethers.<span class="property">provider</span>.<span class="title function_">getBalance</span>(stargateContract);</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(</span><br><span class="line">            <span class="string">`after failed unstakes =&gt; user: <span class="subst">$&#123;fmt(balUserAfter)&#125;</span> VET, contract: <span class="subst">$&#123;fmt(balContractAfter)&#125;</span> VET`</span></span><br><span class="line">        );</span><br><span class="line">    &#125;);</span><br></pre></td></tr></table></figure>
+
+<p><strong>Recommand:</strong></p>
+<p>add a status judge before call <code>_updatePeriodEffectiveStake</code> in unstake.</p>
+<figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">bool shouldDecrement = (delegation.<span class="property">status</span> == <span class="title class_">DelegationStatus</span>.<span class="property">PENDING</span>) ||</span><br><span class="line">    (currentValidatorStatus == <span class="variable constant_">VALIDATOR_STATUS_EXITED</span> &amp;&amp; delegation.<span class="property">status</span> == <span class="title class_">DelegationStatus</span>.<span class="property">NONE</span>); <span class="comment">// or some other scenery can do decreament</span></span><br><span class="line"><span class="keyword">if</span> (shouldDecrement) &#123;</span><br><span class="line">    <span class="title function_">_updatePeriodEffectiveStake</span>(..., <span class="literal">false</span>);</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="comment">// status == EXITED has been decreased in requestDelegationExit, skip</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2025/10/14/Ethernaut-Challenges/" rel="prev" title="Ethernaut Challenges">
+      <i class="fa fa-chevron-left"></i> Ethernaut Challenges
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#AuditContest-11-25"><span class="nav-number">1.</span> <span class="nav-text">AuditContest-11-25</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Alchemix-V3"><span class="nav-number">1.1.</span> <span class="nav-text">Alchemix V3</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Silent-Failure-for-Non-standard-ERC20-Transfers-in-deposit-x2F-withdraw"><span class="nav-number">1.1.1.</span> <span class="nav-text">Silent Failure for Non-standard ERC20 Transfers in deposit()&#x2F;withdraw()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#mytSharesDeposited-didn%E2%80%99t-get-updated-after-forceRepay-amp-amp-doLiquidation-called"><span class="nav-number">1.1.2.</span> <span class="nav-text">_mytSharesDeposited didn’t get updated after _forceRepay &amp;&amp; _doLiquidation called</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Vechain"><span class="nav-number">1.2.</span> <span class="nav-text">Vechain</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Double-effective-stake-decrement-freezes-unstake-permanently-after-validator-exit"><span class="nav-number">1.2.1.</span> <span class="nav-text">Double effective-stake decrement freezes unstake permanently after validator exit</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Yu4n</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">24</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Yu4n</span>
+</div>
+<!--
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+-->
+
+
+ 
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
