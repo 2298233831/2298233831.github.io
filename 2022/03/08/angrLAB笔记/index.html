@@ -17,48 +17,48 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"2298233831.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+    var CONFIG = {"hostname":"tyu4n.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
   <meta name="description" content="实验开始前还得先把文件编译一下 在相应目录下，使用如下命令，如 1python generate.py 1234 00_angr_find  贴一个angr中文文档angr （非官方） angr-官方,英文的。angr-api,英语苦手泪目。 （本题中，有些导入的库不一定那个用得到，但是题目数量多，懒得增删改，就一次性导入了…） 00_angr_find先上伪代码   当然，其实这整个实验，汇编语">
 <meta property="og:type" content="article">
 <meta property="og:title" content="angrLAB笔记">
-<meta property="og:url" content="http://2298233831.github.io/2022/03/08/angrLAB%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:url" content="https://tyu4n.github.io/2022/03/08/angrLAB%E7%AC%94%E8%AE%B0/index.html">
 <meta property="og:site_name" content="The Blog of Yu4n">
 <meta property="og:description" content="实验开始前还得先把文件编译一下 在相应目录下，使用如下命令，如 1python generate.py 1234 00_angr_find  贴一个angr中文文档angr （非官方） angr-官方,英文的。angr-api,英语苦手泪目。 （本题中，有些导入的库不一定那个用得到，但是题目数量多，懒得增删改，就一次性导入了…） 00_angr_find先上伪代码   当然，其实这整个实验，汇编语">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://2298233831.github.io/2022/03/08/angrLAB%E7%AC%94%E8%AE%B0/image-20220308172612146.png">
-<meta property="og:image" content="http://2298233831.github.io/2022/03/08/angrLAB%E7%AC%94%E8%AE%B0/image-20220308190311979.png">
-<meta property="og:image" content="http://2298233831.github.io/2022/03/08/angrLAB%E7%AC%94%E8%AE%B0/image-20220308190505546.png">
-<meta property="og:image" content="http://2298233831.github.io/2022/03/08/angrLAB%E7%AC%94%E8%AE%B0/image-20220308211050475.png">
-<meta property="og:image" content="http://2298233831.github.io/2022/03/08/angrLAB%E7%AC%94%E8%AE%B0/image-20220308215004547.png">
-<meta property="og:image" content="http://2298233831.github.io/2022/03/08/angrLAB%E7%AC%94%E8%AE%B0/image-20220308215133653.png">
-<meta property="og:image" content="http://2298233831.github.io/2022/03/08/angrLAB%E7%AC%94%E8%AE%B0/image-20220310171010963.png">
-<meta property="og:image" content="http://2298233831.github.io/2022/03/08/angrLAB%E7%AC%94%E8%AE%B0/image-20220312101104842.png">
-<meta property="og:image" content="http://2298233831.github.io/2022/03/08/angrLAB%E7%AC%94%E8%AE%B0/image-20220312112246653.png">
-<meta property="og:image" content="http://2298233831.github.io/2022/03/08/angrLAB%E7%AC%94%E8%AE%B0/image-20220312113844308.png">
-<meta property="og:image" content="http://2298233831.github.io/2022/03/08/angrLAB%E7%AC%94%E8%AE%B0/image-20220312115905211.png">
-<meta property="og:image" content="http://2298233831.github.io/2022/03/08/angrLAB%E7%AC%94%E8%AE%B0/image-20220312155034471.png">
-<meta property="og:image" content="http://2298233831.github.io/2022/03/08/angrLAB%E7%AC%94%E8%AE%B0/image-20220312163054462.png">
-<meta property="og:image" content="http://2298233831.github.io/2022/03/08/angrLAB%E7%AC%94%E8%AE%B0/image-20220312164107756.png">
-<meta property="og:image" content="http://2298233831.github.io/2022/03/08/angrLAB%E7%AC%94%E8%AE%B0/image-20220312164721082.png">
-<meta property="og:image" content="http://2298233831.github.io/2022/03/08/angrLAB%E7%AC%94%E8%AE%B0/image-20220312170347821.png">
-<meta property="og:image" content="http://2298233831.github.io/2022/03/08/angrLAB%E7%AC%94%E8%AE%B0/image-20220312172250586.png">
-<meta property="og:image" content="http://2298233831.github.io/2022/03/08/angrLAB%E7%AC%94%E8%AE%B0/image-20220312172829883.png">
-<meta property="og:image" content="http://2298233831.github.io/2022/03/08/angrLAB%E7%AC%94%E8%AE%B0/image-20220312180011638.png">
-<meta property="og:image" content="http://2298233831.github.io/2022/03/08/angrLAB%E7%AC%94%E8%AE%B0/image-20220312180837996.png">
-<meta property="og:image" content="http://2298233831.github.io/2022/03/08/angrLAB%E7%AC%94%E8%AE%B0/image-20220312181720370.png">
-<meta property="og:image" content="http://2298233831.github.io/2022/03/08/angrLAB%E7%AC%94%E8%AE%B0/image-20220312183629337.png">
-<meta property="og:image" content="http://2298233831.github.io/2022/03/08/angrLAB%E7%AC%94%E8%AE%B0/image-20220312190749217.png">
-<meta property="og:image" content="http://2298233831.github.io/2022/03/08/angrLAB%E7%AC%94%E8%AE%B0/image-20220312192050484.png">
-<meta property="og:image" content="http://2298233831.github.io/2022/03/08/angrLAB%E7%AC%94%E8%AE%B0/image-20220312192112152.png">
+<meta property="og:image" content="https://tyu4n.github.io/2022/03/08/angrLAB%E7%AC%94%E8%AE%B0/image-20220308172612146.png">
+<meta property="og:image" content="https://tyu4n.github.io/2022/03/08/angrLAB%E7%AC%94%E8%AE%B0/image-20220308190311979.png">
+<meta property="og:image" content="https://tyu4n.github.io/2022/03/08/angrLAB%E7%AC%94%E8%AE%B0/image-20220308190505546.png">
+<meta property="og:image" content="https://tyu4n.github.io/2022/03/08/angrLAB%E7%AC%94%E8%AE%B0/image-20220308211050475.png">
+<meta property="og:image" content="https://tyu4n.github.io/2022/03/08/angrLAB%E7%AC%94%E8%AE%B0/image-20220308215004547.png">
+<meta property="og:image" content="https://tyu4n.github.io/2022/03/08/angrLAB%E7%AC%94%E8%AE%B0/image-20220308215133653.png">
+<meta property="og:image" content="https://tyu4n.github.io/2022/03/08/angrLAB%E7%AC%94%E8%AE%B0/image-20220310171010963.png">
+<meta property="og:image" content="https://tyu4n.github.io/2022/03/08/angrLAB%E7%AC%94%E8%AE%B0/image-20220312101104842.png">
+<meta property="og:image" content="https://tyu4n.github.io/2022/03/08/angrLAB%E7%AC%94%E8%AE%B0/image-20220312112246653.png">
+<meta property="og:image" content="https://tyu4n.github.io/2022/03/08/angrLAB%E7%AC%94%E8%AE%B0/image-20220312113844308.png">
+<meta property="og:image" content="https://tyu4n.github.io/2022/03/08/angrLAB%E7%AC%94%E8%AE%B0/image-20220312115905211.png">
+<meta property="og:image" content="https://tyu4n.github.io/2022/03/08/angrLAB%E7%AC%94%E8%AE%B0/image-20220312155034471.png">
+<meta property="og:image" content="https://tyu4n.github.io/2022/03/08/angrLAB%E7%AC%94%E8%AE%B0/image-20220312163054462.png">
+<meta property="og:image" content="https://tyu4n.github.io/2022/03/08/angrLAB%E7%AC%94%E8%AE%B0/image-20220312164107756.png">
+<meta property="og:image" content="https://tyu4n.github.io/2022/03/08/angrLAB%E7%AC%94%E8%AE%B0/image-20220312164721082.png">
+<meta property="og:image" content="https://tyu4n.github.io/2022/03/08/angrLAB%E7%AC%94%E8%AE%B0/image-20220312170347821.png">
+<meta property="og:image" content="https://tyu4n.github.io/2022/03/08/angrLAB%E7%AC%94%E8%AE%B0/image-20220312172250586.png">
+<meta property="og:image" content="https://tyu4n.github.io/2022/03/08/angrLAB%E7%AC%94%E8%AE%B0/image-20220312172829883.png">
+<meta property="og:image" content="https://tyu4n.github.io/2022/03/08/angrLAB%E7%AC%94%E8%AE%B0/image-20220312180011638.png">
+<meta property="og:image" content="https://tyu4n.github.io/2022/03/08/angrLAB%E7%AC%94%E8%AE%B0/image-20220312180837996.png">
+<meta property="og:image" content="https://tyu4n.github.io/2022/03/08/angrLAB%E7%AC%94%E8%AE%B0/image-20220312181720370.png">
+<meta property="og:image" content="https://tyu4n.github.io/2022/03/08/angrLAB%E7%AC%94%E8%AE%B0/image-20220312183629337.png">
+<meta property="og:image" content="https://tyu4n.github.io/2022/03/08/angrLAB%E7%AC%94%E8%AE%B0/image-20220312190749217.png">
+<meta property="og:image" content="https://tyu4n.github.io/2022/03/08/angrLAB%E7%AC%94%E8%AE%B0/image-20220312192050484.png">
+<meta property="og:image" content="https://tyu4n.github.io/2022/03/08/angrLAB%E7%AC%94%E8%AE%B0/image-20220312192112152.png">
 <meta property="article:published_time" content="2022-03-08T02:14:02.000Z">
 <meta property="article:modified_time" content="2025-10-14T15:23:22.393Z">
 <meta property="article:author" content="Yu4n">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://2298233831.github.io/2022/03/08/angrLAB%E7%AC%94%E8%AE%B0/image-20220308172612146.png">
+<meta name="twitter:image" content="https://tyu4n.github.io/2022/03/08/angrLAB%E7%AC%94%E8%AE%B0/image-20220308172612146.png">
 
-<link rel="canonical" href="http://2298233831.github.io/2022/03/08/angrLAB%E7%AC%94%E8%AE%B0/">
+<link rel="canonical" href="https://tyu4n.github.io/2022/03/08/angrLAB%E7%AC%94%E8%AE%B0/">
 
 
 <script id="page-configurations">
@@ -181,7 +181,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://2298233831.github.io/2022/03/08/angrLAB%E7%AC%94%E8%AE%B0/">
+    <link itemprop="mainEntityOfPage" href="https://tyu4n.github.io/2022/03/08/angrLAB%E7%AC%94%E8%AE%B0/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -628,7 +628,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2025</span>
+  <span itemprop="copyrightYear">2026</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

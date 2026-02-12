@@ -17,44 +17,44 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"2298233831.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+    var CONFIG = {"hostname":"tyu4n.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
   <meta name="description" content="UPX部分众所周知，UPX是一种较为常见的压缩壳。（除压缩壳外，还有加密壳） 先对壳做个基本的了解：壳的初始作用是保护软件，但后来发展的方向不一就出现了各种各样的壳，大致有压缩壳、加密壳、VM 壳的分类。压缩壳故名思意，主要作用是用于压缩方面，可以有效的减小软件的大小；加密壳，其主要作用是保护软件；VM 壳是一种很特殊的壳，它利用了虚拟机技术，可以很有效的保护指定地址代码，但很大的牺牲了效率，所以">
 <meta property="og:type" content="article">
 <meta property="og:title" content="逆向工程核心原理PE文件格式部分总结">
-<meta property="og:url" content="http://2298233831.github.io/2021/12/24/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/index.html">
+<meta property="og:url" content="https://tyu4n.github.io/2021/12/24/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/index.html">
 <meta property="og:site_name" content="The Blog of Yu4n">
 <meta property="og:description" content="UPX部分众所周知，UPX是一种较为常见的压缩壳。（除压缩壳外，还有加密壳） 先对壳做个基本的了解：壳的初始作用是保护软件，但后来发展的方向不一就出现了各种各样的壳，大致有压缩壳、加密壳、VM 壳的分类。压缩壳故名思意，主要作用是用于压缩方面，可以有效的减小软件的大小；加密壳，其主要作用是保护软件；VM 壳是一种很特殊的壳，它利用了虚拟机技术，可以很有效的保护指定地址代码，但很大的牺牲了效率，所以">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://2298233831.github.io/2021/12/24/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224113639435.png">
-<meta property="og:image" content="http://2298233831.github.io/2021/12/24/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224114154673.png">
-<meta property="og:image" content="http://2298233831.github.io/2021/12/24/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224114504354.png">
-<meta property="og:image" content="http://2298233831.github.io/2021/12/24/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224120500126.png">
-<meta property="og:image" content="http://2298233831.github.io/2021/12/24/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224120527464.png">
-<meta property="og:image" content="http://2298233831.github.io/2021/12/24/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224121526295.png">
-<meta property="og:image" content="http://2298233831.github.io/2021/12/24/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224122210645.png">
-<meta property="og:image" content="http://2298233831.github.io/2021/12/24/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224123046202.png">
-<meta property="og:image" content="http://2298233831.github.io/2021/12/24/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224152619953.png">
-<meta property="og:image" content="http://2298233831.github.io/2021/12/24/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224151613796.png">
-<meta property="og:image" content="http://2298233831.github.io/2021/12/24/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224151859721.png">
-<meta property="og:image" content="http://2298233831.github.io/2021/12/24/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224152136922.png">
-<meta property="og:image" content="http://2298233831.github.io/2021/12/24/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224155355494.png">
-<meta property="og:image" content="http://2298233831.github.io/2021/12/24/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224161108321.png">
-<meta property="og:image" content="http://2298233831.github.io/2021/12/24/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224161900975.png">
-<meta property="og:image" content="http://2298233831.github.io/2021/12/24/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224161923290.png">
-<meta property="og:image" content="http://2298233831.github.io/2021/12/24/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224162116107.png">
-<meta property="og:image" content="http://2298233831.github.io/2021/12/24/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224162435728.png">
-<meta property="og:image" content="http://2298233831.github.io/2021/12/24/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224162757991.png">
-<meta property="og:image" content="http://2298233831.github.io/2021/12/24/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224164128856.png">
-<meta property="og:image" content="http://2298233831.github.io/2021/12/24/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224164351755.png">
+<meta property="og:image" content="https://tyu4n.github.io/2021/12/24/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224113639435.png">
+<meta property="og:image" content="https://tyu4n.github.io/2021/12/24/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224114154673.png">
+<meta property="og:image" content="https://tyu4n.github.io/2021/12/24/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224114504354.png">
+<meta property="og:image" content="https://tyu4n.github.io/2021/12/24/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224120500126.png">
+<meta property="og:image" content="https://tyu4n.github.io/2021/12/24/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224120527464.png">
+<meta property="og:image" content="https://tyu4n.github.io/2021/12/24/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224121526295.png">
+<meta property="og:image" content="https://tyu4n.github.io/2021/12/24/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224122210645.png">
+<meta property="og:image" content="https://tyu4n.github.io/2021/12/24/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224123046202.png">
+<meta property="og:image" content="https://tyu4n.github.io/2021/12/24/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224152619953.png">
+<meta property="og:image" content="https://tyu4n.github.io/2021/12/24/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224151613796.png">
+<meta property="og:image" content="https://tyu4n.github.io/2021/12/24/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224151859721.png">
+<meta property="og:image" content="https://tyu4n.github.io/2021/12/24/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224152136922.png">
+<meta property="og:image" content="https://tyu4n.github.io/2021/12/24/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224155355494.png">
+<meta property="og:image" content="https://tyu4n.github.io/2021/12/24/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224161108321.png">
+<meta property="og:image" content="https://tyu4n.github.io/2021/12/24/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224161900975.png">
+<meta property="og:image" content="https://tyu4n.github.io/2021/12/24/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224161923290.png">
+<meta property="og:image" content="https://tyu4n.github.io/2021/12/24/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224162116107.png">
+<meta property="og:image" content="https://tyu4n.github.io/2021/12/24/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224162435728.png">
+<meta property="og:image" content="https://tyu4n.github.io/2021/12/24/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224162757991.png">
+<meta property="og:image" content="https://tyu4n.github.io/2021/12/24/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224164128856.png">
+<meta property="og:image" content="https://tyu4n.github.io/2021/12/24/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224164351755.png">
 <meta property="article:published_time" content="2021-12-24T02:27:24.000Z">
 <meta property="article:modified_time" content="2025-10-14T15:23:22.394Z">
 <meta property="article:author" content="Yu4n">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://2298233831.github.io/2021/12/24/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224113639435.png">
+<meta name="twitter:image" content="https://tyu4n.github.io/2021/12/24/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20211224113639435.png">
 
-<link rel="canonical" href="http://2298233831.github.io/2021/12/24/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/">
+<link rel="canonical" href="https://tyu4n.github.io/2021/12/24/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/">
 
 
 <script id="page-configurations">
@@ -177,7 +177,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://2298233831.github.io/2021/12/24/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/">
+    <link itemprop="mainEntityOfPage" href="https://tyu4n.github.io/2021/12/24/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -462,7 +462,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2025</span>
+  <span itemprop="copyrightYear">2026</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
